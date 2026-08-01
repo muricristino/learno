@@ -137,6 +137,8 @@ ${body}
   <footer class="lx-lesson-foot">
     <a class="lx-btn lx-btn--outline" href="${a}reference/my-learning.html">${t('nav.dashboard')}</a>
     <a class="lx-btn lx-btn--outline" href="${a}reference/glossary.html">${t('nav.glossary')}</a>
+    ${needsJs ? `<button type="button" class="lx-btn lx-btn--ghost" data-action="restart"
+      title="${t('run.restartTitle')}">${t('run.restart')}</button>` : ''}
   </footer>
 </div>
 ${needsJs ? `
