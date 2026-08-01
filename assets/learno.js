@@ -41,6 +41,36 @@
       .catch(function () { setOffline(true); });
   }
 
+  var KEY = 'lx-state:' + LESSON;
+  var restoring = false;
+
+  function readState() {
+    try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; }
+  }
+
+  function remember(kind, key, value) {
+    if (restoring) return;
+    try {
+      var s = readState();
+      (s[kind] = s[kind] || {})[key] = value;
+      localStorage.setItem(KEY, JSON.stringify(s));
+    } catch (e) {}
+  }
+
+  // Derived rather than authored, so no attribute is needed: a recall by its
+  // concept, a quiz by its position, and there is only ever one teach-back.
+  function blockKey(el) {
+    if (el.classList.contains('lx-teachback')) return 'teachback';
+    var recall = el.closest ? el.closest('.lx-recall') : null;
+    if (recall) return (el === recall ? 'recall:' : 'fallback:') + recall.dataset.conceptId;
+    return 'quiz:' + $$('.lx-quiz').indexOf(el.closest('.lx-quiz') || el);
+  }
+
+  function forget() {
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    location.reload();
+  }
+
   function markPhaseDone(id) {
     var phase = $('.lx-phase[data-phase="' + id + '"]');
     if (phase) phase.classList.add('lx-phase--done');
@@ -166,6 +196,7 @@
       .then(readVerdict)
       .then(function (data) {
         showVerdict(block, data);
+        remember('verdicts', blockKey(block), data);
         // Never gated on the score: locking the reader out cannot teach what they got wrong.
         if (block.dataset.phase) unlockNext(block.dataset.phase, data.score >= PASS);
       })
@@ -190,7 +221,8 @@
       fb.textContent = correct ? okText : badText;
       fb.className = 'lx-inline-fb is-shown ' + (correct ? 'is-ok' : 'is-bad');
     }
-    if (phaseId) unlockNext(phaseId, correct);
+    remember('choices', blockKey(scope), $$('input[type="radio"]', scope).indexOf(input));
+    if (phaseId) unlockNext(phaseId, correct && !restoring);
   }
 
   function teachback(block, btn) {
@@ -215,6 +247,7 @@
       .then(readVerdict)
       .then(function (data) {
         showVerdict(block, data);
+        remember('verdicts', blockKey(block), data);
         return fetch(SERVER + '/api/progress', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -225,7 +258,7 @@
           })
         })
           .then(function (r) { return r.ok ? r.json() : null; })
-          .then(function (saved) { showDone(data, saved); });
+          .then(function (saved) { remember('done', 'done', saved || {}); showDone(data, saved); });
       })
       .catch(function (err) {
         fail(block, t('run.finishFailed', 'Não deu para encerrar agora. Sua explicação continua aí.') + ' (' + err.message + ')');
@@ -329,6 +362,50 @@
     });
   }
 
+  // Replays through the same code that answered, with `restoring` suppressing
+  // the state write-back and the scroll: the reader chose where they were.
+  function restore() {
+    var s = readState();
+    if (!s.choices && !s.answers && !s.verdicts) return;
+
+    restoring = true;
+
+    Object.keys(s.answers || {}).forEach(function (key) {
+      $$('.lx-recall, .lx-teachback').forEach(function (block) {
+        var box = $('.lx-answer', block);
+        if (box && blockKey(block) === key) box.value = s.answers[key];
+      });
+    });
+
+    Object.keys(s.verdicts || {}).forEach(function (key) {
+      $$('.lx-recall, .lx-teachback').forEach(function (block) {
+        if (blockKey(block) !== key) return;
+        showVerdict(block, s.verdicts[key]);
+        if (block.dataset.phase) unlockNext(block.dataset.phase, false);
+      });
+    });
+
+    Object.keys(s.choices || {}).forEach(function (key) {
+      $$('.lx-quiz, .lx-fallback').forEach(function (scope) {
+        if (blockKey(scope) !== key) return;
+        var input = $$('input[type="radio"]', scope)[s.choices[key]];
+        if (!input) return;
+        input.checked = true;
+        var owner = scope.closest('.lx-recall') || scope;
+        answerChoice(scope, input, owner.dataset.phase,
+          owner.dataset.ok || t('recall.ok', 'Correto.'), owner.dataset.bad || t('recall.bad', 'Não é essa.'));
+      });
+    });
+
+    if (s.done) {
+      var tb = $('.lx-teachback');
+      var verdict = tb && s.verdicts && s.verdicts.teachback;
+      if (verdict) showDone(verdict, s.done.done);
+    }
+
+    restoring = false;
+  }
+
   function init() {
     $$('.lx-recall').forEach(function (block) {
       var btn = $('[data-action="validate"]', block);
@@ -358,10 +435,23 @@
       setupMic(block);
     });
 
+    // Every draft is kept, not just submitted ones: the answer half-written when
+    // the tab closed is the one worth not losing.
+    $$('.lx-recall, .lx-teachback').forEach(function (block) {
+      var box = $('.lx-answer', block);
+      if (box) box.addEventListener('input', function () { remember('answers', blockKey(block), box.value); });
+    });
+
+    $$('[data-action="restart"]').forEach(function (btn) {
+      btn.addEventListener('click', forget);
+    });
+
     setupPrefs();
 
     // No phases means nothing to gate behind; otherwise the component gallery stays locked.
     if (!PHASES.length) $$('.lx-gate').forEach(function (g) { openGate(g.dataset.gate); });
+
+    restore();
 
     detectServer();
   }
