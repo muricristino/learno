@@ -4,7 +4,7 @@
 const { icon } = require('../../build/icons');
 const { t } = require('../../build/strings');
 
-const { esc, inline } = require('../../build/text');
+const { esc, inline, rich } = require('../../build/text');
 
 module.exports = {
   meta: {
@@ -45,6 +45,9 @@ module.exports = {
   margin-bottom: .45rem;
 }
 .lx-ask-q { color: var(--lx-text); font-weight: 550; margin-bottom: .8rem; }
+.lx-ask-q > p + p, .lx-ask-q > .lx-codeblock { margin-top: .6rem; }
+.lx-ask-q .lx-codeblock { font-weight: 400; }
+.lx-ask-q .lx-codeblock + p { margin-top: .6rem; }
 
 .lx-answer {
   width: 100%;
@@ -122,7 +125,7 @@ module.exports = {
        data-ok="${esc((fallback && fallback.ok) || t('recall.ok'))}"
        data-bad="${esc((fallback && fallback.bad) || t('recall.bad'))}">
     <span class="lx-ask-label">${icon('message-square-quote')} ${t('recall.label')}</span>
-    <p class="lx-ask-q">${inline(question)}</p>
+    <div class="lx-ask-q">${rich(question)}</div>
 
     <div class="lx-ask-online">
       <textarea class="lx-answer" placeholder="${t('recall.placeholder')}"></textarea>
