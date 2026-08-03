@@ -18,7 +18,7 @@ function inline(text) {
   return s.replace(new RegExp(`${OPEN}(\\d+)${SHUT}`, 'g'), (_, i) => code[+i]);
 }
 
-function rich(text) {
+function blocks(text) {
   return String(text ?? '')
     .split(/\n\s*\n/)
     .map(b => b.trim())
@@ -32,6 +32,46 @@ function rich(text) {
       return `<p>${inline(block)}</p>`;
     })
     .join('\n    ');
+}
+
+// Wears the `code` component's classes so there is one code appearance, not two.
+const hljs = require('highlight.js');
+const PLAIN = new Set(['text', 'txt', 'plain', 'none', 'output', 'log']);
+const FENCE = /```([A-Za-z0-9_+-]*)[ \t]*\r?\n([\s\S]*?)```/g;
+
+function fenced(source, lang) {
+  const code = String(source).replace(/\s+$/, '');
+  let body;
+
+  if (!lang || PLAIN.has(lang.toLowerCase())) body = esc(code);
+  else if (hljs.getLanguage(lang)) body = hljs.highlight(code, { language: lang, ignoreIllegals: true }).value;
+  else {
+    // A typo'd language rendered as plain text looks deliberate; refuse it.
+    throw new Error(
+      `unknown language "${lang}" in a fenced block. Use one highlight.js knows ` +
+      `(js, ts, ruby, python, sql, bash, json, yaml, go, rust…), or "text" for none.`);
+  }
+
+  return `<div class="lx-card lx-codeblock">` +
+    (lang ? `<span class="lx-codeblock-lang">${esc(lang)}</span>` : '') +
+    `<pre><code class="hljs">${body}</code></pre></div>`;
+}
+
+// Fences are split out first: indentation inside code would otherwise read as a list.
+function rich(text) {
+  const src = String(text ?? '');
+  const out = [];
+  let last = 0;
+
+  src.replace(FENCE, (match, lang, code, at) => {
+    out.push(blocks(src.slice(last, at)));
+    out.push(fenced(code, lang));
+    last = at + match.length;
+    return match;
+  });
+  out.push(blocks(src.slice(last)));
+
+  return out.filter(Boolean).join('\n    ');
 }
 
 module.exports = { esc, inline, rich };
