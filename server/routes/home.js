@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { listWorkspace, DASHBOARD_PATH, hasDashboard } = require('../workspace');
+const { listWorkspace, DASHBOARD_PATH, hasDashboard, strings } = require('../workspace');
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -11,8 +11,9 @@ function renderGroup(title, items, empty) {
 }
 
 function renderIndex({ lessons, reviews, projects }) {
+  const S = strings();
   return `<!DOCTYPE html>
-<html lang="pt-BR"><head><meta charset="utf-8" />
+<html lang="${esc(S['html.lang'])}"><head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>learno — workspace</title>
 <style>
@@ -42,15 +43,11 @@ function renderIndex({ lessons, reviews, projects }) {
 </style></head>
 <body>
   <h1>learno</h1>
-  <p class="sub">Índice do workspace.</p>
-  ${renderGroup('Lições', lessons, 'Nenhuma lição ainda.')}
-  ${renderGroup('Revisões', reviews, 'Nenhuma revisão ainda.')}
-  ${renderGroup('Projetos', projects, 'Nenhum projeto ainda.')}
-  <p class="note">
-    O dashboard de domínio ainda não existe neste workspace. Copie a pasta
-    <code>reference/</code> da raiz do repositório do learno para a raiz deste
-    workspace para que <code>/</code> passe a abrir <code>${esc(DASHBOARD_PATH)}</code>.
-  </p>
+  <p class="sub">${esc(S['home.subtitle'])}</p>
+  ${renderGroup(S['lib.lessons'], lessons, S['home.noLessons'])}
+  ${renderGroup(S['lib.reviews'], reviews, S['home.noReviews'])}
+  ${renderGroup(S['lib.projects'], projects, S['home.noProjects'])}
+  <p class="note">${S['home.noDashboard'].replace('{path}', esc(DASHBOARD_PATH))}</p>
 </body></html>`;
 }
 

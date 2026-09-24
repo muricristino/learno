@@ -1,8 +1,10 @@
+const { strings } = require('./workspace');
+
 const BANDS = {
-  '!0':  { score: 22, feedback: 'Sandbox: resposta marcada como NÃO COMPREENDIDA. O conceito central não aparece na explicação.', misconceptions: ['Sandbox: confunde o conceito com um caso particular.'] },
-  '!p':  { score: 61, feedback: 'Sandbox: resposta marcada como PARCIAL. A ideia geral está lá, mas faltam os trade-offs.', misconceptions: ['Sandbox: não menciona o custo da abordagem.'] },
-  '!ok': { score: 82, feedback: 'Sandbox: resposta marcada como SÓLIDA. Explicação correta, com imprecisões menores.', misconceptions: [] },
-  '!m':  { score: 95, feedback: 'Sandbox: resposta marcada como DOMÍNIO. Explicação clara, com trade-offs e um exemplo concreto.', misconceptions: [] }
+  '!0':  { score: 22, feedback: 'sandbox.fb0',  misconceptions: ['sandbox.mis0'] },
+  '!p':  { score: 61, feedback: 'sandbox.fbP',  misconceptions: ['sandbox.misP'] },
+  '!ok': { score: 82, feedback: 'sandbox.fbOk', misconceptions: [] },
+  '!m':  { score: 95, feedback: 'sandbox.fbM',  misconceptions: [] }
 };
 
 function bandFromLength(text) {
@@ -27,11 +29,12 @@ function stubVerdict({ user_answer = '', concept_id, valid_concept_ids = [], is_
   const vocabulary = valid_concept_ids.length ? valid_concept_ids : [concept_id].filter(Boolean);
   const demonstrated = band.score >= 75 ? vocabulary : [];
 
+  const S = strings();
   return {
     score:                 band.score,
-    feedback:              is_teachback ? `${band.feedback} (teach-back)` : band.feedback,
+    feedback:              is_teachback ? `${S[band.feedback]} (teach-back)` : S[band.feedback],
     concepts_demonstrated: demonstrated,
-    misconceptions:        [...band.misconceptions]
+    misconceptions:        band.misconceptions.map(key => S[key])
   };
 }
 
