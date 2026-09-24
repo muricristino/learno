@@ -8,7 +8,7 @@ require('dotenv').config({ path: path.join(WORKSPACE, '.env') });
 const express = require('express');
 const cors    = require('cors');
 
-const { SANDBOX } = require('./db');
+const { SANDBOX, DB_PATH } = require('./db');
 
 const app = express();
 app.use(cors());
@@ -44,13 +44,13 @@ const PORT = process.env.PORT || 9990;
 app.listen(PORT, () => {
   console.log(`learno-server running on :${PORT}${SANDBOX ? '  [MODE=sandbox]' : ''}`);
   if (SANDBOX) {
-    console.log('  Store        : in-memory (seeded, resets on restart)');
+    console.log('  Store        : SQLite in memory (seeded, resets on restart)');
     console.log('  Validator    : stubbed — !0 / !p / !ok / !m force each score band');
   } else {
     // .env is read once at boot; printing it makes a stale config visible.
     console.log(`  Gemini model : ${process.env.GEMINI_MODEL || 'gemini-2.5-flash'}` +
                 `${process.env.GEMINI_API_KEY ? '' : '   ⚠ GEMINI_API_KEY not set'}`);
-    console.log(`  MongoDB DB   : ${process.env.MONGODB_DB  || 'system_design_learn'}`);
+    console.log(`  Store        : ${DB_PATH}`);
   }
   console.log(`  Workspace    : ${WORKSPACE}`);
   console.log(`  Open         : http://localhost:${PORT}/   → ${DASHBOARD_PATH}`);

@@ -1,7 +1,7 @@
 {
   "name": "learno-server",
   "version": "1.0.0",
-  "description": "Local server for the learn skill — Gemini proxy and MongoDB bridge",
+  "description": "Local server for the learn skill — Gemini proxy and SQLite store",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -10,10 +10,9 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "mongodb": "^6.7.0"
+    "express": "^4.19.2"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.13.0"
   }
 }

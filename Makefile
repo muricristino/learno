@@ -86,9 +86,7 @@ sandbox-local: deps
 	@$(SBX_RUN) node --watch $(SERVER)/index.js
 
 check: deps
-	@for f in $(SERVER)/index.js $(SERVER)/db.js $(SERVER)/memdb.js \
-	          $(SERVER)/sandbox-validator.js $(SERVER)/workspace.js \
-	          $(SERVER)/routes/*.js $(ROOT)/build/*.js; do \
+	@for f in $(SERVER)/*.js $(SERVER)/routes/*.js $(ROOT)/build/*.js $(ROOT)/bin/*.js; do \
 	  node --check $$f || exit 1; \
 	done
 	@node -e "JSON.parse(require('fs').readFileSync('$(SANDBOX)/fixtures/seed.json','utf8'))" \

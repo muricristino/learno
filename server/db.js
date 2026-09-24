@@ -1,9 +1,13 @@
 const fs   = require('fs');
 const path = require('path');
 
-const SANDBOX = process.env.LEARNO_MODE === 'sandbox';
+const { openStore } = require('./store');
+const { WORKSPACE } = require('./workspace');
 
-let _db;
+const SANDBOX = process.env.LEARNO_MODE === 'sandbox';
+const DB_PATH = process.env.LEARNO_DB || path.join(WORKSPACE, 'learno.db');
+
+let _store;
 
 // Fixture dates are relative ({ "$daysFromNow": -3 }) so seeded reviews stay due
 // whenever the sandbox runs; fixed timestamps would silently empty that section.
@@ -39,25 +43,16 @@ function loadSeed() {
   }
 }
 
-async function getDb() {
-  if (_db) return _db;
+function getStore() {
+  if (_store) return _store;
 
   if (SANDBOX) {
-    const { MemoryDb } = require('./memdb');
-    _db = new MemoryDb(loadSeed());
-    console.log('sandbox: using in-memory store (state resets on restart)');
-    return _db;
+    _store = openStore(':memory:');
+    _store.seed(loadSeed());
+  } else {
+    _store = openStore(DB_PATH);
   }
-
-  const { MongoClient } = require('mongodb');
-  if (!process.env.MONGODB_URI) {
-    throw new Error('MONGODB_URI is not set (use LEARNO_MODE=sandbox to run without a database)');
-  }
-  const client = new MongoClient(process.env.MONGODB_URI);
-  await client.connect();
-  _db = client.db(process.env.MONGODB_DB || 'system_design_learn');
-  console.log('MongoDB connected');
-  return _db;
+  return _store;
 }
 
-module.exports = { getDb, SANDBOX };
+module.exports = { getStore, SANDBOX, DB_PATH };
