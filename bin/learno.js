@@ -9,8 +9,9 @@ if (major < 22 || (major === 22 && minor < 13)) {
 
 const [command, ...rest] = process.argv.slice(2);
 
-if (command === 'new') {
-  require('./new').create(rest).catch(err => { console.error(err.message); process.exit(1); });
+// Bare `npx …/learno` outside a workspace is someone starting out, not a status check.
+if (command === 'new' || (!command && !fs.existsSync('learno.json'))) {
+  require('./new').create(command ? rest : []).catch(err => { console.error(err.message); process.exit(1); });
 } else {
   main();
 }
