@@ -1,6 +1,8 @@
 const fs   = require('fs');
 const path = require('path');
 
+const { STRINGS, DEFAULT_LANG, table } = require('../build/strings');
+
 // LEARNO_WORKSPACE must come from the real environment, not .env: .env is
 // itself looked up inside the workspace.
 const WORKSPACE = process.env.LEARNO_WORKSPACE
@@ -57,20 +59,17 @@ function hasDashboard() {
   return fs.existsSync(path.join(WORKSPACE, DASHBOARD_PATH));
 }
 
-// The build keeps its own copy of this table; change both together.
-const LANGS = { pt: { name: 'Brazilian Portuguese', locale: 'pt-BR' },
-                en: { name: 'English',              locale: 'en-GB' } };
-
 function language() {
   try {
     const cfg = JSON.parse(fs.readFileSync(path.join(WORKSPACE, 'learno.json'), 'utf8'));
-    return LANGS[cfg.lang] ? cfg.lang : 'pt';
+    return STRINGS[cfg.lang] ? cfg.lang : DEFAULT_LANG;
   } catch {
-    return 'pt';
+    return DEFAULT_LANG;
   }
 }
 
-const languageName   = () => LANGS[language()].name;
-const languageLocale = () => LANGS[language()].locale;
+const strings        = () => table(language());
+const languageName   = () => strings()['model.language'];
+const languageLocale = () => strings()['locale'];
 
-module.exports = { WORKSPACE, listDir, listWorkspace, DASHBOARD_PATH, hasDashboard, language, languageName, languageLocale };
+module.exports = { WORKSPACE, listDir, listWorkspace, DASHBOARD_PATH, hasDashboard, language, strings, languageName, languageLocale };

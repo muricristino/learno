@@ -1,11 +1,11 @@
-// A missing entry falls back to Portuguese rather than rendering an empty
+// A missing entry falls back to English rather than rendering an empty
 // button — a blank control is worse than one in the wrong language.
 
 const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
-const DEFAULT_LANG = 'pt';
+const DEFAULT_LANG = 'en';
 
 const STRINGS = {
   pt: {
@@ -33,6 +33,7 @@ const STRINGS = {
     'recall.ok':          'Correto.',
     'recall.bad':         'Não é essa.',
     'mic.dictate':        'Ditar',
+    'mic.lang':           'pt-BR',
     'mic.stop':           'Parar',
     'mic.listening':      'ouvindo…',
     'mic.failed':         'Não deu para transcrever agora. Você pode digitar a resposta.',
@@ -71,7 +72,89 @@ const STRINGS = {
     'run.scheduled':      'conceito(s) agendado(s) pelo SM-2.',
     'run.restart':        'Recomeçar',
     'run.restartTitle':   'Apaga as respostas guardadas neste navegador e recomeça',
-    'run.teachbackOf':    'Teach-back final da lição'
+    'run.teachbackOf':    'Teach-back final da lição',
+
+    'settings.blue':            'Azul',
+    'settings.purple':          'Roxo',
+    'settings.pink':            'Rosa',
+    'model.language':           'Brazilian Portuguese',
+    'page.loading':             'carregando…',
+    'page.nothingOnDisk':       'nada no disco ainda',
+    'dash.pageTitle':           'Meu aprendizado — learno',
+    'dash.title':               'Meu aprendizado',
+    'dash.subtitle':            'O que fazer agora, o que está pedindo atenção, e o que já está de pé.',
+    'dash.offline':             'Servidor fora do ar. As lições continuam abrindo, mas o progresso não pode ser lido.',
+    'dash.now':                 'Agora',
+    'dash.dueToday':            'Para revisar hoje',
+    'dash.needsAttention':      'Pedindo atenção',
+    'dash.attention':           'Precisa de atenção',
+    'dash.agenda':              'Agenda',
+    'dash.mastered':            'Já dominado',
+    'dash.masteredCount':       'Já dominado ({n})',
+    'dash.history':             'Histórico',
+    'dash.historyCount':        'Histórico ({n})',
+    'dash.librarySub':          'tudo que existe, com a nota de cada um',
+    'dash.fromNext':            'de NEXT.md · {date}',
+    'dash.dueOne':              'Revisar 1 conceito vencido',
+    'dash.dueMany':             'Revisar {n} conceitos vencidos',
+    'dash.andMore':             ' e mais {n}',
+    'dash.dueWhy':              'Revisão vencida vem antes de conteúdo novo.',
+    'dash.seeOverdue':          'Ver o que está vencido',
+    'dash.computed':            'calculado — nenhum NEXT.md no workspace',
+    'dash.nothingDue':          'Nada vencido. Peça a próxima lição.',
+    'dash.nothingDueWhy':       'Esta decisão sai de <code class="lx-code">NEXT.md</code>, que o Claude escreve ao fechar uma sessão — lendo o <code class="lx-code">MISSION.md</code> e o que você acabou de demonstrar. Enquanto o arquivo não existir, esta caixa só sabe olhar a agenda.',
+    'dash.repeated':            'Apareceu {n} vezes na correção — é o mesmo erro voltando, não azar.',
+    'dash.lateOne':             'Revisão venceu há 1 dia. Cada dia parado é retenção que o SM-2 já contava como perdida.',
+    'dash.lateMany':            'Revisão venceu há {n} dias. Cada dia parado é retenção que o SM-2 já contava como perdida.',
+    'dash.interval':            'intervalo {n}d',
+    'dash.lastScore':           'Último score {n}. Abaixo de 75 o conceito não conta como demonstrado.',
+    'dash.seenIn':              'visto em {id}',
+    'dash.attentionEmpty':      'Nada pedindo atenção — nenhuma revisão vencida, nenhum erro repetido.',
+    'dash.source.conversation': 'conversa',
+    'dash.source.project':      'projeto',
+    'dash.source.ai':           'IA',
+    'dash.noReviews':           'Nenhuma revisão agendada ainda.',
+    'dash.daysAgo':             '{n}d atrás',
+    'dash.today':               'Hoje',
+    'dash.tomorrow':            'Amanhã',
+    'dash.noMastered':          'Nenhum conceito dominado ainda.',
+    'dash.noLessons':           'Nenhuma lição completada ainda.',
+    'dash.updatedAt':           'Atualizado às {time}',
+    'dash.offlineBadge':        'offline',
+    'dash.serverDown':          'Servidor indisponível',
+    'dash.noData':              'Sem dados — servidor offline',
+    'dash.lessonOne':           'lição',
+    'dash.lessonMany':          'lições',
+    'dash.reviewOne':           'revisão',
+    'dash.reviewMany':          'revisões',
+    'dash.projectOne':          'projeto',
+    'dash.projectMany':         'projetos',
+    'dash.withScores':          '{list} — com a nota de cada um',
+    'lib.pageTitle':            'Biblioteca — learno',
+    'lib.subtitle':             'Tudo que existe: lições, revisões e projetos, com o que você já fez em cada um.',
+    'lib.offline':              'Servidor fora do ar. A lista sai do disco, mas as notas não podem ser lidas.',
+    'lib.search':               'Filtrar por título ou arquivo…',
+    'lib.searchLabel':          'Filtrar',
+    'lib.all':                  'Tudo',
+    'lib.lessons':              'Lições',
+    'lib.reviews':              'Revisões',
+    'lib.projects':             'Projetos',
+    'lib.todo':                 'Não começadas',
+    'lib.notStarted':           'não começada',
+    'lib.nothingFound':         'Nada encontrado com esse filtro.',
+    'lib.count':                '{n} no disco · {scored} com nota',
+    'lib.catalogDown':          'Catálogo indisponível — servidor offline.',
+    'home.subtitle':            'Índice do workspace.',
+    'home.noLessons':           'Nenhuma lição ainda.',
+    'home.noReviews':           'Nenhuma revisão ainda.',
+    'home.noProjects':          'Nenhum projeto ainda.',
+    'home.noDashboard':         'O dashboard de domínio ainda não existe neste workspace. Copie a pasta <code>reference/</code> da raiz do repositório do learno para a raiz deste workspace para que <code>/</code> passe a abrir <code>{path}</code>.',
+    'sandbox.fb0':              'Sandbox: resposta marcada como NÃO COMPREENDIDA. O conceito central não aparece na explicação.',
+    'sandbox.mis0':             'Sandbox: confunde o conceito com um caso particular.',
+    'sandbox.fbP':              'Sandbox: resposta marcada como PARCIAL. A ideia geral está lá, mas faltam os trade-offs.',
+    'sandbox.misP':             'Sandbox: não menciona o custo da abordagem.',
+    'sandbox.fbOk':             'Sandbox: resposta marcada como SÓLIDA. Explicação correta, com imprecisões menores.',
+    'sandbox.fbM':              'Sandbox: resposta marcada como DOMÍNIO. Explicação clara, com trade-offs e um exemplo concreto.'
   },
 
   en: {
@@ -99,6 +182,7 @@ const STRINGS = {
     'recall.ok':          'Correct.',
     'recall.bad':         'Not that one.',
     'mic.dictate':        'Dictate',
+    'mic.lang':           'en-US',
     'mic.stop':           'Stop',
     'mic.listening':      'listening…',
     'mic.failed':         'Could not transcribe just now. You can type your answer.',
@@ -137,7 +221,89 @@ const STRINGS = {
     'run.scheduled':      'concept(s) scheduled by SM-2.',
     'run.restart':        'Start over',
     'run.restartTitle':   'Clears the answers kept in this browser and starts again',
-    'run.teachbackOf':    'Final teach-back for lesson'
+    'run.teachbackOf':    'Final teach-back for lesson',
+
+    'settings.blue':            'Blue',
+    'settings.purple':          'Purple',
+    'settings.pink':            'Pink',
+    'model.language':           'English',
+    'page.loading':             'loading…',
+    'page.nothingOnDisk':       'nothing on disk yet',
+    'dash.pageTitle':           'My learning — learno',
+    'dash.title':               'My learning',
+    'dash.subtitle':            'What to do now, what needs attention, and what already stands.',
+    'dash.offline':             'The server is down. Lessons still open, but progress cannot be read.',
+    'dash.now':                 'Now',
+    'dash.dueToday':            'Due today',
+    'dash.needsAttention':      'Needing attention',
+    'dash.attention':           'Needs attention',
+    'dash.agenda':              'Schedule',
+    'dash.mastered':            'Already mastered',
+    'dash.masteredCount':       'Already mastered ({n})',
+    'dash.history':             'History',
+    'dash.historyCount':        'History ({n})',
+    'dash.librarySub':          'everything there is, with the score of each',
+    'dash.fromNext':            'from NEXT.md · {date}',
+    'dash.dueOne':              'Review 1 overdue concept',
+    'dash.dueMany':             'Review {n} overdue concepts',
+    'dash.andMore':             ' and {n} more',
+    'dash.dueWhy':              'An overdue review comes before new material.',
+    'dash.seeOverdue':          'See what is overdue',
+    'dash.computed':            'computed — no NEXT.md in the workspace',
+    'dash.nothingDue':          'Nothing overdue. Ask for the next lesson.',
+    'dash.nothingDueWhy':       'This decision comes from <code class="lx-code">NEXT.md</code>, which Claude writes when it closes a session — reading <code class="lx-code">MISSION.md</code> and what you have just shown. Until that file exists, this box can only look at the schedule.',
+    'dash.repeated':            'Came up {n} times in grading — it is the same mistake coming back, not bad luck.',
+    'dash.lateOne':             'The review was due 1 day ago. Every day it waits is retention SM-2 already counted as lost.',
+    'dash.lateMany':            'The review was due {n} days ago. Every day it waits is retention SM-2 already counted as lost.',
+    'dash.interval':            'interval {n}d',
+    'dash.lastScore':           'Last score {n}. Below 75 the concept does not count as shown.',
+    'dash.seenIn':              'seen in {id}',
+    'dash.attentionEmpty':      'Nothing needs attention — no overdue review, no repeated mistake.',
+    'dash.source.conversation': 'conversation',
+    'dash.source.project':      'project',
+    'dash.source.ai':           'AI',
+    'dash.noReviews':           'No review scheduled yet.',
+    'dash.daysAgo':             '{n}d ago',
+    'dash.today':               'Today',
+    'dash.tomorrow':            'Tomorrow',
+    'dash.noMastered':          'No concept mastered yet.',
+    'dash.noLessons':           'No lesson completed yet.',
+    'dash.updatedAt':           'Updated at {time}',
+    'dash.offlineBadge':        'offline',
+    'dash.serverDown':          'Server unavailable',
+    'dash.noData':              'No data — server offline',
+    'dash.lessonOne':           'lesson',
+    'dash.lessonMany':          'lessons',
+    'dash.reviewOne':           'review',
+    'dash.reviewMany':          'reviews',
+    'dash.projectOne':          'project',
+    'dash.projectMany':         'projects',
+    'dash.withScores':          '{list} — with the score of each',
+    'lib.pageTitle':            'Library — learno',
+    'lib.subtitle':             'Everything there is: lessons, reviews and projects, with what you have done in each.',
+    'lib.offline':              'The server is down. The list comes from disk, but the scores cannot be read.',
+    'lib.search':               'Filter by title or file…',
+    'lib.searchLabel':          'Filter',
+    'lib.all':                  'All',
+    'lib.lessons':              'Lessons',
+    'lib.reviews':              'Reviews',
+    'lib.projects':             'Projects',
+    'lib.todo':                 'Not started',
+    'lib.notStarted':           'not started',
+    'lib.nothingFound':         'Nothing matches that filter.',
+    'lib.count':                '{n} on disk · {scored} scored',
+    'lib.catalogDown':          'Catalogue unavailable — server offline.',
+    'home.subtitle':            'Workspace index.',
+    'home.noLessons':           'No lessons yet.',
+    'home.noReviews':           'No reviews yet.',
+    'home.noProjects':          'No projects yet.',
+    'home.noDashboard':         'This workspace has no dashboard yet. Copy the <code>reference/</code> folder from the root of the learno repository into the root of this workspace, and <code>/</code> will open <code>{path}</code>.',
+    'sandbox.fb0':              'Sandbox: answer marked NOT UNDERSTOOD. The central concept does not appear in the explanation.',
+    'sandbox.mis0':             'Sandbox: mistakes the concept for a special case.',
+    'sandbox.fbP':              'Sandbox: answer marked PARTIAL. The general idea is there, but the trade-offs are missing.',
+    'sandbox.misP':             'Sandbox: does not mention the cost of the approach.',
+    'sandbox.fbOk':             'Sandbox: answer marked SOLID. Correct explanation, with minor inaccuracies.',
+    'sandbox.fbM':              'Sandbox: answer marked MASTERY. Clear explanation, with trade-offs and a concrete example.'
   }
 };
 
@@ -154,9 +320,12 @@ function language() {
   return lang;
 }
 
+function table(lang) {
+  return { ...STRINGS[DEFAULT_LANG], ...STRINGS[lang] };
+}
+
 function t(key) {
-  const table = STRINGS[language()] || STRINGS[DEFAULT_LANG];
-  return table[key] ?? STRINGS[DEFAULT_LANG][key] ?? key;
+  return table(language())[key] ?? key;
 }
 
 function runtimeStrings() {
@@ -167,4 +336,4 @@ function runtimeStrings() {
   return out;
 }
 
-module.exports = { t, language, runtimeStrings, STRINGS, DEFAULT_LANG };
+module.exports = { t, table, language, runtimeStrings, STRINGS, DEFAULT_LANG };
