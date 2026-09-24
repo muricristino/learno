@@ -35,40 +35,17 @@ Then teach the first lesson.
 ### 2. Every session — opening
 
 1. Read `MISSION.md`, `NOTES.md`, `learning-records/`.
-2. Query MongoDB (below).
+2. Read the progress store (below). It is `learno.db` at the workspace root.
 3. **Open by saying where they stand** — what is due, what is shaky, what comes
    next — in a few lines, from the data. Not a greeting.
 4. Pick what to teach: (a) reviews due today → (b) a concept with a recurring
    misconception → (c) the next step toward the mission.
 
 ```bash
-# due for review today
-mongosh "$MONGODB_URI" --eval "
-  db = db.getSiblingDB('$MONGODB_DB');
-  printjson(db.concepts.find(
-    { next_review: { \$lte: new Date() } },
-    { concept_id:1, interval_days:1, next_review:1, _id:0 }
-  ).toArray())"
-
-# misconceptions seen in 2+ sections
-mongosh "$MONGODB_URI" --eval "
-  db = db.getSiblingDB('$MONGODB_DB');
-  printjson(db.section_results.aggregate([
-    { \$unwind: '\$misconceptions' },
-    { \$group: { _id: '\$misconceptions', count: { \$sum:1 }, concepts: { \$addToSet: '\$concept_id' } } },
-    { \$match: { count: { \$gte: 2 } } },
-    { \$sort: { count: -1 } }
-  ]).toArray())"
-
-# mastery and score history
-mongosh "$MONGODB_URI" --eval "
-  db = db.getSiblingDB('$MONGODB_DB');
-  printjson(db.concepts.find({}, { concept_id:1, mastered:1, mastery_source:1, history:1, _id:0 }).toArray())"
-
-# recent lessons
-mongosh "$MONGODB_URI" --eval "
-  db = db.getSiblingDB('$MONGODB_DB');
-  printjson(db.lessons.find({}, { lesson_id:1, final_score:1, completed_at:1, _id:0 }).sort({ completed_at:-1 }).limit(5).toArray())"
+node bin/learno.js due               # due for review today
+node bin/learno.js misconceptions    # misconceptions seen in 2+ sections
+node bin/learno.js concepts          # mastery and score history
+node bin/learno.js status            # recent lessons
 ```
 
 Stagnation is worth naming out loud: three history entries all below 75 means the
@@ -82,12 +59,7 @@ unless you do it.
 1. **Read the per-section results**, not just the final score:
 
 ```bash
-mongosh "$MONGODB_URI" --eval "
-  db = db.getSiblingDB('$MONGODB_DB');
-  printjson(db.section_results.find(
-    { lesson_id: 'LESSON_ID' },
-    { concept_id:1, is_teachback:1, score:1, misconceptions:1, _id:0 }
-  ).sort({ recorded_at:1 }).toArray())"
+node bin/learno.js lesson LESSON_ID
 ```
 
 2. **Ask what they thought.** Two questions, not a survey: what was confusing,
@@ -375,7 +347,7 @@ checks are in **Diagrams** in `LESSON-FORMAT.md`.
 
 ## AI Validation (Gemini via local server)
 
-The local server at `localhost:9990` proxies Gemini 2.5-flash and handles MongoDB persistence.
+The local server at `localhost:9990` proxies Gemini 2.5-flash and persists progress to `learno.db` (SQLite) at the workspace root.
 
 **Server routes used by lessons:**
 - `GET  /api/health` — liveness check (lessons call this on load)
@@ -383,7 +355,7 @@ The local server at `localhost:9990` proxies Gemini 2.5-flash and handles MongoD
 - `POST /api/progress` — save lesson completion + trigger SM-2 scheduling. Accepts `kind: "lesson" | "project"` and, for projects, `concepts_missed` — see **Projects**.
 - `GET  /api/progress` — read mastery state, including `misconceptions` grouped across every section result (used by dashboard)
 - `GET  /api/next` — parses `NEXT.md` into `{ title, action, body }`, or `{ exists: false }`
-- `GET  /api/catalog` — lists every lesson/review/project HTML file on disk (powers the dashboard's catalog section, independent of MongoDB progress)
+- `GET  /api/catalog` — lists every lesson/review/project HTML file on disk (powers the dashboard's catalog section, independent of recorded progress)
 - `GET  /debug/mic` — standalone mic / Web Speech diagnostics page
 
 **Validate payload:**
@@ -477,7 +449,7 @@ R3 should ask the concept to be used somewhere it has not been seen.
 `reference/glossary.html` is the canonical vocabulary for this workspace.
 
 - Add a term only when the user has demonstrated understanding — not when they've merely been introduced to it.
-- Every term gets a concept ID (kebab-case). This ID is what flows through `data-concept-id`, `concepts_demonstrated`, and MongoDB.
+- Every term gets a concept ID (kebab-case). This ID is what flows through `data-concept-id`, `concepts_demonstrated`, and the progress store.
 - When a new concept appears in a lesson, add it to the glossary before or immediately after publishing the lesson.
 - Tag every term with `data-tags` from a taxonomy that fits the subject (modules, patterns, difficulty).
 

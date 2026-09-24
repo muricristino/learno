@@ -20,11 +20,12 @@ to leak, no database behind it, and no API key to spend. A **study** workspace i
 the opposite on every count — that one gets `make local` unless you specifically
 need the phone.
 
-No `MONGODB_URI` and no `GEMINI_API_KEY` are needed — that is the point. A
+No `GEMINI_API_KEY` is needed — that is the point. A
 client can clone the engine and see a lesson render without provisioning
 anything.
 
-- **Store** — in-memory, seeded from `fixtures/seed.json` at boot.
+- **Store** — the same SQLite store as a real workspace, in memory, seeded from
+  `fixtures/seed.json` at boot.
   `routes/progress.js` runs against it unmodified, so the real SM-2 scheduling
   code is genuinely exercised rather than stubbed.
 - **Validator** — `server/sandbox-validator.js` replaces the Gemini call with a
