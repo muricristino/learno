@@ -270,7 +270,6 @@ needs — instead of `file://`.
 | `GET  /api/progress` | mastery state + grouped misconceptions → the dashboard |
 | `GET  /api/catalog` | every lesson / review / project on disk → the library |
 | `GET  /api/next` | parses `NEXT.md` into a decision, a button and a reason |
-| `GET  /debug/mic` | standalone mic / Web Speech diagnostics page |
 
 **Tables** in `learno.db`: `concepts` (per-concept mastery, `interval_days`, `ease_factor`,
 `next_review`), `concept_history` (every score, with its source), `lessons` (completions,
