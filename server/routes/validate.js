@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { languageName } = require('../workspace');
 
-const { getDb, SANDBOX } = require('../db');
+const { getStore, SANDBOX } = require('../db');
 const { stubVerdict }    = require('../sandbox-validator');
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
@@ -109,18 +109,21 @@ Return JSON only (no markdown wrapper, no explanation outside the JSON):
       );
     }
 
-    // Fire-and-forget: a slow write must not delay the verdict.
+    // A failed write must not cost the student the verdict they are waiting for.
     if (lesson_id) {
-      getDb().then(db => db.collection('section_results').insertOne({
-        lesson_id,
-        concept_id,
-        is_teachback: !!is_teachback,
-        score:                   parsed.score,
-        feedback:                parsed.feedback,
-        concepts_demonstrated:   parsed.concepts_demonstrated,
-        misconceptions:          parsed.misconceptions || [],
-        recorded_at:             new Date()
-      })).catch(err => console.error('section_results save error:', err));
+      try {
+        getStore().insertSection({
+          lesson_id,
+          concept_id,
+          is_teachback,
+          score:                 parsed.score,
+          feedback:              parsed.feedback,
+          concepts_demonstrated: parsed.concepts_demonstrated,
+          misconceptions:        parsed.misconceptions
+        });
+      } catch (err) {
+        console.error('section_results save error:', err);
+      }
     }
 
     res.json(parsed);
