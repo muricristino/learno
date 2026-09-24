@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Meu aprendizado — learno</title>
+<title data-t="dash.pageTitle">My learning — learno</title>
 <link rel="stylesheet" href="../assets/learno.css" />
 <link rel="stylesheet" href="../assets/components.css" />
 <script>(function(){try{var d=document.documentElement,t=localStorage.getItem('lx-theme'),a=localStorage.getItem('lx-accent');if(t&&t!=='auto')d.setAttribute('data-theme',t);if(a&&a!=='azul')d.setAttribute('data-accent',a)}catch(e){}})()</script>
@@ -138,25 +138,25 @@
 
 
 <nav class="lx-topbar">
-  <a class="lx-topbar-home" href="../" title="Início">
+  <a class="lx-topbar-home" href="../" title="Go to the dashboard" data-t-attr="nav.home">
     <svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg>
     <span>learno</span>
   </a>
   <div class="lx-topbar-right">
-    <a class="lx-topbar-link" href="library.html" title="Biblioteca">
+    <a class="lx-topbar-link" href="library.html" title="Library" data-t-attr="nav.library">
       <svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 6 4 14" /><path d="M12 6v14" /><path d="M8 8v12" /><path d="M4 4v16" /></svg>
-      <span>Biblioteca</span>
+      <span data-t="nav.library">Library</span>
     </a>
     <details class="lx-settings">
-    <summary class="lx-settings-btn" title="Configurações" aria-label="Configurações" role="button">
+    <summary class="lx-settings-btn" title="Settings" aria-label="Settings" role="button" data-t-attr="settings.title">
       <svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
   <circle cx="12" cy="12" r="3" /></svg>
     </summary>
     <div class="lx-settings-panel">
       <div class="lx-settings-group">
-        <p class="lx-settings-label">Tema</p>
+        <p class="lx-settings-label" data-t="settings.theme">Theme</p>
         <div class="lx-settings-row">
-          <button type="button" class="lx-settings-opt" data-theme-set="light" title="Claro"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" />
+          <button type="button" class="lx-settings-opt" data-theme-set="light" title="Light" data-t-attr="settings.light"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" />
   <path d="M12 2v2" />
   <path d="M12 20v2" />
   <path d="m4.93 4.93 1.41 1.41" />
@@ -165,18 +165,18 @@
   <path d="M20 12h2" />
   <path d="m6.34 17.66-1.41 1.41" />
   <path d="m19.07 4.93-1.41 1.41" /></svg></button>
-          <button type="button" class="lx-settings-opt" data-theme-set="auto" title="Seguir o sistema"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2" />
+          <button type="button" class="lx-settings-opt" data-theme-set="auto" title="Follow the system" data-t-attr="settings.auto"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2" />
   <line x1="8" x2="16" y1="21" y2="21" />
   <line x1="12" x2="12" y1="17" y2="21" /></svg></button>
-          <button type="button" class="lx-settings-opt" data-theme-set="dark" title="Escuro"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" /></svg></button>
+          <button type="button" class="lx-settings-opt" data-theme-set="dark" title="Dark" data-t-attr="settings.dark"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" /></svg></button>
         </div>
       </div>
       <div class="lx-settings-group">
-        <p class="lx-settings-label">Cor principal</p>
+        <p class="lx-settings-label" data-t="settings.accent">Accent colour</p>
         <div class="lx-settings-row">
-          <button type="button" class="lx-settings-opt" data-accent-set="azul" title="Azul"><span class="lx-settings-dot lx-settings-dot--azul"></span>Azul</button>
-          <button type="button" class="lx-settings-opt" data-accent-set="roxo" title="Roxo"><span class="lx-settings-dot lx-settings-dot--roxo"></span>Roxo</button>
-          <button type="button" class="lx-settings-opt" data-accent-set="rosa" title="Rosa"><span class="lx-settings-dot lx-settings-dot--rosa"></span>Rosa</button>
+          <button type="button" class="lx-settings-opt" data-accent-set="azul" title="Blue" data-t-attr="settings.blue"><span class="lx-settings-dot lx-settings-dot--azul"></span><span data-t="settings.blue">Blue</span></button>
+          <button type="button" class="lx-settings-opt" data-accent-set="roxo" title="Purple" data-t-attr="settings.purple"><span class="lx-settings-dot lx-settings-dot--roxo"></span><span data-t="settings.purple">Purple</span></button>
+          <button type="button" class="lx-settings-opt" data-accent-set="rosa" title="Pink" data-t-attr="settings.pink"><span class="lx-settings-dot lx-settings-dot--rosa"></span><span data-t="settings.pink">Pink</span></button>
         </div>
       </div>
     </div>
@@ -187,53 +187,51 @@
 <div class="lx-wrap">
 
   <header class="lx-lesson-head">
-    <span class="lx-badge" id="last-updated">carregando…</span>
+    <span class="lx-badge" id="last-updated" data-t="page.loading">loading…</span>
     <h1 class="lx-title">
       <span class="lx-title-icon">
         <svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /><path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>
       </span>
-      <span>Meu aprendizado</span>
+      <span data-t="dash.title">My learning</span>
     </h1>
-    <p class="lx-subtitle">O que fazer agora, o que está pedindo atenção, e o que já está de pé.</p>
+    <p class="lx-subtitle" data-t="dash.subtitle">What to do now, what needs attention, and what already stands.</p>
   </header>
 
-  <div class="lx-offline-banner" id="offline-banner" hidden>
-    Servidor fora do ar. As lições continuam abrindo, mas o progresso não pode ser lido.
-  </div>
+  <div class="lx-offline-banner" id="offline-banner" hidden data-t="dash.offline">The server is down. Lessons still open, but progress cannot be read.</div>
 
   <div class="lx-card dash-now" id="now-card">
     <span class="dash-now-label">
       <svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg>
-      Agora
+      <span data-t="dash.now">Now</span>
     </span>
-    <p class="dash-now-title">carregando…</p>
+    <p class="dash-now-title" data-t="page.loading">loading…</p>
   </div>
 
   <div class="dash-pills" id="summary-row">
-    <div class="lx-card dash-pill"><span class="dash-pill-num">—</span><span class="dash-pill-label">Para revisar hoje</span></div>
-    <div class="lx-card dash-pill"><span class="dash-pill-num">—</span><span class="dash-pill-label">Pedindo atenção</span></div>
+    <div class="lx-card dash-pill"><span class="dash-pill-num">—</span><span class="dash-pill-label" data-t="dash.dueToday">Due today</span></div>
+    <div class="lx-card dash-pill"><span class="dash-pill-num">—</span><span class="dash-pill-label" data-t="dash.needsAttention">Needing attention</span></div>
   </div>
 
   <section class="dash-section">
     <h2 class="dash-section-title">
       <svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg>
-      Precisa de atenção
+      <span data-t="dash.attention">Needs attention</span>
     </h2>
-    <div class="lx-card" id="attention-content"><span class="dash-empty">carregando…</span></div>
+    <div class="lx-card" id="attention-content"><span class="dash-empty" data-t="page.loading">loading…</span></div>
   </section>
 
   <section class="dash-section">
     <h2 class="dash-section-title">
       <svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 14v2.2l1.6 1" /><path d="M16 2v4" /><path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5" /><path d="M3 10h5" /><path d="M8 2v4" /><circle cx="16" cy="16" r="6" /></svg>
-      Agenda
+      <span data-t="dash.agenda">Schedule</span>
     </h2>
-    <div class="lx-card" id="reviews-content"><span class="dash-empty">carregando…</span></div>
+    <div class="lx-card" id="reviews-content"><span class="dash-empty" data-t="page.loading">loading…</span></div>
   </section>
 
   <details class="dash-fold" id="mastered-fold">
     <summary>
       <svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></svg>
-      <span id="mastered-summary">Já dominado</span>
+      <span id="mastered-summary" data-t="dash.mastered">Already mastered</span>
       <svg class="lx-icon-svg dash-fold-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
     </summary>
     <div id="mastered-content"></div>
@@ -242,7 +240,7 @@
   <details class="dash-fold" id="lessons-fold">
     <summary>
       <svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /><path d="M22 10v6" /><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></svg>
-      <span id="lessons-summary">Histórico</span>
+      <span id="lessons-summary" data-t="dash.history">History</span>
       <svg class="lx-icon-svg dash-fold-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
     </summary>
     <div class="lx-card" id="lessons-content"></div>
@@ -253,20 +251,36 @@
       <svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 6 4 14" /><path d="M12 6v14" /><path d="M8 8v12" /><path d="M4 4v16" /></svg>
     </span>
     <span class="dash-library-body">
-      <span class="dash-library-title">Biblioteca</span>
-      <span class="dash-library-sub" id="library-sub">tudo que existe, com a nota de cada um</span>
+      <span class="dash-library-title" data-t="nav.library">Library</span>
+      <span class="dash-library-sub" id="library-sub" data-t="dash.librarySub">everything there is, with the score of each</span>
     </span>
     <svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
   </a>
 
   <footer class="lx-lesson-foot">
-    <a class="lx-btn lx-btn--outline" href="glossary.html">Glossário</a>
+    <a class="lx-btn lx-btn--outline" href="glossary.html" data-t="nav.glossary">Glossary</a>
   </footer>
 </div>
 
 <script src="../assets/learno.js" defer></script>
 <script>
   const SERVER = location.protocol.startsWith('http') ? location.origin : 'http://localhost:9990';
+
+  let STR = JSON.parse(document.getElementById('lx-strings')?.textContent || 'null');
+  const t = (key, vars = {}) => String(STR?.[key] ?? key).replace(/\{(\w+)\}/g, (_m, k) => vars[k] ?? '');
+  const LOCALE = () => STR?.locale || 'en-GB';
+
+  async function ensureStrings() {
+    if (STR) return;
+    try {
+      STR = await (await fetch(`${SERVER}/api/strings`, { signal: AbortSignal.timeout(3000) })).json();
+    } catch { STR = {}; return; }
+    document.documentElement.lang = t('html.lang');
+    for (const el of document.querySelectorAll('[data-t]')) el.textContent = t(el.dataset.t);
+    for (const el of document.querySelectorAll('[data-t-attr]')) {
+      for (const a of ['title', 'aria-label', 'placeholder']) if (el.hasAttribute(a)) el.setAttribute(a, t(el.dataset.tAttr));
+    }
+  }
 
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
@@ -282,8 +296,8 @@
   }
 
   function daysFromNow(dateStr) {
-    // Compara por DIA DE CALENDÁRIO LOCAL (não por instante) — "hoje é hoje"
-    // independente da hora/fuso, e bate com a query do learno-analyst.
+    // By local calendar day, not by instant: a review due tonight is due this
+    // morning. `learno due` counts the same way.
     const r = new Date(dateStr);
     const review = new Date(r.getFullYear(), r.getMonth(), r.getDate());
     const n = new Date();
@@ -292,7 +306,7 @@
   }
 
   function formatDate(dateStr) {
-    return new Date(dateStr).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+    return new Date(dateStr).toLocaleDateString(LOCALE(), { day: '2-digit', month: 'short', year: 'numeric' });
   }
 
   // A class, not a hex. The three verdict colours live in the design system so
@@ -308,7 +322,7 @@
     return /^https?:\/\//i.test(h) ? h : `${SERVER}/${String(h).replace(/^\/+/, '')}`;
   }
 
-  // ── agora ─────────────────────────────────────────────────────────
+  // ── now ─────────────────────────────────────────────────────────
   // NEXT.md when the model has written one, and a derived fallback when it has
   // not — an empty decision card is the exact failure this page is fixing.
   function renderNow(next, data) {
@@ -327,7 +341,7 @@
         <p class="dash-now-title">${esc(next.title)}</p>
         ${why}
         <div class="dash-now-act">${act}
-          <span class="dash-now-stamp">de NEXT.md · ${formatDate(next.updated_at)}</span>
+          <span class="dash-now-stamp">${esc(t('dash.fromNext', { date: formatDate(next.updated_at) }))}</span>
         </div>`;
       return;
     }
@@ -336,32 +350,32 @@
     if (due.length) {
       const names = due.slice(0, 3).map(c => pretty(c.concept_id)).join(', ');
       el.innerHTML = `${label}
-        <p class="dash-now-title">Revisar ${due.length} conceito${due.length > 1 ? 's' : ''} vencido${due.length > 1 ? 's' : ''}</p>
-        <div class="dash-now-why"><p>${esc(names)}${due.length > 3 ? ` e mais ${due.length - 3}` : ''}. Revisão vencida vem antes de conteúdo novo.</p></div>
+        <p class="dash-now-title">${esc(t(due.length > 1 ? 'dash.dueMany' : 'dash.dueOne', { n: due.length }))}</p>
+        <div class="dash-now-why"><p>${esc(names)}${due.length > 3 ? esc(t('dash.andMore', { n: due.length - 3 })) : ''}. ${esc(t('dash.dueWhy'))}</p></div>
         <div class="dash-now-act">
-          <a class="lx-btn lx-btn--primary" href="#attention-content">Ver o que está vencido</a>
-          <span class="dash-now-stamp">calculado — nenhum NEXT.md no workspace</span>
+          <a class="lx-btn lx-btn--primary" href="#attention-content">${esc(t('dash.seeOverdue'))}</a>
+          <span class="dash-now-stamp">${esc(t('dash.computed'))}</span>
         </div>`;
       return;
     }
 
     el.innerHTML = `${label}
-      <p class="dash-now-title">Nada vencido. Peça a próxima lição.</p>
-      <div class="dash-now-why"><p>Esta decisão sai de <code class="lx-code">NEXT.md</code>, que o Claude escreve ao fechar uma sessão — lendo o <code class="lx-code">MISSION.md</code> e o que você acabou de demonstrar. Enquanto o arquivo não existir, esta caixa só sabe olhar a agenda.</p></div>`;
+      <p class="dash-now-title">${esc(t('dash.nothingDue'))}</p>
+      <div class="dash-now-why"><p>${t('dash.nothingDueWhy')}</p></div>`;
   }
 
-  // ── precisa de atenção ────────────────────────────────────────────
+  // ── needs attention ────────────────────────────────────────────
   // Every row carries the reason it is there. A list of concepts without a why
   // is the same trophy shelf in a different colour.
   function buildIssues(data) {
     const issues = [];
 
     for (const m of data.misconceptions || []) {
-      if (m.count < 2) continue;   // uma vez é ruído; duas é padrão
+      if (m.count < 2) continue;
       issues.push({
         rank: 0, level: 'bad', icon: ICON.alert,
         what: m.text,
-        why:  `Apareceu ${m.count} vezes na correção — é o mesmo erro voltando, não azar.`,
+        why:  t('dash.repeated', { n: m.count }),
         tags: (m.concepts || []).map(pretty).join(' · ')
       });
     }
@@ -372,8 +386,8 @@
         issues.push({
           rank: 1, level: late > 7 ? 'bad' : 'warn', icon: ICON.clock,
           what: pretty(c.concept_id),
-          why:  `Revisão venceu há ${late} dia${late > 1 ? 's' : ''}. Cada dia parado é retenção que o SM-2 já contava como perdida.`,
-          tags: `intervalo ${c.interval_days}d`
+          why:  t(late > 1 ? 'dash.lateMany' : 'dash.lateOne', { n: late }),
+          tags: t('dash.interval', { n: c.interval_days })
         });
         continue;
       }
@@ -382,8 +396,8 @@
         issues.push({
           rank: 2, level: s < 50 ? 'bad' : 'warn', icon: ICON.down,
           what: pretty(c.concept_id),
-          why:  `Último score ${s}. Abaixo de 75 o conceito não conta como demonstrado.`,
-          tags: c.lesson_id ? `visto em ${c.lesson_id}` : ''
+          why:  t('dash.lastScore', { n: s }),
+          tags: c.lesson_id ? t('dash.seenIn', { id: c.lesson_id }) : ''
         });
       }
     }
@@ -394,7 +408,7 @@
   function renderAttention(issues) {
     const el = document.getElementById('attention-content');
     if (!issues.length) {
-      el.innerHTML = '<span class="dash-empty">Nada pedindo atenção — nenhuma revisão vencida, nenhum erro repetido.</span>';
+      el.innerHTML = `<span class="dash-empty">${esc(t('dash.attentionEmpty'))}</span>`;
       return;
     }
     el.innerHTML = issues.map(i => `
@@ -408,9 +422,9 @@
       </div>`).join('');
   }
 
-  // ── agenda ────────────────────────────────────────────────────────
-  const SOURCE_TAG = { conversation: 'conversa', project: 'projeto', ai_validation: 'IA' };
-  const sourceTag = c => SOURCE_TAG[c.mastery_source] || 'IA';
+  // ── schedule ────────────────────────────────────────────────────────
+  const SOURCE_TAG = { conversation: 'dash.source.conversation', project: 'dash.source.project', ai_validation: 'dash.source.ai' };
+  const sourceTag = c => esc(t(SOURCE_TAG[c.mastery_source] || 'dash.source.ai'));
 
   function renderReviews(concepts) {
     const sorted = [...concepts]
@@ -419,14 +433,14 @@
 
     if (sorted.length === 0) {
       document.getElementById('reviews-content').innerHTML =
-        '<span class="dash-empty">Nenhuma revisão agendada ainda.</span>';
+        `<span class="dash-empty">${esc(t('dash.noReviews'))}</span>`;
       return;
     }
 
     document.getElementById('reviews-content').innerHTML = sorted.map(c => {
       const days  = daysFromNow(c.next_review);
       const cls   = days <= 0 ? 'today' : days <= 3 ? 'soon' : '';
-      const label = days <  0 ? `${-days}d atrás` : days === 0 ? 'Hoje' : days === 1 ? 'Amanhã' : `+${days}d`;
+      const label = esc(days < 0 ? t('dash.daysAgo', { n: -days }) : days === 0 ? t('dash.today') : days === 1 ? t('dash.tomorrow') : `+${days}d`);
       return `
         <div class="dash-review">
           <span class="dash-days ${cls}">${label}</span>
@@ -436,24 +450,24 @@
     }).join('');
   }
 
-  // ── já dominado ───────────────────────────────────────────────────
+  // ── already mastered ───────────────────────────────────────────────────
   // Folded, and without the ease factor: it is SM-2 bookkeeping, and showing it
   // tells the reader about the algorithm rather than about themselves.
   function renderMastered(concepts) {
-    document.getElementById('mastered-summary').textContent = `Já dominado (${concepts.length})`;
+    document.getElementById('mastered-summary').textContent = t('dash.masteredCount', { n: concepts.length });
     document.getElementById('mastered-content').innerHTML = concepts.length
       ? `<div class="dash-chips">${concepts.map(c => {
           const s = lastScore(c);
           return `<span class="dash-chip">${esc(pretty(c.concept_id))}<span>${s === null ? sourceTag(c) : s}</span></span>`;
         }).join('')}</div>`
-      : '<span class="dash-empty">Nenhum conceito dominado ainda.</span>';
+      : `<span class="dash-empty">${esc(t('dash.noMastered'))}</span>`;
   }
 
   function renderLessons(lessons) {
-    document.getElementById('lessons-summary').textContent = `Histórico (${lessons.length})`;
+    document.getElementById('lessons-summary').textContent = t('dash.historyCount', { n: lessons.length });
     if (!lessons.length) {
       document.getElementById('lessons-content').innerHTML =
-        '<span class="dash-empty">Nenhuma lição completada ainda.</span>';
+        `<span class="dash-empty">${esc(t('dash.noLessons'))}</span>`;
       return;
     }
     const sorted = [...lessons].sort((a, b) => new Date(b.completed_at) - new Date(a.completed_at));
@@ -461,7 +475,7 @@
       const cls = scoreClass(l.final_score);
       return `
         <div class="dash-review">
-          <span class="dash-concept">${esc(l.lesson_id)}${l.kind === 'project' ? '<span class="lx-badge">projeto</span>' : ''}</span>
+          <span class="dash-concept">${esc(l.lesson_id)}${l.kind === 'project' ? `<span class="lx-badge">${esc(t('dash.source.project'))}</span>` : ''}</span>
           <span class="dash-meta">${formatDate(l.completed_at)}</span>
           <span class="dash-score" style="flex:0 0 7rem">
             <span class="dash-bar-wrap"><span class="dash-bar b-${cls}" style="display:block;width:${l.final_score}%"></span></span>
@@ -476,11 +490,11 @@
     document.getElementById('summary-row').innerHTML = `
       <div class="lx-card dash-pill dash-pill--due">
         <span class="dash-pill-num">${due}</span>
-        <span class="dash-pill-label">Para revisar hoje</span>
+        <span class="dash-pill-label">${esc(t('dash.dueToday'))}</span>
       </div>
       <div class="lx-card dash-pill dash-pill--attention">
         <span class="dash-pill-num">${issues.length}</span>
-        <span class="dash-pill-label">Pedindo atenção</span>
+        <span class="dash-pill-label">${esc(t('dash.needsAttention'))}</span>
       </div>`;
   }
 
@@ -490,16 +504,16 @@
     try {
       const r = await fetch(`${SERVER}/api/next`, { signal: AbortSignal.timeout(3000) });
       if (r.ok) next = await r.json();
-    } catch { /* a decisão cai para o fallback derivado */ }
+    } catch {}
 
     try {
       const res = await fetch(`${SERVER}/api/progress`, { signal: AbortSignal.timeout(3000) });
-      if (!res.ok) throw new Error('progresso indisponível');
+      if (!res.ok) throw new Error(`progress: ${res.status}`);
       const data = await res.json();
 
       document.getElementById('offline-banner').hidden = true;
       document.getElementById('last-updated').textContent =
-        'Atualizado às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        t('dash.updatedAt', { time: new Date().toLocaleTimeString(LOCALE(), { hour: '2-digit', minute: '2-digit' }) });
 
       const issues = buildIssues(data);
       renderNow(next, data);
@@ -511,13 +525,13 @@
 
     } catch {
       document.getElementById('offline-banner').hidden = false;
-      document.getElementById('last-updated').textContent = 'offline';
+      document.getElementById('last-updated').textContent = t('dash.offlineBadge');
       renderNow(next, null);
       document.getElementById('summary-row').innerHTML =
-        '<div class="lx-card"><span class="dash-empty">Servidor indisponível</span></div>';
+        `<div class="lx-card"><span class="dash-empty">${esc(t('dash.serverDown'))}</span></div>`;
       ['attention-content', 'reviews-content', 'lessons-content', 'mastered-content'].forEach(id => {
         document.getElementById(id).innerHTML =
-          '<span class="dash-empty">Sem dados — servidor offline</span>';
+          `<span class="dash-empty">${esc(t('dash.noData'))}</span>`;
       });
     }
   }
@@ -529,16 +543,15 @@
       const res  = await fetch(`${SERVER}/api/catalog`, { signal: AbortSignal.timeout(3000) });
       const d    = await res.json();
       const n    = ['lessons', 'reviews', 'projects'].map(k => (d[k] || []).length);
-      const bits = [[n[0], 'lição', 'lições'], [n[1], 'revisão', 'revisões'], [n[2], 'projeto', 'projetos']]
+      const bits = [[n[0], 'lesson'], [n[1], 'review'], [n[2], 'project']]
         .filter(([c]) => c > 0)
-        .map(([c, one, many]) => `${c} ${c === 1 ? one : many}`);
+        .map(([c, kind]) => `${c} ${t(c === 1 ? `dash.${kind}One` : `dash.${kind}Many`)}`);
       document.getElementById('library-sub').textContent =
-        bits.length ? `${bits.join(' · ')} — com a nota de cada um` : 'nada no disco ainda';
-    } catch { /* o texto padrão do link já serve */ }
+        bits.length ? t('dash.withScores', { list: bits.join(' · ') }) : t('page.nothingOnDisk');
+    } catch {}
   }
 
-  load();
-  loadCatalog();
+  ensureStrings().then(() => { load(); loadCatalog(); });
 </script>
 </body>
 </html>

@@ -22,6 +22,7 @@ app.use('/api/validate', require('./routes/validate'));
 app.use('/api/progress', require('./routes/progress'));
 app.use('/api/catalog', require('./routes/catalog'));
 app.use('/api/next', require('./routes/next'));
+app.use(require('./routes/localized'));
 
 // Declared before the static handler so it wins over any stray index.html.
 app.use('/', require('./routes/home'));
