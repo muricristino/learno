@@ -1,6 +1,5 @@
 // Inlined rather than referenced from a sprite: <use href="sprite.svg#id"> is
 // blocked over file://, and a lesson has to survive being opened from disk.
-// The library is a build dependency and is never shipped.
 
 const fs   = require('fs');
 const path = require('path');
@@ -14,8 +13,7 @@ function readIcon(name) {
 
   const file = path.join(DIR, `${name}.svg`);
   if (!fs.existsSync(file)) {
-    // Loud, with the near misses, because a typo'd icon that silently rendered
-    // nothing would leave a hole nobody notices until someone looks at the page.
+    // Throw: a typo'd icon rendering nothing leaves a hole nobody notices.
     const all  = fs.readdirSync(DIR).map(f => f.replace(/\.svg$/, ''));
     const near = all.filter(n => n.includes(name) || name.includes(n)).slice(0, 6);
     throw new Error(
@@ -27,7 +25,7 @@ function readIcon(name) {
 
   const raw = fs.readFileSync(file, 'utf8');
   const body = raw
-    .replace(/<!--[\s\S]*?-->/g, '')       // licence comment
+    .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/^[\s\S]*?<svg[^>]*>/, '')    // opening tag, rebuilt below
     .replace(/<\/svg>\s*$/, '')
     .trim();
@@ -36,8 +34,7 @@ function readIcon(name) {
   return body;
 }
 
-// Size comes from CSS (1em by default) so an icon scales with the text it sits
-// beside rather than being pinned to a pixel size at build time.
+// No default size: CSS gives 1em, so an icon scales with the text beside it.
 function icon(name, { className = '', size = null, label = null } = {}) {
   const body = readIcon(name);
   const cls  = ['lx-icon-svg', className].filter(Boolean).join(' ');

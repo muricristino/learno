@@ -1,29 +1,14 @@
-// Where the study workspace is, and what content it holds.
-//
-// Single source of truth: index.js serves this directory statically and
-// routes/catalog.js lists from it. They used to resolve the root separately,
-// from different nesting depths, which is exactly the kind of thing that drifts.
-
 const fs   = require('fs');
 const path = require('path');
 
-// The repo IS the workspace: a learner forks it and studies inside the fork, so
-// lessons/, review/ and reference/ sit beside server/ at the root. There is no
-// skill/ subdirectory and nothing is vendored.
-//
-// LEARNO_WORKSPACE overrides that, and exists for exactly one caller: the
-// engine's own sandbox, which serves fixtures from sandbox/ instead of the
-// learner's real content. It has to come from the real environment rather than
-// .env, since .env is itself looked up inside the workspace.
+// LEARNO_WORKSPACE must come from the real environment, not .env: .env is
+// itself looked up inside the workspace.
 const WORKSPACE = process.env.LEARNO_WORKSPACE
   ? path.resolve(process.env.LEARNO_WORKSPACE)
   : path.join(__dirname, '..');
 
-// A <title> is markup, so entities in it have to be decoded before the title is
-// handed on as text — otherwise "Cache &amp; CDN" reaches the dashboard (and any
-// JSON consumer) with the entity intact and renders as "Cache &amp; CDN".
-// Only the five predefined XML entities plus numeric refs; a lesson title needs
-// nothing richer.
+// A <title> is markup: without decoding, "Cache &amp; CDN" reaches the
+// dashboard with the entity intact.
 function decodeEntities(s) {
   return s.replace(/&(#x?[0-9a-f]+|amp|lt|gt|quot|apos);/gi, (whole, body) => {
     switch (body.toLowerCase()) {
@@ -42,9 +27,6 @@ function decodeEntities(s) {
   });
 }
 
-// Lists the lesson/review HTML actually on disk, independent of any progress
-// recorded in the database — so the dashboard can show everything, finished or
-// not. Titles come from each file's <title>.
 function listDir(rel) {
   const dir = path.join(WORKSPACE, rel);
   let files;
@@ -56,7 +38,7 @@ function listDir(rel) {
       const html = fs.readFileSync(path.join(dir, file), 'utf8');
       const m = html.match(/<title>([^<]*)<\/title>/i);
       if (m && m[1].trim()) title = decodeEntities(m[1].trim());
-    } catch { /* keep filename as title */ }
+    } catch {}
     return { file, title, path: '/' + rel + '/' + file };
   });
 }
@@ -75,9 +57,7 @@ function hasDashboard() {
   return fs.existsSync(path.join(WORKSPACE, DASHBOARD_PATH));
 }
 
-// The workspace language, read from learno.json. The build has its own copy of
-// this table; here only two things need it — which language the model must
-// answer in, and how a date is spelled.
+// The build keeps its own copy of this table; change both together.
 const LANGS = { pt: { name: 'Brazilian Portuguese', locale: 'pt-BR' },
                 en: { name: 'English',              locale: 'en-GB' } };
 

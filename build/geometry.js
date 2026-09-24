@@ -1,8 +1,5 @@
-// Bounds-checking for hand-written diagrams, run as part of the `svg` prop type.
-//
-// Text *width* is out of scope on purpose: measuring a rendered label needs a
-// font and a layout engine, so a long label spilling out of its box still gets
-// through. Everything here is arithmetic on the coordinates the author wrote.
+// Text width is not checked — that needs a font and a layout engine — so a long
+// label spilling out of its box still gets through.
 
 // Text baselines and stroke widths legitimately sit a unit or two off an edge.
 const EDGE_TOLERANCE = 2;
@@ -11,15 +8,12 @@ const OVERLAP_TOLERANCE = 1;
 
 const SHAPES = ['rect', 'circle', 'text', 'path'];
 
-// Attributes worth echoing back, so the author can find the element by search.
 const HANDLE = {
   rect:   ['x', 'y', 'width', 'height'],
   circle: ['cx', 'cy', 'r'],
   text:   ['x', 'y'],
   path:   ['d']
 };
-
-// ── attributes ────────────────────────────────────────────────────────────
 
 function attr(attrs, name) {
   const m = attrs.match(new RegExp(`\\b${name}\\s*=\\s*"([^"]*)"`));
@@ -42,12 +36,10 @@ function describe(el) {
   return `<${el.tag}${parts.length ? ` ${parts.join(' ')}` : ''}>${label}`;
 }
 
-// ── path data ─────────────────────────────────────────────────────────────
-
 const ARITY = { M: 2, L: 2, H: 1, V: 1, C: 6, S: 4, Q: 4, T: 2, A: 7, Z: 0 };
 
-// Every point the pen visits, plus the control points of curves — close enough
-// to a curve's real extent for a bounds check, and it needs no curve maths.
+// Curve control points stand in for the curve's extent: close enough for a
+// bounds check, with no curve maths.
 function pathPoints(d) {
   const tokens = d.match(/[MmLlHhVvCcSsQqTtAaZz]|-?\d*\.?\d+(?:[eE][-+]?\d+)?/g) || [];
   const points = [];
@@ -92,8 +84,6 @@ function pathPoints(d) {
   return points;
 }
 
-// ── shapes ────────────────────────────────────────────────────────────────
-
 const box = (x0, y0, x1, y1) => ({
   x0: Math.min(x0, x1), y0: Math.min(y0, y1),
   x1: Math.max(x0, x1), y1: Math.max(y0, y1)
@@ -131,9 +121,6 @@ function parseViewBox(raw) {
   return { raw: raw.trim(), minX: n[0], minY: n[1], maxX: n[0] + n[2], maxY: n[1] + n[3] };
 }
 
-// ── public ────────────────────────────────────────────────────────────────
-
-// Returns a list of {level, message}, same shape the prop checker speaks.
 function checkGeometry(svg) {
   const root = svg.match(/<svg\b([^>]*)>/);
   if (!root) {

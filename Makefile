@@ -1,17 +1,5 @@
-# learno
-#
-# The repo is the workspace: you fork it and study inside the fork. Your lessons,
-# reviews and notes sit at the root beside the engine — there is no skill/
-# subdirectory and nothing is vendored.
-#
-# Two things can be served, and they are different jobs:
-#
-#   make start     your study workspace  (repo root, port 9990)
-#   make sandbox   the engine's fixtures (sandbox/,   port 9991)
-#
-# The sandbox needs no MongoDB and no Gemini key: LEARNO_MODE=sandbox swaps in an
-# in-memory store and a stubbed validator, so its state resets on every restart
-# and a visual difference means a real regression.
+# learno — `make start` serves your workspace (:9990), `make sandbox` the engine's
+# fixtures (:9991) with an in-memory store and stubbed validator. See `make help`.
 
 PORT      ?= 9990
 SBX_PORT  ?= 9991
@@ -47,12 +35,10 @@ help:
 	@echo
 	@echo "    make stop             kill whatever holds :$(PORT) and :$(SBX_PORT)"
 
-# ── study ────────────────────────────────────────────────────────────────────
+# study
 
-# Your workspace, plus a Cloudflare quick tunnel so lessons open on a phone.
-# The *.trycloudflare.com hostname is random per run and UNAUTHENTICATED —
-# anyone holding it reaches your workspace and the /api routes, which spend your
-# Gemini key. Use `make local` when you are at the desk.
+# The tunnel URL is UNAUTHENTICATED: anyone holding it can hit /api and spend your
+# Gemini key. Use `make local` at the desk.
 start: deps
 	@command -v cloudflared >/dev/null || { echo "cloudflared not installed: brew install cloudflared (or use: make local)"; exit 1; }
 	@set -m; \
@@ -66,10 +52,9 @@ local: deps
 	@echo "workspace → http://localhost:$(PORT)/"
 	@PORT=$(PORT) node --watch $(SERVER)/index.js
 
-# ── authoring ────────────────────────────────────────────────────────────────
+# authoring
 
-# The catalog runs first: both artifacts come from the component files, so a
-# build always ships a registry and a gallery matching the vocabulary it used.
+# Catalog first, so the registry and gallery match the components the build used.
 build: deps catalog
 	@node build/render.js --all
 
@@ -80,15 +65,12 @@ lesson: deps
 	@test -n "$(SRC)" || { echo "usage: make lesson SRC=lessons/0011-name"; exit 1; }
 	@node build/render.js $(SRC)
 
-# What the pipeline actually bought. HAND is a glob of hand-written lessons to
-# measure against — they live in a study workspace, not here.
-#   make compare HAND='../system-design/lessons/*.html' SRC=lessons/0011-async-jobs
 compare: deps
 	@test -n "$(HAND)" || { echo "usage: make compare HAND='../study/lessons/*.html' SRC=lessons/0011-name"; exit 1; }
 	@test -n "$(SRC)"  || { echo "usage: make compare HAND='../study/lessons/*.html' SRC=lessons/0011-name"; exit 1; }
 	@node build/compare.js $(HAND) --against $(SRC)
 
-# ── engine development ───────────────────────────────────────────────────────
+# engine development
 
 sandbox: deps
 	@command -v cloudflared >/dev/null || { echo "cloudflared not installed: brew install cloudflared (or use: make sandbox-local)"; exit 1; }
@@ -112,9 +94,7 @@ check: deps
 	@node -e "JSON.parse(require('fs').readFileSync('$(SANDBOX)/fixtures/seed.json','utf8'))" \
 	  && echo "ok — server and build parse, seed.json is valid"
 
-# The failure paths matter as much as the happy one: a lesson that renders
-# half-way still looks finished. Each of these must fail, so the target inverts
-# the exit code and complains if one of them ever succeeds.
+# Each of these must be refused, so success is the failure here.
 check-errors: deps
 	@for f in unknown-component dangling-ref coloured-svg overflow-svg missing-prop bad-lang bad-icon wrong-shape; do \
 	  echo "──────── $$f ────────"; \

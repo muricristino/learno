@@ -1,6 +1,3 @@
-// components/local/ wins over components/core/ on a name collision, so a fork can
-// override a core component without editing an upstream file.
-
 const fs   = require('fs');
 const path = require('path');
 

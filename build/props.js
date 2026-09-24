@@ -1,19 +1,3 @@
-// Prop validation, shared by the lesson build and the component catalog.
-//
-// A type is one of:
-//
-//   string  number  bool  svg          scalars
-//   array                               any array (avoid — see below)
-//   array<T>                            array whose every element is T
-//   object                              any object (avoid)
-//   {a: T, b: T?}                       object with exactly these fields
-//   T?                                  optional
-//
-// Element shapes exist because a bare `array` accepts [{label,isCorrect}] just as
-// happily as [{text,correct}], and a wrong guess builds cleanly into a quiz where
-// no option is correct. `svg` additionally rejects hardcoded colour and
-// bounds-checks the geometry — see build/geometry.js.
-
 const { checkGeometry } = require('./geometry');
 
 const COLOUR_IN_SVG = /#[0-9a-fA-F]{3,8}\b|\brgba?\(|\bhsla?\(|\sfill="(?!none")|\sstroke="/;
@@ -25,10 +9,7 @@ const SCALARS = {
   svg:    v => typeof v === 'string'
 };
 
-// ── type parsing ──────────────────────────────────────────────────────────
-
 function splitFields(body) {
-  // Split on commas that are not inside <> or {}.
   const out = [];
   let depth = 0, current = '';
   for (const ch of body) {
@@ -67,8 +48,6 @@ function parseType(raw) {
   throw new Error(`unknown prop type "${src}"`);
 }
 
-// ── value checking ────────────────────────────────────────────────────────
-
 function describe(v) {
   if (Array.isArray(v)) return 'array';
   if (v === null) return 'null';
@@ -78,8 +57,6 @@ function describe(v) {
 const error = message => ({ level: 'error', message });
 const warn  = message => ({ level: 'warn',  message });
 
-// Returns [] when the value fits, or a list of {level, message} describing where
-// it does not. `path` is threaded through so a bad element names its index.
 function checkValue(value, type, path) {
   if (value === undefined || value === null) {
     return type.optional ? [] : [error(`${path} is required`)];
@@ -103,7 +80,6 @@ function checkValue(value, type, path) {
     return value.flatMap((el, i) => checkValue(el, type.of, `${path}[${i}]`));
   }
 
-  // object
   if (describe(value) !== 'object') return [error(`${path} should be object, got ${describe(value)}`)];
   if (!type.fields) return [];
 
@@ -118,9 +94,6 @@ function checkValue(value, type, path) {
   return found;
 }
 
-// ── public ────────────────────────────────────────────────────────────────
-
-// Returns a list of {level, message}; the caller decides how to report them.
 function validateProps(component, props) {
   const spec  = component.meta.props || {};
   const found = [];

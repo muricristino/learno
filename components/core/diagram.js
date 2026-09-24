@@ -17,10 +17,8 @@ module.exports = {
     }
   },
 
-  // No margin and no padding override here on purpose: how far a figure sits
-  // from its neighbour is the container's business, and a diagram card that
-  // padded itself would have won on specificity and ignored the phone
-  // breakpoint — which is exactly how a card ends up cramped on a small screen.
+  // No margin or padding here on purpose: a self-padded card wins on specificity
+  // and ignores the phone breakpoint.
   css: `
 .lx-figure > .lx-card { display: block; }
 `,

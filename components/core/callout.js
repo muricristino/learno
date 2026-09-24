@@ -1,5 +1,4 @@
-// Three variants and no more: a callout that can be any colour stops meaning
-// anything. An unknown variant degrades to note rather than rendering unstyled.
+// An unknown variant degrades to note rather than rendering unstyled.
 
 const { icon } = require('../../build/icons');
 const { t } = require('../../build/strings');

@@ -1,8 +1,3 @@
-// What the user has to hand in, stated so it cannot be misread. This was a
-// `callout` first, which buried the one sentence that matters — the artifact —
-// inside a paragraph of context. A project whose delivery is ambiguous is a
-// project nobody starts.
-
 const { icon } = require('../../build/icons');
 const { t } = require('../../build/strings');
 const { inline, rich } = require('../../build/text');

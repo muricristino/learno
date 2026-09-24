@@ -1,11 +1,3 @@
-// Single place that decides where the routes' data lives.
-//
-//   LEARNO_MODE=sandbox  → in-memory store seeded from sandbox/fixtures/seed.json
-//   anything else        → the real MongoDB pointed at by MONGODB_URI
-//
-// Routes just `require('../db').getDb()` and are otherwise unaware of the mode,
-// so the sandbox exercises their real logic (SM-2 scheduling included).
-
 const fs   = require('fs');
 const path = require('path');
 
@@ -13,10 +5,8 @@ const SANDBOX = process.env.LEARNO_MODE === 'sandbox';
 
 let _db;
 
-// Fixture dates are written as { "$daysFromNow": -3 } rather than fixed
-// timestamps, so a seeded review stays "due today" no matter when the sandbox
-// is run — otherwise every fixture rots and the dashboard's pending-review
-// section silently empties out.
+// Fixture dates are relative ({ "$daysFromNow": -3 }) so seeded reviews stay due
+// whenever the sandbox runs; fixed timestamps would silently empty that section.
 function resolveDates(value) {
   if (Array.isArray(value)) return value.map(resolveDates);
   if (value && typeof value === 'object') {

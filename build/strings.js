@@ -1,13 +1,5 @@
-// Every word the engine puts on a page, in one table.
-//
-// The language is a property of the workspace, not of a lesson: one fork studies
-// one subject, in one language, and repeating a `lang` field in every envelope
-// would be the same fact written a hundred times. It lives in `learno.json` at
-// the workspace root.
-//
-// Adding a language means adding a key here and nothing else. A missing entry
-// falls back to Portuguese rather than rendering an empty button — a blank
-// control is worse than one in the wrong language.
+// A missing entry falls back to Portuguese rather than rendering an empty
+// button — a blank control is worse than one in the wrong language.
 
 const fs = require('fs');
 const path = require('path');
@@ -143,8 +135,6 @@ const STRINGS = {
   }
 };
 
-// Read once. The build is a single process per run, and a workspace does not
-// change language halfway through rendering.
 let lang = null;
 
 function language() {
@@ -163,8 +153,6 @@ function t(key) {
   return table[key] ?? STRINGS[DEFAULT_LANG][key] ?? key;
 }
 
-// The subset the browser needs, shipped inside #lx-config so the runtime never
-// has to fetch anything to know what a button says.
 function runtimeStrings() {
   const out = {};
   for (const key of Object.keys(STRINGS[DEFAULT_LANG])) {

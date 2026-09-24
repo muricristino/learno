@@ -1,11 +1,8 @@
 const path = require('path');
 
-// Where the study workspace lives — see server/workspace.js.
 const { WORKSPACE, DASHBOARD_PATH } = require('./workspace');
 
-// Resolved from WORKSPACE rather than the shell's cwd, so the server behaves
-// the same however it is launched. Must stay above the ./db require, which
-// reads LEARNO_MODE at import time.
+// Must stay above the ./db require, which reads LEARNO_MODE at import time.
 require('dotenv').config({ path: path.join(WORKSPACE, '.env') });
 
 const express = require('express');
@@ -22,34 +19,25 @@ app.get('/api/health', (_req, res) =>
 );
 app.use('/api/validate', require('./routes/validate'));
 app.use('/api/progress', require('./routes/progress'));
-app.use('/api/catalog', require('./routes/catalog'));   // lists all lesson/review files on disk
-app.use('/api/next', require('./routes/next'));         // NEXT.md — the one thing only the model knows
-app.use('/debug', require('./routes/debug'));   // /debug/mic — mic & Web Speech diagnostics
+app.use('/api/catalog', require('./routes/catalog'));
+app.use('/api/next', require('./routes/next'));
+app.use('/debug', require('./routes/debug'));
 
-// `/` → the dashboard (or an index of the workspace, if it isn't seeded yet).
 // Declared before the static handler so it wins over any stray index.html.
 app.use('/', require('./routes/home'));
 
-// The shared design system and runtime. These belong to the engine, not to the
-// study content, so they are mounted from the engine root rather than the
-// workspace — which is what lets the sandbox (whose workspace is sandbox/)
-// reach them. Once the repo is flat, the two roots coincide and this mount
-// simply keeps working.
+// Mounted from the engine root, not the workspace, so the sandbox (whose
+// workspace is sandbox/) still reaches them.
 app.use('/assets', express.static(path.join(__dirname, '..', 'assets')));
 
-// Now that the repo IS the workspace, the static root contains the engine's own
-// dependencies. Nothing under these belongs to a lesson, and `make start` puts
-// the whole thing behind a public URL — so they are refused rather than served.
-// Dotfiles (.env, .git) are already ignored by express.static.
+// The static root is the repo itself, and `make start` exposes it publicly.
 const NEVER_SERVE = /^\/(node_modules|\.git)(\/|$)/;
 app.use((req, res, next) => (NEVER_SERVE.test(req.path) ? res.status(404).json({ error: 'Not found' }) : next()));
 
-// Serve the workspace statically so lessons open over http://localhost (a secure
-// context) instead of file:// — required for the mic / Web Speech API to work and
-// for the permission to be remembered.
+// Lessons must load over http://localhost (a secure context), not file://, or
+// the mic / Web Speech API fails and its permission is never remembered.
 app.use(express.static(WORKSPACE));
 
-// Unknown routes
 app.use((_req, res) => res.status(404).json({ error: 'Not found' }));
 
 const PORT = process.env.PORT || 9990;
@@ -59,9 +47,7 @@ app.listen(PORT, () => {
     console.log('  Store        : in-memory (seeded, resets on restart)');
     console.log('  Validator    : stubbed — !0 / !p / !ok / !m force each score band');
   } else {
-    // Printed because .env is read once at boot: editing it while the server is
-    // running changes nothing, and the symptom is a validation that fails for a
-    // reason the page can only guess at.
+    // .env is read once at boot; printing it makes a stale config visible.
     console.log(`  Gemini model : ${process.env.GEMINI_MODEL || 'gemini-2.5-flash'}` +
                 `${process.env.GEMINI_API_KEY ? '' : '   ⚠ GEMINI_API_KEY not set'}`);
     console.log(`  MongoDB DB   : ${process.env.MONGODB_DB  || 'system_design_learn'}`);

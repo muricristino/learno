@@ -1,6 +1,3 @@
-// The page shell. Header, progress bar, offline banner and footer are emitted
-// here rather than authored, so a lesson only ever contains content blocks.
-
 const { icon } = require('./icons');
 const { t, runtimeStrings } = require('./strings');
 
@@ -9,9 +6,6 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '
 // Relative so the page works over file:// as well as http://.
 function assetPrefix(depth = 1) { return '../'.repeat(depth); }
 
-// The phases a lesson declares, in order, taken from the blocks themselves —
-// the progress bar and the unlock sequence are facts about the lesson, not
-// something an author should have to restate and keep in sync.
 function phasesOf(blocks = []) {
   return blocks
     .filter(b => b && b.component === 'phase' && b.props && b.props.id != null)
@@ -24,10 +18,8 @@ function hasComponent(blocks, name) {
   );
 }
 
-// Applied before the first paint. A theme restored by the deferred runtime would
-// show one frame of the wrong theme on every load, which is far more noticeable
-// than the four lines it takes to avoid. Emitted identically into every lesson —
-// it is engine code that happens to live in the page, not authored script.
+// Inline and before first paint: restored by the deferred runtime, the theme
+// would flash wrong for one frame on every load.
 const THEME_BOOT = `<script>(function(){try{var d=document.documentElement,` +
   `t=localStorage.getItem('lx-theme'),a=localStorage.getItem('lx-accent');` +
   `if(t&&t!=='auto')d.setAttribute('data-theme',t);` +
@@ -85,8 +77,7 @@ function page({ id, title, subtitle, tag, icon: lessonIcon, blocks, concepts = [
                   hasComponent(blocks, 'quiz') ||
                   hasComponent(blocks, 'teachback');
 
-  // Configuration travels as data, not as generated code: a lesson never
-  // contains script of its own, so nothing has to be escaped into a JS context.
+  // Data, not generated code, so nothing is ever escaped into a JS context.
   const config = JSON.stringify({ lesson: id, concepts, phases, strings: runtimeStrings() });
 
   const progress = phases.length

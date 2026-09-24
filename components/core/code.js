@@ -1,13 +1,10 @@
-// highlight.js runs here, never in the browser — the page gets plain spans and no
-// script. Colours come from the design system rather than an hljs theme, so code
-// follows the page theme instead of carrying a second palette.
+// Colours come from the design system, not an hljs theme, so code follows the
+// page theme instead of carrying a second palette.
 
 const hljs = require('highlight.js');
 
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-// Plain text is a legitimate choice — a shell transcript or a log excerpt has
-// nothing to highlight — so it is spelled explicitly rather than left implicit.
 const PLAIN = new Set(['text', 'txt', 'plain', 'none', 'output', 'log']);
 
 module.exports = {
@@ -108,8 +105,7 @@ module.exports = {
       // highlight.js escapes its own output, so no second pass here.
       body = hljs.highlight(String(source), { language: lang, ignoreIllegals: true }).value;
     } else {
-      // Loud rather than silently unhighlighted: a typo'd language would
-      // otherwise render as plain text that looks deliberate.
+      // Throw: a typo'd language would render as plain text that looks deliberate.
       throw new Error(
         `unknown language "${lang}". Use one highlight.js knows ` +
         `(js, ts, python, sql, bash, json, yaml, go, rust, java, html, css…), ` +

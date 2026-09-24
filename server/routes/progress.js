@@ -1,14 +1,10 @@
 const router = require('express').Router();
 
-// Real Mongo, or the in-memory sandbox store — see server/db.js.
 const { getDb } = require('../db');
 const { languageLocale } = require('../workspace');
 
-// ── SM-2 algorithm ───────────────────────────────────────────
-// A project is not a longer lesson. It asks the concept to be used under a
-// constraint it was never taught under, which makes its evidence asymmetric:
-// passing says more than a teach-back at the same score, so the interval goes
-// further. Failing says less — see the loop below.
+// Passing a project is stronger evidence than a lesson at the same score, so the
+// interval goes further. Failing says less — see the POST loop.
 const PROJECT_BOOST = 1.5;
 
 function sm2(score, current, { project = false } = {}) {
@@ -21,12 +17,11 @@ function sm2(score, current, { project = false } = {}) {
     ease_factor   = Math.min(ease_factor + (project ? 0.15 : 0.1), 4.0);
   } else if (score >= 75) {
     interval_days = Math.round(interval_days * ease_factor * boost);
-    // ease_factor unchanged
   } else if (score >= 41) {
     interval_days = 1;
     ease_factor   = Math.max(ease_factor - 0.15, 1.3);
   } else {
-    interval_days = 0; // review today
+    interval_days = 0;
     ease_factor   = Math.max(ease_factor - 0.2, 1.3);
   }
 
@@ -36,8 +31,6 @@ function sm2(score, current, { project = false } = {}) {
   return { interval_days, ease_factor, next_review };
 }
 
-// ── POST /api/progress ───────────────────────────────────────
-// Saves a completed lesson and updates SM-2 for each concept demonstrated
 router.post('/', async (req, res) => {
   const {
     lesson_id,
@@ -58,7 +51,6 @@ router.post('/', async (req, res) => {
   try {
     const db = await getDb();
 
-    // Pull all section results already saved by /api/validate for this lesson
     const savedSections = await db.collection('section_results')
       .find({ lesson_id })
       .sort({ recorded_at: 1 })
@@ -66,7 +58,6 @@ router.post('/', async (req, res) => {
 
     const allSections = savedSections.length ? savedSections : sections;
 
-    // Save or update lesson record
     await db.collection('lessons').updateOne(
       { lesson_id },
       {
@@ -81,16 +72,13 @@ router.post('/', async (req, res) => {
       { upsert: true }
     );
 
-    // Update SM-2 for each demonstrated concept
     const source  = isProject ? 'project' : 'ai_validation';
     const updates = [];
     for (const concept_id of concepts_demonstrated) {
       const existing = await db.collection('concepts').findOne({ concept_id });
 
-      // A weak project only demotes the concepts it can name. The deliverable
-      // touched several at once and does not say which one broke, so resetting
-      // all of them would throw away weeks of evidence on a guess. The score is
-      // still recorded — the history shows the dip, the schedule does not move.
+      // A weak project only demotes the concepts it names as missed: it cannot say
+      // which one broke, so the rest keep their schedule and only log the score.
       if (isProject && final_score < 75 && !missed.has(concept_id)) {
         await db.collection('concepts').updateOne(
           { concept_id },
@@ -129,7 +117,6 @@ router.post('/', async (req, res) => {
       updates.push({ concept_id, next_review, interval_days });
     }
 
-    // Return the earliest next_review for display in the lesson
     const earliest = updates.reduce(
       (min, c) => (c.next_review < min ? c.next_review : min),
       updates[0]?.next_review ?? new Date()
@@ -151,18 +138,10 @@ router.post('/', async (req, res) => {
   }
 });
 
-// ── misconceptions ───────────────────────────────────────────
-// /api/validate has been writing what the user got wrong, per section, since
-// the beginning, and nothing ever read it back. It is the most valuable data
-// here — a concept missed twice for the same reason is worth more than any
-// score — so the grouping happens on the way out.
-//
-// Grouped in JS rather than with an aggregation pipeline: the sandbox store has
-// find/updateOne/insertOne and nothing else, and a dashboard that only works
-// against real Mongo is a dashboard that cannot be developed against fixtures.
+// Grouped in JS, not an aggregation pipeline: the sandbox store (memdb.js) has
+// no aggregate().
 
-// The text comes from a model, so "janela deslizante" and "Janela Deslizante."
-// are the same mistake spelled two ways and have to collapse into one row.
+// Model-written text: "janela deslizante" and "Janela Deslizante." must collapse.
 const normalise = s => String(s)
   .toLowerCase()
   .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -182,8 +161,7 @@ function groupMisconceptions(sections) {
       const hit = byKey.get(key) || { key, text, count: 0, concepts: [], lessons: [], last_seen: null };
 
       hit.count += 1;
-      // The most recent phrasing wins the label: it is the one the user last
-      // read in their feedback.
+      // Latest phrasing wins: it is the one the user last read.
       if (!hit.last_seen || (at && at > hit.last_seen)) { hit.last_seen = at; hit.text = text; }
       if (s.concept_id && !hit.concepts.includes(s.concept_id)) hit.concepts.push(s.concept_id);
       if (s.lesson_id  && !hit.lessons.includes(s.lesson_id))   hit.lessons.push(s.lesson_id);
@@ -196,8 +174,6 @@ function groupMisconceptions(sections) {
     b.count - a.count || new Date(b.last_seen ?? 0) - new Date(a.last_seen ?? 0));
 }
 
-// ── GET /api/progress ────────────────────────────────────────
-// Read full mastery state — used by the dashboard (my-learning.html)
 router.get('/', async (req, res) => {
   try {
     const db = await getDb();
@@ -210,7 +186,6 @@ router.get('/', async (req, res) => {
       db.collection('section_results').find({}).toArray()
     ]);
 
-    // Attach section_results to each lesson
     for (const lesson of lessons) {
       if (!lesson.sections?.length) {
         lesson.sections = await db.collection('section_results')

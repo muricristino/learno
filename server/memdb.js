@@ -1,20 +1,3 @@
-// Minimal in-memory stand-in for the slice of the MongoDB driver the routes use.
-//
-// Exists so `LEARNO_MODE=sandbox` runs with no database at all: a client can
-// clone the repo and see the lessons and dashboard without provisioning Mongo.
-// It deliberately implements the real driver's shape rather than faking the
-// routes, so progress.js keeps running its actual SM-2 code path against it.
-//
-// Supported surface (everything routes/*.js touches, nothing more):
-//   collection(name).find(query).sort(spec).limit(n).toArray()
-//   collection(name).findOne(query)
-//   collection(name).updateOne(filter, { $set, $push }, { upsert })
-//   collection(name).insertOne(doc)
-//
-// Query matching is plain field equality plus `$lte`/`$gte` on dates/numbers —
-// the only operators the routes use. Anything richer is a deliberate omission;
-// if a route grows a new operator this file must grow with it.
-
 function matches(doc, query = {}) {
   return Object.entries(query).every(([key, cond]) => {
     const value = doc[key];
@@ -49,8 +32,7 @@ function applySort(docs, spec = {}) {
   });
 }
 
-// Deep-ish clone so callers can't mutate stored docs by accident, the way a
-// real driver's BSON round-trip would prevent.
+// Stands in for the driver's BSON round-trip, so callers can't mutate stored docs.
 function clone(doc) {
   return JSON.parse(JSON.stringify(doc), (_k, v) =>
     typeof v === 'string' && /^\d{4}-\d{2}-\d{2}T[\d:.]+Z$/.test(v) ? new Date(v) : v

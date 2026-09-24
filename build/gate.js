@@ -1,6 +1,5 @@
-// Two traps this exists to keep in one place: the lock must sit OUTSIDE the
-// blurred element (a child of a blurred parent is blurred too), and the blurred
-// body must carry aria-hidden or a screen reader reads the answer out.
+// The lock sits OUTSIDE the blurred body (a blurred parent blurs its children),
+// and the body carries aria-hidden or a screen reader reads the answer out.
 
 const { icon } = require('./icons');
 
