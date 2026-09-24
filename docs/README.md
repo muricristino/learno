@@ -42,5 +42,3 @@ The rules Claude follows live at the root: [SKILL.md](../SKILL.md) for teaching,
     </td>
   </tr>
 </table>
-
-These screenshots predate the current page background.
