@@ -1,336 +1,49 @@
 # learno
 
-Teaching yourself something usually fails the same way. Three good chapters one week, nothing
-for two, and by the time you come back you have lost the thread and the momentum together.
-Nothing was checking whether you actually understood any of it — you were, and you are a
-generous marker.
+A tutor that runs inside Claude Code and keeps track of what you actually understand.
 
-**learno is a tutor that keeps the thread for you.** You say what you want to learn, and it
-refuses to start until the goal is one you can *win* — not "learn English" but "pass the
-Detran theory exam", "solve most LeetCode mediums unaided", "pass a senior system design
-interview". Something with a day and a verdict. It will also tell you, up front, which part
-of your goal it cannot teach you: it explains, tests and schedules, and it is honest that
-speaking hours and time behind a wheel come from somewhere else.
+<img alt="A learno lesson" src="docs/images/lesson.png" width="720">
 
-With the goal fixed, it finds the field's canonical books rather than a blog post and teaches
-in sessions you can finish in one sitting. Every session opens by telling you where you stand
-— what is due today, what you keep getting wrong, what comes next — because it read your
-record before you arrived.
+Tell it what you want to learn. It asks why, and what you need to be able to do by when, then
+finds the standard books on the subject and teaches in lessons you can finish in one sitting.
+You answer in your own words and a model grades what you wrote. Each concept comes back for
+review around the time you would forget it, and a mistake you keep making gets named.
 
-You answer in your own words, not by highlighting. Each section asks you to explain the idea
-and a model scores what you wrote, so *"yeah, I get it"* has to survive contact with a
-sentence. Weeks later that concept comes back for review on roughly the day you were about
-to lose it. When a whole topic closes you get a project: build the real thing under a
-constraint nobody taught you, against a rubric you can read before you start.
+Your lessons, answers and scores stay in one folder on your computer.
 
-And it notices what you cannot. The mistake you made in lesson 3 and again in lesson 7 is
-the same mistake, and it says so — a misconception that repeats is worth more than any score.
+## Get started
 
-What you keep is yours: every lesson, every answer, every score, on your own disk and in
-your own git history. Bring any subject — chess openings, Kubernetes, Kant, options pricing,
-the Portuguese subjunctive.
-
----
-
-## What it looks like
-
-<table>
-  <tr>
-    <td width="50%" valign="top">
-      <img width="100%" alt="A lesson: analogy before the term, then a themed diagram" src="docs/images/lesson.png" />
-      <sub><b>A lesson.</b> The analogy lands before the concept is named. Sections unlock as you answer.</sub>
-    </td>
-    <td width="50%" valign="top">
-      <img width="100%" alt="The dashboard, opening with the decision from NEXT.md" src="docs/images/dashboard.png" />
-      <sub><b>The dashboard.</b> Opens with the decision, then what needs attention <i>and why</i> — a misconception seen three times, a review two days overdue.</sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <img width="100%" alt="A project brief: the deliverable and the rubric, before the attempt" src="docs/images/project.png" />
-      <sub><b>A project.</b> When a pattern closes, you build the thing. The rubric is in the brief, before you start.</sub>
-    </td>
-    <td width="50%" valign="top">
-      <img width="100%" alt="The library: every lesson, review and project with its score" src="docs/images/library.png" />
-      <sub><b>The library.</b> Everything on disk, with what you scored and when — or “not started”.</sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <img width="100%" alt="An inline SVG diagram using the design system's classes" src="docs/images/diagram.png" />
-      <sub><b>Diagrams are inline SVG</b> drawn with the design system's classes, so they follow the theme and work offline.</sub>
-    </td>
-    <td width="50%" valign="top">
-      <img width="100%" alt="Theme and accent picker in the top bar" src="docs/images/settings.png" />
-      <sub><b>Light, dark or system</b>, and three accents. Every page follows, including the diagrams.</sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <img width="100%" alt="The component gallery, rendered from each component's own demo" src="docs/images/components.png" />
-      <sub><b>The component gallery</b> is generated from each component's own <code>meta.demo</code> — it cannot go stale.</sub>
-    </td>
-    <td width="50%" valign="top">
-      <img width="100%" alt="The dashboard on a phone" src="docs/images/phone.png" />
-      <sub><b>On a phone.</b> <code>make start</code> opens a Cloudflare tunnel so lessons read on the sofa.</sub>
-    </td>
-  </tr>
-</table>
-
----
-
-## Start everything, in one command
-
-Needs **Node 22.13+**, **git** and **Claude Code, logged in**. No keys, no accounts.
+You need Node 22.13 or newer, git, and Claude Code with a logged-in account. No API keys.
 
 ```bash
 npx muricristino/learno new chess
 ```
 
-It checks those three, asks the lesson language, creates `chess/` with an empty study,
-installs the dependencies and opens Claude with `/learno`. Claude asks what you want to learn
-and why, writes the plan with you, then the first lesson.
-
-Already inside Claude Code? Run it there with `!`, then send any message — *"let's start"*.
-The command's output tells that same session where the study is, and it carries on from
-there without anyone typing `cd`:
+This creates a `chess` folder and opens Claude in it. If you are already in a Claude Code
+session, run the same command there with `!` in front, then send any message, like "let's
+start":
 
 ```
 ! npx muricristino/learno new chess
 ```
 
-Already have a workspace? From its root, any of these is enough:
+## What studying looks like
 
-```bash
-claude "start learno and tell me what is due today"
-claude "/learno"                       # the skill, by name
-claude "teach me the next thing"
-```
+The first session is a conversation: what you want to learn, why, by when, and how much time
+you have. Claude writes that down as your goal and plans the topics around it.
 
-The first session interviews you — why you are learning this, by when, how you learn — and
-writes `MISSION.md`, `NOTES.md` and a tiered `RESOURCES.md` with the field's canonical
-sources. You do not have to know the books; finding them is the skill's job.
+Each lesson opens with an everyday analogy, asks you to explain the idea back, and schedules
+its review. When you finish a whole topic, you get a project: build or write the real thing,
+against a rubric you can read before you start.
 
----
+To continue another day, open Claude in the study folder and type `/learno`. It starts with
+what is due and what keeps going wrong. The same is on the dashboard at
+http://localhost:9990 while the local server runs.
 
-## How a study is laid out
+Any subject works, from chess openings to Kant, in the language you write to Claude in.
 
-**Fork this repo. The fork is your study workspace** — your content and the engine share the
-root, nothing is vendored, and there is no submodule to initialise.
+## Learn more
 
-You never write a lesson by hand, and you never write HTML: Claude authors the structure and
-the words, and the engine supplies the design system, the progress bar, the section gating,
-the offline fallback and the voice dictation.
-
-```
-learno/                       ← your fork
-│
-│  yours ─────────────────────────────────────────
-├── .env                      ← optional overrides   (never committed)
-├── learno.db                 ← your progress: scores, schedule, misconceptions (SQLite)
-├── MISSION.md                ← why you are learning this, and the curriculum as patterns
-├── NOTES.md                  ← preferences, stack, teaching style, what to avoid
-├── NEXT.md                   ← what to do now; the dashboard opens with it
-├── RESOURCES.md              ← trusted sources, tiered
-├── lessons/                  ← NNNN-name.json + .yml → .html
-├── review/                   ← spaced-repetition revisions, same pipeline
-├── projects/                 ← briefs: the artifact you build when a pattern closes
-├── learning-records/         ← human-readable notes on what you demonstrated
-├── reference/
-│   ├── glossary.html         ← canonical concept vocabulary
-│   ├── my-learning.html      ← the dashboard
-│   └── library.html          ← everything on disk, with scores
-│
-│  engine ────────────────────────────────────────
-├── SKILL.md                  ← the brain: session loop, mastery rules, authoring rules
-├── CLAUDE.md                 ← working agreement for the agent
-├── LESSON-FORMAT.md          ← the authoring contract
-├── COMPONENTS.md             ← the component vocabulary  (generated)
-├── formats/                  ← templates for MISSION, RESOURCES, learning records
-├── components/core/          ← upstream's components
-├── components/local/         ← yours; wins on a name collision
-├── build/                    ← the renderer, validators and catalog
-├── assets/                   ← design system + lesson runtime
-├── sandbox/                  ← fixtures for working on the engine itself
-├── agents/learno-analyst.md  ← read-only progress analyst
-├── bin/learno.js             ← read the progress store from the terminal
-└── server/                   ← Express: grader + SQLite store
-```
-
-Upstream ships `lessons/`, `review/`, `projects/`, `learning-records/` and `reference/`
-empty, so `git pull upstream master` never touches your content. What your Claude invents
-under `components/local/` stays in your fork.
-
----
-
-## Lessons are authored, not written
-
-A lesson is two files. The `.json` decides structure — which components, in what order. The
-`.yml` holds everything a human reads. Anything starting with `@` in the JSON is a path into
-the YAML.
-
-```json
-{ "component": "recall",
-  "props": { "conceptId": "hash_ring", "phase": "2",
-             "question": "@p2.question", "summary": "@p2.summary" } }
-```
-
-The build refuses to write a page that has any error, because **a lesson missing a block
-still looks finished**. It checks that every component exists, that props match the declared
-shape, that every `@` reference resolves, that no YAML key is written and then never used,
-that diagram geometry fits its `viewBox`, and that every concept id a `recall` cites is
-declared in the envelope — the server drops undeclared ids when scoring, so the lesson would
-appear to work and quietly record nothing.
-
-```sh
-make lesson SRC=lessons/0011-async-jobs   # must report no errors AND no warnings
-make build                                # every lesson, review and project
-make catalog                              # regenerate COMPONENTS.md + the gallery
-```
-
-There are **15 components** — `analogy`, `phase`, `prose`, `code`, `diagram`, `quiz`,
-`recall`, `teachback`, `flashcards`, `table`, `compare`, `callout`, `source`, `rubric`,
-`deliverable`. Naming anything outside that list fails the build, which is what keeps the
-vocabulary meaningful rather than a suggestion. Need something genuinely new? Drop a file in
-`components/local/` and it joins the registry and the gallery automatically. See
-[`COMPONENTS.md`](COMPONENTS.md) and [`LESSON-FORMAT.md`](LESSON-FORMAT.md).
-
----
-
-## Mastery, and the schedule
-
-A concept counts as learned when **any** of three sources confirms it, and the dashboard
-always shows which one:
-
-| Source | How |
-|---|---|
-| **AI-validated** | you score ≥ 75 on the lesson's teach-back; a model scores the free text |
-| **Conversation** | you use the concept correctly, unprompted, in chat — recorded immediately, no lesson needed |
-| **Project** | you applied it under a constraint it was never taught under, and the delivery met the rubric |
-
-SM-2 then schedules the review. Projects are deliberately **asymmetric**: passing pushes the
-interval 1.5× further than the same score from a lesson, because applying is stronger
-evidence than explaining — while failing demotes *only* the concepts named, since a project
-touches several at once and the delivery does not say which one broke.
-
-`/api/progress` also groups **misconceptions** across every section you have ever answered.
-That data was recorded from the first lesson and displayed nowhere; a mistake that shows up
-twice is worth more than any score, so the dashboard leads with it.
-
----
-
-## Prerequisites
-
-| Requirement | Why |
-|---|---|
-| **Node.js ≥ 22.13** | runs the server and the renderer; its built-in `node:sqlite` is the progress store |
-| **Claude Code**, logged in | the skill is Claude reading `SKILL.md`, and `claude -p` grades the free-text answers |
-| **`cloudflared`** (optional) | `make start` publishes a URL so lessons open on a phone |
-
----
-
-## Language
-
-One workspace, one language. It lives in `learno.json` at the root:
-
-```json
-{ "lang": "en" }
-```
-
-`en` (the default, and the fallback for any missing string) or `pt`. It sets every
-word the engine puts on a page — lessons, dashboard, library — the `<html lang>`,
-the default dictation language, the date format, and — the one that is not
-cosmetic — **the language the model writes its feedback in**. Without it, an
-answer written in English came back scored in Portuguese.
-
-Lesson *content* is separate: it is whatever the author wrote, and `NOTES.md` is
-where you say which language that should be.
-
-Adding a language is one entry in `build/strings.js`.
-
----
-
-## Environment variables
-
-Read from `.env` at the repo root. Start from [`.env.example`](.env.example).
-
-| Var | Required | Default | Used for |
-|---|---|---|---|
-| `GEMINI_API_KEY` | no | — | grade with Gemini instead of Claude Code — faster (~2–3 s against ~10 s) |
-| `GEMINI_MODEL` | no | `gemini-2.5-flash` | which Gemini model to call |
-| `LEARNO_GRADER` | no | `gemini` if a key is set, else `claude` | force one grader |
-| `LEARNO_CLAUDE_MODEL` | no | `haiku` | which Claude model grades |
-| `LEARNO_DB` | no | `learno.db` at the workspace root | where progress is stored |
-| `PORT` | no | `9990` | any port works; pages derive the API base from their own origin |
-| `LEARNO_WORKSPACE` | no | repo root | which directory to serve. Exists for one caller: the engine's own sandbox |
-| `LEARNO_MODE` | no | — | `sandbox` swaps in a seeded in-memory store and a stubbed validator |
-
----
-
-## The server (`server/`)
-
-Local Express app: the grader plus the SQLite progress store. It also serves the workspace
-statically, so lessons open over `http://localhost` — a secure context, which the microphone
-needs — instead of `file://`.
-
-| Route | Purpose |
-|---|---|
-| `GET  /api/health` | liveness — lessons call it on load to decide online/offline |
-| `POST /api/validate` | score a free-text answer (score, feedback, misconceptions) |
-| `POST /api/progress` | record a completed lesson or project → triggers SM-2 |
-| `GET  /api/progress` | mastery state + grouped misconceptions → the dashboard |
-| `GET  /api/catalog` | every lesson / review / project on disk → the library |
-| `GET  /api/next` | parses `NEXT.md` into a decision, a button and a reason |
-
-**Tables** in `learno.db`: `concepts` (per-concept mastery, `interval_days`, `ease_factor`,
-`next_review`), `concept_history` (every score, with its source), `lessons` (completions,
-`final_score`, `kind`), `section_results` (per-section scores and misconceptions),
-`conversations`. Read them with `node bin/learno.js` — `status`, `due`, `misconceptions`,
-`lesson <id>`, or `sql "<select>"`, which opens the file read-only.
-
-**Offline is a supported state.** Lessons detect the server on load; when it is down the
-free-text boxes are replaced by multiple-choice fallbacks and a banner says what is
-unavailable. The lesson still works — it degrades.
-
----
-
-## Progress analyst (`learno-analyst`)
-
-A read-only Claude Code subagent that grounds every answer about your learning in **real
-data** instead of assumptions. It reads the progress store through `bin/learno.js` and knows the workspace layout, and it
-is subject-agnostic — install it once and it serves every study.
-
-```bash
-ln -s "$(pwd)/agents/learno-analyst.md" ~/.claude/agents/learno-analyst.md
-```
-
-Ask *"how did I do on lesson 9?"*, *"what is due?"*, *"where am I stuck?"* and it returns a
-verdict, a table of real scores and dates, and one to three insights — recurring
-misconceptions, stagnation, what is overdue. `CLAUDE.md` instructs the main agent to consult
-it before answering anything about progress, so the tutor never invents how you are doing.
-
----
-
-## Developing the engine (`sandbox/`)
-
-```sh
-make sandbox-local  # fixtures on :9991, no API key
-make check          # syntax-check the server and the build, validate the seed
-make check-errors   # prove the build still refuses every kind of broken lesson
-```
-
-`LEARNO_MODE=sandbox` swaps the progress file for a seeded in-memory store and the grader for a
-deterministic stub. See [`sandbox/README.md`](sandbox/README.md).
-
----
-
-## Keeping up with upstream
-
-```bash
-git remote add upstream https://github.com/muricristino/learno.git
-git pull upstream master
-```
-
-Upstream never writes to your content directories. If your Claude has edited engine files,
-expect to resolve those — that is the cost of the engine being editable in place, and it was
-chosen deliberately.
+- [How it works](docs/how-it-works.md): the lesson loop, the kinds of lesson, mastery and review.
+- [Your study folder](docs/workspace.md): what each file is, language, settings, updates.
+- [The engine](docs/engine.md): the lesson format, the server, the progress store, development.
