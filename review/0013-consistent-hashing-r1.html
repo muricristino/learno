@@ -75,10 +75,10 @@
 
 <div class="lx-wrap">
   <header class="lx-lesson-head">
-    <span class="lx-badge">Revisão R1 · System Design</span>
+    <span class="lx-badge"><span class="lx-inline">Revisão R1 · System Design</span></span>
     <h1 class="lx-title"><span class="lx-title-icon"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-  <path d="M3 3v5h5" /></svg></span><span>Revisão R1 — Consistent hashing</span></h1>
-    <p class="lx-subtitle">Sem reler a lição. Responda primeiro; a correção vem depois.</p>
+  <path d="M3 3v5h5" /></svg></span><span><span class="lx-inline">Revisão R1 — Consistent hashing</span></span></h1>
+    <p class="lx-subtitle"><span class="lx-inline">Sem reler a lição. Responda primeiro; a correção vem depois.</span></p>
   </header>
 
   <div class="lx-offline-banner" id="lx-banner" hidden>
@@ -93,16 +93,16 @@
 
   <div class="lx-blocks">
   <div class="lx-prose">
-    <p>Três perguntas sobre consistent hashing. Não volte na lição 13 antes de
+    <p><span class="lx-inline">Três perguntas sobre consistent hashing. Não volte na lição 13 antes de
 responder — o valor desta revisão está inteiro em tentar lembrar, e olhar a
-resposta antes de tentar destrói exatamente o que ela mede.</p>
-    <p>Errar aqui é informação, não fracasso. Uma resposta fraca move a data da
-próxima revisão para perto; uma resposta boa afasta.</p>
+resposta antes de tentar destrói exatamente o que ela mede.</span></p>
+    <p><span class="lx-inline">Errar aqui é informação, não fracasso. Uma resposta fraca move a data da
+próxima revisão para perto; uma resposta boa afasta.</span></p>
   </div>
   <section class="lx-phase" data-phase="1" id="phase-1">
     <div class="lx-phase-head">
       <span class="lx-phase-badge"><span>1</span></span>
-      <h2 class="lx-phase-title">O problema do módulo</h2>
+      <h2 class="lx-phase-title"><span class="lx-inline">O problema do módulo</span></h2>
     </div>
     <div class="lx-gate" data-gate="phase-1">
       <div class="lx-gate-body">
@@ -117,7 +117,7 @@ próxima revisão para perto; uma resposta boa afasta.</p>
     <span class="lx-ask-label"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 14a2 2 0 0 0 2-2V8h-2" />
   <path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" />
   <path d="M8 14a2 2 0 0 0 2-2V8H8" /></svg> Explique com suas palavras</span>
-    <div class="lx-ask-q"><p>Um cache com 4 nós usa <code class="lx-code">hash(chave) % 4</code>. Você sobe o quinto nó e troca para <code class="lx-code">% 5</code>. Que fração das chaves muda de destino, e por quê? Não é 1/5 — explique de onde vem o número real.</p></div>
+    <div class="lx-ask-q"><p><span class="lx-inline">Um cache com 4 nós usa <code class="lx-code">hash(chave) % 4</code>. Você sobe o quinto nó e troca para <code class="lx-code">% 5</code>. Que fração das chaves muda de destino, e por quê? Não é 1/5 — explique de onde vem o número real.</span></p></div>
 
     <div class="lx-ask-online">
       <textarea class="lx-answer" placeholder="Escreva sua explicação…"></textarea>
@@ -146,15 +146,15 @@ próxima revisão para perto; uma resposta boa afasta.</p>
       
         <label class="lx-choice">
           <input type="radio" name="fb-modulo_remapping" value="0" data-correct="0" />
-          <span>1/5 — só as chaves do nó novo se movem</span>
+          <span><span class="lx-inline">1/5 — só as chaves do nó novo se movem</span></span>
         </label>
         <label class="lx-choice">
           <input type="radio" name="fb-modulo_remapping" value="1" data-correct="1" />
-          <span>Cerca de 4/5 — o divisor mudou, então o resto muda para quase toda chave</span>
+          <span><span class="lx-inline">Cerca de 4/5 — o divisor mudou, então o resto muda para quase toda chave</span></span>
         </label>
         <label class="lx-choice">
           <input type="radio" name="fb-modulo_remapping" value="2" data-correct="0" />
-          <span>Nenhuma, se a função de hash for a mesma</span>
+          <span><span class="lx-inline">Nenhuma, se a função de hash for a mesma</span></span>
         </label>
       <p class="lx-inline-fb"></p>
     </div>
@@ -170,7 +170,7 @@ próxima revisão para perto; uma resposta boa afasta.</p>
   <section class="lx-phase lx-phase--locked" data-phase="2" id="phase-2">
     <div class="lx-phase-head">
       <span class="lx-phase-badge"><span>2</span></span>
-      <h2 class="lx-phase-title">A regra do anel</h2>
+      <h2 class="lx-phase-title"><span class="lx-inline">A regra do anel</span></h2>
     </div>
     <div class="lx-gate lx-gate--locked" data-gate="phase-2">
       <div class="lx-gate-body" aria-hidden="true">
@@ -196,25 +196,25 @@ próxima revisão para perto; uma resposta boa afasta.</p>
   <text class="lx-label--muted" x="280" y="180" text-anchor="middle">A → B → C → A</text>
 </svg>
 </div>
-    <figcaption class="lx-caption">Três nós no anel — para onde vai cada chave?</figcaption>
+    <figcaption class="lx-caption"><span class="lx-inline">Três nós no anel — para onde vai cada chave?</span></figcaption>
   </figure>
   <div class="lx-card lx-quiz" data-phase="2"
        data-ok="Isso. É sempre o próximo no sentido horário — nunca o mais próximo, o que torna a regra barata de calcular." data-bad="Não é proximidade, é direção. A chave anda no sentido horário e para no primeiro nó que encontra — por isso adicionar um nó só afeta um arco.
 ">
     <span class="lx-quiz-label">Escolha uma</span>
-    <div class="lx-ask-q"><p>No anel abaixo, a chave k cai entre o nó C e o nó A. Quem armazena k?</p></div>
+    <div class="lx-ask-q"><p><span class="lx-inline">No anel abaixo, a chave k cai entre o nó C e o nó A. Quem armazena k?</span></p></div>
     
       <label class="lx-choice">
         <input type="radio" name="quiz-1333539200" value="0" data-correct="0" />
-        <span>O nó C, porque a chave passou por ele primeiro</span>
+        <span><span class="lx-inline">O nó C, porque a chave passou por ele primeiro</span></span>
       </label>
       <label class="lx-choice">
         <input type="radio" name="quiz-1333539200" value="1" data-correct="1" />
-        <span>O nó A, o primeiro encontrado andando no sentido horário</span>
+        <span><span class="lx-inline">O nó A, o primeiro encontrado andando no sentido horário</span></span>
       </label>
       <label class="lx-choice">
         <input type="radio" name="quiz-1333539200" value="2" data-correct="0" />
-        <span>O nó mais próximo dos dois, medindo a distância no círculo</span>
+        <span><span class="lx-inline">O nó mais próximo dos dois, medindo a distância no círculo</span></span>
       </label>
     <p class="lx-inline-fb"></p>
   </div>
@@ -229,7 +229,7 @@ próxima revisão para perto; uma resposta boa afasta.</p>
   <section class="lx-phase lx-phase--locked" data-phase="3" id="phase-3">
     <div class="lx-phase-head">
       <span class="lx-phase-badge"><span>3</span></span>
-      <h2 class="lx-phase-title">Por que o anel sozinho não basta</h2>
+      <h2 class="lx-phase-title"><span class="lx-inline">Por que o anel sozinho não basta</span></h2>
     </div>
     <div class="lx-gate lx-gate--locked" data-gate="phase-3">
       <div class="lx-gate-body" aria-hidden="true">
@@ -244,7 +244,7 @@ próxima revisão para perto; uma resposta boa afasta.</p>
     <span class="lx-ask-label"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 14a2 2 0 0 0 2-2V8h-2" />
   <path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" />
   <path d="M8 14a2 2 0 0 0 2-2V8H8" /></svg> Explique com suas palavras</span>
-    <div class="lx-ask-q"><p>Um anel tem 3 nós físicos, sem nós virtuais. O nó B cai. Descreva o que acontece com a carga — e explique por que isso é mais perigoso do que a distribuição desigual que os nós virtuais também resolvem.</p></div>
+    <div class="lx-ask-q"><p><span class="lx-inline">Um anel tem 3 nós físicos, sem nós virtuais. O nó B cai. Descreva o que acontece com a carga — e explique por que isso é mais perigoso do que a distribuição desigual que os nós virtuais também resolvem.</span></p></div>
 
     <div class="lx-ask-online">
       <textarea class="lx-answer" placeholder="Escreva sua explicação…"></textarea>
@@ -273,15 +273,15 @@ próxima revisão para perto; uma resposta boa afasta.</p>
       
         <label class="lx-choice">
           <input type="radio" name="fb-virtual_nodes" value="0" data-correct="0" />
-          <span>A carga de B se divide igualmente entre A e C</span>
+          <span><span class="lx-inline">A carga de B se divide igualmente entre A e C</span></span>
         </label>
         <label class="lx-choice">
           <input type="radio" name="fb-virtual_nodes" value="1" data-correct="1" />
-          <span>Todo o arco de B vai para um vizinho só, que pode cair em cascata sob a carga dobrada</span>
+          <span><span class="lx-inline">Todo o arco de B vai para um vizinho só, que pode cair em cascata sob a carga dobrada</span></span>
         </label>
         <label class="lx-choice">
           <input type="radio" name="fb-virtual_nodes" value="2" data-correct="0" />
-          <span>As chaves de B são perdidas até ele voltar</span>
+          <span><span class="lx-inline">As chaves de B são perdidas até ele voltar</span></span>
         </label>
       <p class="lx-inline-fb"></p>
     </div>
@@ -300,8 +300,8 @@ próxima revisão para perto; uma resposta boa afasta.</p>
     <span class="lx-ask-label"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
   <path d="M22 10v6" />
   <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></svg> Ensina de volta</span>
-    <div class="lx-ask-q"><p>Reconstrua o argumento inteiro, do problema à solução: por que <code class="lx-code">% N</code> quebra, o que o anel muda, e por que o anel ainda precisa de nós virtuais.</p></div>
-    <div class="lx-teachback-hint"><p>Se você travou em alguma das três perguntas acima, comece por ela — é onde a memória está mais fraca e onde este teach-back vale mais.</p></div>
+    <div class="lx-ask-q"><p><span class="lx-inline">Reconstrua o argumento inteiro, do problema à solução: por que <code class="lx-code">% N</code> quebra, o que o anel muda, e por que o anel ainda precisa de nós virtuais.</span></p></div>
+    <div class="lx-teachback-hint"><p><span class="lx-inline">Se você travou em alguma das três perguntas acima, comece por ela — é onde a memória está mais fraca e onde este teach-back vale mais.</span></p></div>
 
     <p class="lx-teachback-offline">
       Esta parte precisa do servidor. Sem ele não dá para registrar a lição — e um score inventado estragaria o agendamento da revisão.
@@ -347,8 +347,8 @@ próxima revisão para perto; uma resposta boa afasta.</p>
   <div class="lx-card lx-source">
     <p class="lx-source-label"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v16" />
   <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /></svg> Fonte primária</p>
-    <p class="lx-source-title"><a class="lx-link" href="https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf" rel="noopener noreferrer" target="_blank">Dynamo: Amazon's Highly Available Key-value Store (SOSP 2007)</a></p>
-    <p class="lx-source-note">Seção 4.2 — os nós virtuais e as duas razões para eles.</p>
+    <p class="lx-source-title"><a class="lx-link" href="https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf" rel="noopener noreferrer" target="_blank"><span class="lx-inline">Dynamo: Amazon's Highly Available Key-value Store (SOSP 2007)</span></a></p>
+    <p class="lx-source-note"><span class="lx-inline">Seção 4.2 — os nós virtuais e as duas razões para eles.</span></p>
   </div>
   </div>
 

@@ -75,13 +75,13 @@
 
 <div class="lx-wrap">
   <header class="lx-lesson-head">
-    <span class="lx-badge">Sandbox</span>
+    <span class="lx-badge"><span class="lx-inline">Sandbox</span></span>
     <h1 class="lx-title"><span class="lx-title-icon"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" />
   <rect x="2" y="16" width="6" height="6" rx="1" />
   <rect x="9" y="2" width="6" height="6" rx="1" />
   <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" />
-  <path d="M12 12V8" /></svg></span><span>Sandbox — Renderer smoke test</span></h1>
-    <p class="lx-subtitle">Lição descartável: existe só para provar o pipeline JSON + YAML de ponta a ponta</p>
+  <path d="M12 12V8" /></svg></span><span><span class="lx-inline">Sandbox — Renderer smoke test</span></span></h1>
+    <p class="lx-subtitle"><span class="lx-inline">Lição descartável: existe só para provar o pipeline <code class="lx-code">.json</code> + <code class="lx-code">.yml</code> de ponta a ponta</span></p>
   </header>
 
   <div class="lx-offline-banner" id="lx-banner" hidden>
@@ -97,19 +97,19 @@
   <div class="lx-card lx-analogy">
     <span class="lx-analogy-label"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
   <path d="M9 18h6" />
-  <path d="M10 22h4" /></svg> Pense num guarda-volumes de academia</span>
-    <p class="lx-analogy-text">Cada armário guarda as coisas de uma pessoa. Você não precisa procurar em todos — a etiqueta na chave diz exatamente qual abrir.
-</p>
-    <p class="lx-analogy-bridge">Essa etiqueta é a chave de shard, e o armário é o nó que guarda o dado.</p>
+  <path d="M10 22h4" /></svg> <span class="lx-inline">Pense num guarda-volumes de academia</span></span>
+    <p class="lx-analogy-text"><span class="lx-inline">Cada armário guarda as coisas de uma pessoa. Você não precisa procurar em todos — a etiqueta na chave diz exatamente qual abrir.
+</span></p>
+    <p class="lx-analogy-bridge"><span class="lx-inline">Essa etiqueta é a chave de shard, e o armário é o nó que guarda o dado.</span></p>
   </div>
   <div class="lx-prose">
-    <p>Este parágrafo veio do <strong>YAML</strong>, não do JSON. O JSON só disse <em>qual</em>
+    <p><span class="lx-inline">Este parágrafo veio do <strong>YAML</strong>, não do JSON. O JSON só disse <em>qual</em>
 componente usar e em que ordem — o texto está aqui, referenciado por
-<code class="lx-code">@intro.body</code>.</p>
-    <p>Este é um segundo parágrafo, separado por linha em branco. Ele existe para
+<code class="lx-code">@intro.body</code>.</span></p>
+    <p><span class="lx-inline">Este é um segundo parágrafo, separado por linha em branco. Ele existe para
 provar que o subconjunto de markdown do componente <code class="lx-code">prose</code> quebra parágrafos
 corretamente, e que <a class="lx-link" href="https://github.com/murichristopher/learno">links</a> também
-funcionam.</p>
+funcionam.</span></p>
   </div>
   <figure class="lx-figure">
     <div class="lx-card lx-scroll"><svg class="lx-svg" viewBox="0 0 600 120" role="img"
@@ -131,59 +131,59 @@ funcionam.</p>
   <text class="lx-label" x="526" y="102" text-anchor="middle">Nó C</text>
 </svg>
 </div>
-    <figcaption class="lx-caption">Fluxo de uma requisição até o nó certo</figcaption>
+    <figcaption class="lx-caption"><span class="lx-inline">Fluxo de uma requisição até o nó certo</span></figcaption>
   </figure>
   <div class="lx-card lx-callout lx-callout--note">
     <span class="lx-callout-mark"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" />
   <path d="M12 16v-4" />
   <path d="M12 8h.01" /></svg></span>
     <div>
-      <p class="lx-callout-title">O JSON não tem uma frase sequer</p>
-      <div class="lx-callout-text"><p>Tudo que você lê nesta página está no .yml. O .json só diz qual componente usar, em que ordem, e qual chave do YAML cada prop referencia.</p></div>
+      <p class="lx-callout-title"><span class="lx-inline">O JSON não tem uma frase sequer</span></p>
+      <div class="lx-callout-text"><p><span class="lx-inline">Tudo que você lê nesta página está no .yml. O .json só diz qual componente usar, em que ordem, e qual chave do YAML cada prop referencia.</span></p></div>
     </div>
   </div>
   <div class="lx-prose">
-    <p>O diagrama acima e o de baixo <strong>não têm uma cor sequer</strong> no YAML. Se você
+    <p><span class="lx-inline">O diagrama acima e o de baixo <strong>não têm uma cor sequer</strong> no YAML. Se você
 escrever <code class="lx-code">fill=&quot;#9333ea&quot;</code> num deles, o build recusa a lição inteira e diz
-qual diagrama tem o problema.</p>
+qual diagrama tem o problema.</span></p>
   </div>
   <figure class="lx-figure">
     <div class="lx-compare">
       <div class="lx-card lx-compare-col">
-        <span class="lx-compare-label">JSON — estrutura</span>
-        <p class="lx-compare-body">Quais componentes, em que ordem, com quais ids. É o que o build valida contra o vocabulário. Pequeno e chato de propósito.
-</p>
+        <span class="lx-compare-label"><span class="lx-inline">JSON — estrutura</span></span>
+        <p class="lx-compare-body"><span class="lx-inline">Quais componentes, em que ordem, com quais ids. É o que o build valida contra o vocabulário. Pequeno e chato de propósito.
+</span></p>
       </div>
       <div class="lx-card lx-compare-col">
-        <span class="lx-compare-label">YAML — conteúdo</span>
-        <p class="lx-compare-body">Prosa e SVG, endereçados por chave. É onde está tudo que uma pessoa escreveu, e o único arquivo que muda quando o texto muda.
-</p>
+        <span class="lx-compare-label"><span class="lx-inline">YAML — conteúdo</span></span>
+        <p class="lx-compare-body"><span class="lx-inline">Prosa e SVG, endereçados por chave. É onde está tudo que uma pessoa escreveu, e o único arquivo que muda quando o texto muda.
+</span></p>
       </div>
     </div>
-    <figcaption class="lx-caption">As duas metades do formato, e o que cada uma resolve</figcaption>
+    <figcaption class="lx-caption"><span class="lx-inline">As duas metades do formato, e o que cada uma resolve</span></figcaption>
   </figure>
   <div class="lx-card lx-callout lx-callout--warn">
     <span class="lx-callout-mark"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
   <path d="M12 9v4" />
   <path d="M12 17h.01" /></svg></span>
     <div>
-      <p class="lx-callout-title">Componente não decide o próprio espaçamento</p>
-      <div class="lx-callout-text"><p>A distância entre um bloco e o vizinho é do container. Um componente que define a própria margem ganha por especificidade e passa por cima do breakpoint do celular — foi assim que o card do diagrama ficou apertado.</p></div>
+      <p class="lx-callout-title"><span class="lx-inline">Componente não decide o próprio espaçamento</span></p>
+      <div class="lx-callout-text"><p><span class="lx-inline">A distância entre um bloco e o vizinho é do container. Um componente que define a própria margem ganha por especificidade e passa por cima do breakpoint do celular — foi assim que o card do diagrama ficou apertado.</span></p></div>
     </div>
   </div>
   <figure class="lx-figure">
     <div class="lx-card lx-table-wrap lx-scroll">
       <table class="lx-table">
-        <thead><tr><th scope="col">Camada</th><th scope="col">Antes</th><th scope="col">Agora</th></tr></thead>
+        <thead><tr><th scope="col"><span class="lx-inline">Camada</span></th><th scope="col"><span class="lx-inline">Antes</span></th><th scope="col"><span class="lx-inline">Agora</span></th></tr></thead>
         <tbody>
-          <tr><td data-label="Camada">CSS + JS</td><td data-label="Antes">13.1K</td><td data-label="Agora">linkado</td></tr>
-          <tr><td data-label="Camada">Tags estruturais</td><td data-label="Antes">12.3K</td><td data-label="Agora">gerado</td></tr>
-          <tr><td data-label="Camada">SVG</td><td data-label="Antes">6.6K</td><td data-label="Agora">6.6K</td></tr>
-          <tr><td data-label="Camada">Prosa</td><td data-label="Antes">6.2K</td><td data-label="Agora">6.2K</td></tr>
+          <tr><td data-label="Camada"><span class="lx-inline">CSS + JS</span></td><td data-label="Antes"><span class="lx-inline">13.1K</span></td><td data-label="Agora"><span class="lx-inline">linkado</span></td></tr>
+          <tr><td data-label="Camada"><span class="lx-inline">Tags estruturais</span></td><td data-label="Antes"><span class="lx-inline">12.3K</span></td><td data-label="Agora"><span class="lx-inline">gerado</span></td></tr>
+          <tr><td data-label="Camada"><span class="lx-inline">SVG</span></td><td data-label="Antes"><span class="lx-inline">6.6K</span></td><td data-label="Agora"><span class="lx-inline">6.6K</span></td></tr>
+          <tr><td data-label="Camada"><span class="lx-inline">Prosa</span></td><td data-label="Antes"><span class="lx-inline">6.2K</span></td><td data-label="Agora"><span class="lx-inline">6.2K</span></td></tr>
         </tbody>
       </table>
     </div>
-    <figcaption class="lx-caption">O que cada camada custa por lição</figcaption>
+    <figcaption class="lx-caption"><span class="lx-inline">O que cada camada custa por lição</span></figcaption>
   </figure>
   <figure class="lx-figure">
     <div class="lx-card lx-codeblock">
@@ -193,7 +193,7 @@ qual diagrama tem o problema.</p>
              <span class="hljs-attr">&quot;caption&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;@intro.caption&quot;</span> <span class="hljs-punctuation">}</span> <span class="hljs-punctuation">}</span>
 </code></pre>
     </div>
-    <figcaption class="lx-caption">Um bloco do .json — nenhum texto, só estrutura</figcaption>
+    <figcaption class="lx-caption"><span class="lx-inline">Um bloco do .json — nenhum texto, só estrutura</span></figcaption>
   </figure>
   <figure class="lx-figure">
     <div class="lx-card lx-codeblock">
@@ -210,7 +210,7 @@ qual diagrama tem o problema.</p>
 }
 </code></pre>
     </div>
-    <figcaption class="lx-caption">O componente que renderiza este bloco — destacado no build, sem JS na página</figcaption>
+    <figcaption class="lx-caption"><span class="lx-inline">O componente que renderiza este bloco — destacado no build, sem JS na página</span></figcaption>
   </figure>
   <figure class="lx-figure">
     <div class="lx-card lx-codeblock">
@@ -220,15 +220,15 @@ qual diagrama tem o problema.</p>
 2026-07-26T19:53:34Z ERR dropping batch after 3 retries
 </code></pre>
     </div>
-    <figcaption class="lx-caption">lang &quot;text&quot; desliga o destaque de propósito — um log não tem sintaxe</figcaption>
+    <figcaption class="lx-caption"><span class="lx-inline">lang &quot;text&quot; desliga o destaque de propósito — um log não tem sintaxe</span></figcaption>
   </figure>
   <div class="lx-card lx-callout lx-callout--danger">
     <span class="lx-callout-mark"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16h.01" />
   <path d="M12 8v4" />
   <path d="M15.312 2a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586l-4.688-4.688A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2z" /></svg></span>
     <div>
-      <p class="lx-callout-title">Build recusa a lição inteira</p>
-      <div class="lx-callout-text"><p>Componente desconhecido, referência quebrada, prop faltando ou SVG com cor própria não geram página parcial. Uma lição meio renderizada parece pronta, e é por isso que a falha é barulhenta.</p></div>
+      <p class="lx-callout-title"><span class="lx-inline">Build recusa a lição inteira</span></p>
+      <div class="lx-callout-text"><p><span class="lx-inline">Componente desconhecido, referência quebrada, prop faltando ou SVG com cor própria não geram página parcial. Uma lição meio renderizada parece pronta, e é por isso que a falha é barulhenta.</span></p></div>
     </div>
   </div>
   <figure class="lx-figure">
@@ -253,26 +253,26 @@ qual diagrama tem o problema.</p>
   <text class="lx-label--muted" x="480" y="94" text-anchor="middle">destaque</text>
 </svg>
 </div>
-    <figcaption class="lx-caption">Variantes de nó e de aresta na mesma figura</figcaption>
+    <figcaption class="lx-caption"><span class="lx-inline">Variantes de nó e de aresta na mesma figura</span></figcaption>
   </figure>
 <div class="lx-gate lx-gate--locked" data-gate="flashcards">
       <div class="lx-gate-body" aria-hidden="true">
   <section class="lx-flashcards">
     <p class="lx-flash-title"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" />
   <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" />
-  <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> Revisão rápida</p>
+  <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg> <span class="lx-inline">Revisão rápida</span></p>
     <div class="lx-flash-grid">
       <details class="lx-card lx-flash">
-        <summary>O que o @ faz num valor do JSON?</summary>
-        <p class="lx-flash-back">Marca um caminho dentro do .yml. É resolvido antes do componente ver a prop, então componente só lida com valor real.</p>
+        <summary data-show="revelar" data-hide="esconder"><span class="lx-inline">O que o <code class="lx-code">@</code> faz num valor do JSON?</span></summary>
+        <p class="lx-flash-back"><span class="lx-inline">Marca um caminho dentro do .yml. É resolvido antes do componente ver a prop, então componente só lida com valor real.</span></p>
       </details>
       <details class="lx-card lx-flash">
-        <summary>Por que o build recusa SVG com cor?</summary>
-        <p class="lx-flash-back">Porque cor vem das classes do design system. Um diagrama que traz a própria cor não acompanha o tema e diverge do resto.</p>
+        <summary data-show="revelar" data-hide="esconder"><span class="lx-inline">Por que o build recusa SVG com cor?</span></summary>
+        <p class="lx-flash-back"><span class="lx-inline">Porque cor vem das classes do design system. Um diagrama que traz a própria cor não acompanha o tema e diverge do resto.</span></p>
       </details>
       <details class="lx-card lx-flash">
-        <summary>Onde mora o CSS de um componente?</summary>
-        <p class="lx-flash-back">No próprio componente, no campo css. O build concatena tudo em assets/components.css, então um componente local não edita arquivo compartilhado.</p>
+        <summary data-show="revelar" data-hide="esconder"><span class="lx-inline">O que <code class="lx-code">[head | tail] = [1, 2, 3]</code> faz em Elixir?</span></summary>
+        <p class="lx-flash-back"><span class="lx-inline">Desestrutura a lista: <code class="lx-code">head</code> vira <code class="lx-code">1</code> e <code class="lx-code">tail</code> vira <code class="lx-code">[2, 3]</code>.</span></p>
       </details>
     </div>
   </section>
@@ -286,18 +286,18 @@ qual diagrama tem o problema.</p>
   <div class="lx-card lx-source">
     <p class="lx-source-label"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v16" />
   <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /></svg> Fonte primária</p>
-    <p class="lx-source-title"><a class="lx-link" href="https://github.com/murichristopher/learno/blob/master/LESSON-PIPELINE-SPEC.md" rel="noopener noreferrer" target="_blank">LESSON-PIPELINE-SPEC.md</a></p>
-    <p class="lx-source-note">O spec que esta lição existe para provar.</p>
+    <p class="lx-source-title"><a class="lx-link" href="https://github.com/murichristopher/learno/blob/master/LESSON-PIPELINE-SPEC.md" rel="noopener noreferrer" target="_blank"><span class="lx-inline">LESSON-PIPELINE-SPEC.md</span></a></p>
+    <p class="lx-source-note"><span class="lx-inline">O spec que esta lição existe para provar.</span></p>
   </div>
   <section class="lx-phase" data-phase="1" id="phase-1">
     <div class="lx-phase-head">
       <span class="lx-phase-badge"><span>1</span></span>
-      <h2 class="lx-phase-title">Uma seção que destrava a próxima</h2>
+      <h2 class="lx-phase-title"><span class="lx-inline">O <code class="lx-code">@</code> que destrava a próxima seção</span></h2>
     </div>
     <div class="lx-gate" data-gate="phase-1">
       <div class="lx-gate-body">
   <div class="lx-prose">
-    <p>A seção 2 está fechada. Responda o bloco abaixo com nota 50 ou mais e ela abre. Como o validador do sandbox é determinístico, comece a resposta com !0 para ver a seção continuar trancada, ou com !p para destravar.</p>
+    <p><span class="lx-inline">A seção 2 está fechada. Responda o bloco abaixo com nota 50 ou mais e ela abre. Como o validador do sandbox é determinístico, comece a resposta com !0 para ver a seção continuar trancada, ou com !p para destravar.</span></p>
   </div>
   <div class="lx-card lx-ask lx-recall"
        data-concept-id="sandbox_widget_sharding"
@@ -308,7 +308,7 @@ qual diagrama tem o problema.</p>
     <span class="lx-ask-label"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 14a2 2 0 0 0 2-2V8h-2" />
   <path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" />
   <path d="M8 14a2 2 0 0 0 2-2V8H8" /></svg> Explique com suas palavras</span>
-    <div class="lx-ask-q"><p>Explique, com suas palavras, por que uma lição que dá para rolar até o fim ensina reconhecimento em vez de recuperação.</p></div>
+    <div class="lx-ask-q"><p><span class="lx-inline">Explique, com suas palavras, por que uma lição que dá para rolar até o fim ensina reconhecimento em vez de recuperação.</span></p></div>
 
     <div class="lx-ask-online">
       <textarea class="lx-answer" placeholder="Escreva sua explicação…"></textarea>
@@ -337,11 +337,11 @@ qual diagrama tem o problema.</p>
       
         <label class="lx-choice">
           <input type="radio" name="fb-sandbox_widget_sharding" value="0" data-correct="0" />
-          <span>Porque o texto fica longo demais</span>
+          <span><span class="lx-inline">Porque o texto fica longo demais</span></span>
         </label>
         <label class="lx-choice">
           <input type="radio" name="fb-sandbox_widget_sharding" value="1" data-correct="1" />
-          <span>Porque ler a resposta é mais fácil do que produzi-la, e as duas coisas parecem iguais por dentro</span>
+          <span><span class="lx-inline">Porque ler a resposta é mais fácil do que produzi-la, e as duas coisas parecem iguais por dentro</span></span>
         </label>
       <p class="lx-inline-fb"></p>
     </div>
@@ -357,29 +357,29 @@ qual diagrama tem o problema.</p>
   <section class="lx-phase lx-phase--locked" data-phase="2" id="phase-2">
     <div class="lx-phase-head">
       <span class="lx-phase-badge"><span>2</span></span>
-      <h2 class="lx-phase-title">Múltipla escolha, corrigida na própria página</h2>
+      <h2 class="lx-phase-title"><span class="lx-inline">Múltipla escolha, corrigida na própria página</span></h2>
     </div>
     <div class="lx-gate lx-gate--locked" data-gate="phase-2">
       <div class="lx-gate-body" aria-hidden="true">
   <div class="lx-prose">
-    <p>Este bloco não precisa de servidor nenhum. É a mesma peça que o recall usa como fallback quando o servidor cai.</p>
+    <p><span class="lx-inline">Este bloco não precisa de servidor nenhum. É a mesma peça que o recall usa como fallback quando o servidor cai.</span></p>
   </div>
   <div class="lx-card lx-quiz" data-phase="2"
-       data-ok="Isso. Trocar de modo vira um toggle de classe, e não um fetch que precisa dar certo para mostrar a alternativa." data-bad="O contrário: se ele fosse buscado na hora, precisaria do servidor justamente quando o servidor caiu.">
+       data-ok="Isso. Trocar de modo vira um toggle de classe, e não um fetch que precisa dar certo para mostrar a alternativa." data-bad="O contrário: se ele fosse buscado com `fetch` na hora, precisaria do servidor justamente quando o servidor caiu.">
     <span class="lx-quiz-label">Escolha uma</span>
-    <div class="lx-ask-q"><p>Olhando o trecho abaixo, por que o fallback é renderizado sempre e só
-escondido por CSS?</p>
+    <div class="lx-ask-q"><p><span class="lx-inline">Olhando o trecho abaixo, por que o fallback é renderizado sempre e só
+escondido por CSS?</span></p>
     <div class="lx-card lx-codeblock"><span class="lx-codeblock-lang">js</span><pre><code class="hljs"><span class="hljs-keyword">function</span> <span class="hljs-title function_">setOffline</span>(<span class="hljs-params">isOffline</span>) {
   <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">classList</span>.<span class="hljs-title function_">toggle</span>(<span class="hljs-string">&#x27;lx-offline&#x27;</span>, isOffline);
 }</code></pre></div></div>
     
       <label class="lx-choice">
         <input type="radio" name="quiz-1583411007" value="0" data-correct="0" />
-        <span>Para economizar bytes na página</span>
+        <span><span class="lx-inline">Para economizar bytes na página</span></span>
       </label>
       <label class="lx-choice">
         <input type="radio" name="quiz-1583411007" value="1" data-correct="1" />
-        <span>Porque buscá-lo na hora exigiria o servidor exatamente quando o servidor está fora</span>
+        <span><span class="lx-inline">Porque buscá-lo na hora exigiria o servidor exatamente quando o servidor está fora</span></span>
       </label>
     <p class="lx-inline-fb"></p>
   </div>
@@ -397,8 +397,8 @@ escondido por CSS?</p>
     <span class="lx-ask-label"><svg class="lx-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
   <path d="M22 10v6" />
   <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></svg> Ensina de volta</span>
-    <div class="lx-ask-q"><p>Explique o pipeline inteiro para alguém que só viu lições em HTML escrito à mão: o que é o JSON, o que é o YAML, e o que o build recusa.</p></div>
-    <div class="lx-teachback-hint"><p>Comece pelo problema (84% do que a IA escrevia era máquina), depois a divisão, depois as validações.</p></div>
+    <div class="lx-ask-q"><p><span class="lx-inline">Explique o pipeline inteiro para alguém que só viu lições em HTML escrito à mão: o que é o JSON, o que é o YAML, e o que o build recusa.</span></p></div>
+    <div class="lx-teachback-hint"><p><span class="lx-inline">Comece pelo problema (84% do que a IA escrevia era máquina), depois a divisão, depois as validações.</span></p></div>
 
     <p class="lx-teachback-offline">
       Esta parte precisa do servidor. Sem ele não dá para registrar a lição — e um score inventado estragaria o agendamento da revisão.
