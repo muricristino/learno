@@ -10,7 +10,10 @@ SBX_RUN    = LEARNO_MODE=sandbox LEARNO_WORKSPACE=$(SANDBOX) PORT=$(SBX_PORT)
 
 .PHONY: help start local sandbox sandbox-local stop check deps build lesson catalog check-errors compare
 
+# Checked here, before any target prints a URL: under `node --watch` a server that
+# refuses the version stays alive, and the page looks up when nothing is serving it.
 deps:
+	@node -e 'const [a, b] = process.versions.node.split(".").map(Number); if (a < 22 || (a === 22 && b < 13)) { console.error("learno needs Node 22.13 or newer; this is " + process.version + "."); process.exit(1) }'
 	@test -d $(SERVER)/node_modules || (cd $(SERVER) && npm install --silent)
 	@test -d $(ROOT)/node_modules   || npm install --silent
 
