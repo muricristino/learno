@@ -58,9 +58,7 @@ async function create(args) {
   const from = flag('--from') || UPSTREAM;
   let lang = flag('--lang');
   const noLaunch = args.includes('--no-launch');
-  const target = args.find(a => !a.startsWith('--'));
-
-  if (!target) fail('usage: learno new <folder> [--lang pt|en] [--no-launch]');
+  const target = args.find(a => !a.startsWith('--')) || await ask('Folder for the study [learno-study]: ', 'learno-study');
   const dir = path.resolve(target);
   if (fs.existsSync(dir) && fs.readdirSync(dir).length) fail(`${dir} already exists and is not empty.`);
 
@@ -72,8 +70,9 @@ async function create(args) {
     say('  ! Claude Code is using an API key, so grading each answer is billed to it. A Claude subscription login is not.');
   }
 
+  const systemLang = Intl.DateTimeFormat().resolvedOptions().locale.startsWith('pt') ? 'pt' : 'en';
   while (lang !== 'pt' && lang !== 'en') {
-    lang = (await ask('\nLesson language — pt or en? [pt] ', 'pt')).toLowerCase();
+    lang = (await ask(`\nLesson language — pt or en? [${systemLang}] `, systemLang)).toLowerCase();
   }
 
   say(`\nCreating ${dir}…`);
@@ -94,15 +93,42 @@ async function create(args) {
   run('git', ['commit', '--quiet', '-m', 'chore: start a new study'], { cwd: dir });
 
   say(`\n✓ Ready: ${dir}\n`);
-  say('  Claude will ask what you want to learn and why, build the plan, and write the first lesson.');
-  say(`  Later sessions: cd ${target} && claude "/learno"\n`);
 
-  if (noLaunch || !claude.ok || !process.stdin.isTTY) return;
-  const go = (await ask('Start now? [Y/n] ', 'y')).toLowerCase();
-  if (go.startsWith('n')) return;
+  // Inside Claude Code (`! npx …`) there is no terminal to hand over: the output
+  // lands in the running conversation, so it tells that Claude what to do next.
+  if (process.env.CLAUDECODE || !process.stdin.isTTY) {
+    say(handoff(dir, lang));
+    return;
+  }
 
+  if (noLaunch || !claude.ok) {
+    say(`  Start studying: cd ${target} && claude "/learno"\n`);
+    return;
+  }
+  say('Opening Claude…\n');
   spawn('claude', ['/learno'], { cwd: dir, stdio: 'inherit' })
     .on('exit', code => process.exit(code ?? 0));
+}
+
+function handoff(dir, lang) {
+  const next = lang === 'pt'
+    ? 'Agora é só mandar uma mensagem para o Claude, por exemplo: vamos começar'
+    : 'Now just send Claude a message, for example: let\'s start';
+  return [
+    '── Instructions for Claude ──',
+    `A learno study workspace was just created at ${dir}.`,
+    `When the user replies, start its first session: read ${path.join(dir, 'SKILL.md')} and follow "First run" —`,
+    'interview for the mission, the profile, the sources and the curriculum, then write the first lesson.',
+    `Work only inside that folder: cd ${dir} before every command, and write every file there.`,
+    `Serve lessons with \`make -C ${dir} local\` and give the user the lesson URL to open.`,
+    `Write the lessons in the language the user writes to you in. learno.json says "${lang}" (a guess from the system):`,
+    'if the user writes in the other one, set {"lang": "pt"} or {"lang": "en"} there before building anything.',
+    'The user may not be technical: never ask them to run a command — run it yourself.',
+    '──',
+    '',
+    next,
+    ''
+  ].join('\n');
 }
 
 module.exports = { create };
