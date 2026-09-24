@@ -136,6 +136,7 @@ learno/                       ← your fork
 ├── CLAUDE.md                 ← working agreement for the agent
 ├── LESSON-FORMAT.md          ← the authoring contract
 ├── COMPONENTS.md             ← the component vocabulary  (generated)
+├── formats/                  ← templates for MISSION, RESOURCES, learning records
 ├── components/core/          ← upstream's components
 ├── components/local/         ← yours; wins on a name collision
 ├── build/                    ← the renderer, validators and catalog
@@ -301,48 +302,14 @@ it before answering anything about progress, so the tutor never invents how you 
 
 ## Developing the engine (`sandbox/`)
 
-Changing the lesson format, the styles or the dashboard means testing against content — but
-you should never have to touch a real study, spend a Gemini call, or provision a database to
-see whether a layout still renders.
-
 ```sh
-make sandbox        # fixtures + a public Cloudflare URL   (no MongoDB, no API key)
-make sandbox-local  # same, localhost only
+make sandbox-local  # fixtures on :9991, no MongoDB, no API key
 make check          # syntax-check the server and the build, validate the seed
 make check-errors   # prove the build still refuses every kind of broken lesson
-make compare HAND='../study/lessons/*.html' SRC=lessons/0011-name
 ```
 
-`LEARNO_MODE=sandbox` swaps exactly two things: the **store** becomes an in-memory stand-in
-seeded from `sandbox/fixtures/seed.json`, so the real SM-2 code runs against it; and the
-**validator** returns a deterministic verdict instead of calling Gemini, so scoring is free,
-instant and repeatable. Prefix an answer with `!0`, `!p`, `!ok` or `!m` to force each score
-band. State resets on restart, so a visual difference means a real regression.
-
-`sandbox/lessons/0001-kitchen-sink.html` holds one instance of every component — see
-[`sandbox/README.md`](sandbox/README.md).
-
-> When you add a component, add it to the kitchen sink in the same commit. The fixture is
-> only useful while it stays exhaustive.
-
----
-
-## How a session works
-
-1. Read `MISSION.md`, `NOTES.md`, `learning-records/` — ground everything in the goal.
-2. Query Mongo: what is **due**, what has a **recurring misconception**, what is **stagnant**.
-3. Open by saying where you stand, from the data. Not a greeting.
-4. Pick: (a) reviews due today → (b) a concept with a recurring misconception → (c) the next
-   step toward the mission.
-5. Author one tightly-scoped lesson: analogy **before** the term → 2–5 phases, each with a
-   diagram and a practice block → teach-back, which drives SM-2 → flash cards → the source it
-   stands on.
-6. On completion, read the **per-section** results, ask what was confusing and what felt too
-   easy, and compare the two — a section they found easy and scored 55 on is the gap they
-   cannot see. Write the learning record, then write `NEXT.md`.
-7. When a pattern closes, propose the project.
-
-The full loop, with the queries and the rules, is [`SKILL.md`](SKILL.md).
+`LEARNO_MODE=sandbox` swaps MongoDB for an in-memory store and Gemini for a
+deterministic stub. See [`sandbox/README.md`](sandbox/README.md).
 
 ---
 

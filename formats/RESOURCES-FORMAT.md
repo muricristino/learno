@@ -2,7 +2,7 @@
 
 `RESOURCES.md` is the curated, **tiered** set of trusted sources for this topic. Lesson **Knowledge** is drawn from the canonical tier — never from parametric guesses. **Wisdom** comes from the communities at the bottom.
 
-The user usually does NOT know the canonical texts of a new field — discovering them is the skill's job. See **Source Discovery & Curation** in [SKILL.md](./SKILL.md): the agent searches for the field's authoritative sources, asks the user what they already own, proposes a ranked list, and (after the user confirms) writes it here.
+The user usually does NOT know the canonical texts of a new field — discovering them is the skill's job. See **Source Discovery & Curation** in [SKILL.md](../SKILL.md): the agent searches for the field's authoritative sources, asks the user what they already own, proposes a ranked list, and (after the user confirms) writes it here.
 
 ## Tiers
 

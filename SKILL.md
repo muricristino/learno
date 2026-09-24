@@ -363,25 +363,13 @@ Good examples:
 
 ## Diagrams
 
-Every lesson section that introduces a concept must include an inline SVG diagram.
+Every phase that introduces a concept carries a `diagram`: inline SVG in the `.yml`,
+drawn only with the `lx-*` classes. The classes, the arrowheads and the geometry
+checks are in **Diagrams** in `LESSON-FORMAT.md`.
 
-Rules:
-- **Inline SVG only** — no Mermaid, no CDN, no external images. Lessons must work fully offline.
 - Diagrams appear alongside the concept, not after the explanation.
-- Use the `diagram-wrap` + `diagram-svg` classes from the design system.
-- For request flows: left-to-right boxes connected by arrows.
-- For comparisons: side-by-side using `.compare-grid`.
-- For hierarchies: top-down with indented boxes.
-- Keep diagrams simple — 3 to 6 elements maximum. Complexity kills comprehension.
-
-SVG arrowhead definition (reuse in every diagram that has arrows):
-```svg
-<defs>
-  <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-    <path d="M0,0 L0,6 L8,3 z" fill="#94a3b8"/>
-  </marker>
-</defs>
-```
+- Flows left-to-right, hierarchies top-down; side-by-side options use `compare`.
+- 3 to 6 elements. Complexity kills comprehension.
 
 ---
 
@@ -419,9 +407,9 @@ The local server at `localhost:9990` proxies Gemini 2.5-flash and handles MongoD
 }
 ```
 
-**Canonical vocabulary rule:** `concepts_demonstrated` values in the Gemini prompt must be drawn from glossary concept IDs. The server rejects and drops any ID not found in the glossary before persisting to MongoDB. This prevents vocabulary drift.
+**Canonical vocabulary rule:** the lesson sends its envelope's `concepts` as the only IDs the model may return in `concepts_demonstrated`; the server drops anything else before persisting. Keep those IDs identical to the glossary's so the vocabulary does not drift.
 
-**Offline fallback:** lessons self-detect server availability on load. When offline, all `ai-validate-block` elements are hidden and `offline-fallback` multiple-choice elements are shown. A yellow banner appears. Offline answers do not persist to MongoDB. The lesson still works — it degrades gracefully.
+**Offline fallback:** lessons check `/api/health` on load. When the server is down, each `recall` shows its `fallback` multiple choice instead, a banner says so, and nothing is persisted. The `teachback` has no fallback, so an offline lesson records no score.
 
 **There is no unlock threshold. Answering opens the next section — any answer, any score.** A weak answer opens it quietly, without scrolling, so the reader stays on the feedback.
 
@@ -491,7 +479,7 @@ R3 should ask the concept to be used somewhere it has not been seen.
 - Add a term only when the user has demonstrated understanding — not when they've merely been introduced to it.
 - Every term gets a concept ID (kebab-case). This ID is what flows through `data-concept-id`, `concepts_demonstrated`, and MongoDB.
 - When a new concept appears in a lesson, add it to the glossary before or immediately after publishing the lesson.
-- Tag every term with the framework step where it's most relevant (Step 1–4) using `data-tags`.
+- Tag every term with `data-tags` from a taxonomy that fits the subject (modules, patterns, difficulty).
 
 ---
 
@@ -541,7 +529,7 @@ The user almost never knows the canonical texts of a new field — finding them 
 
 **3. Propose, then confirm.** Present the ranked candidate list and let the user approve before it becomes canon in `RESOURCES.md`. The user owns what counts as a trusted source.
 
-**4. Write it into `RESOURCES.md`** using the tiered format (see `original/RESOURCES-FORMAT.md`): Tier 1 Canonical (grounds lessons) → Tier 2 Orientation → Tier 3 Wisdom/Community.
+**4. Write it into `RESOURCES.md`** using the tiered format (see `formats/RESOURCES-FORMAT.md`): Tier 1 Canonical (grounds lessons) → Tier 2 Orientation → Tier 3 Wisdom/Community.
 
 **Grounding rule:** every lesson must be anchored in a Tier 1 source, cited in the footer. Community (Tier 3) is for real-world feeling and trade-off sanity-checks — never the basis of an explanation.
 
