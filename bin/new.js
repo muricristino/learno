@@ -97,7 +97,7 @@ async function create(args) {
   // Inside Claude Code (`! npx …`) there is no terminal to hand over: the output
   // lands in the running conversation, so it tells that Claude what to do next.
   if (process.env.CLAUDECODE || !process.stdin.isTTY) {
-    say(handoff(dir, lang));
+    say(handoff(dir));
     return;
   }
 
@@ -110,23 +110,22 @@ async function create(args) {
     .on('exit', code => process.exit(code ?? 0));
 }
 
-function handoff(dir, lang) {
-  const next = lang === 'pt'
-    ? 'Agora é só mandar uma mensagem para o Claude, por exemplo: vamos começar'
-    : 'Now just send Claude a message, for example: let\'s start';
+function handoff(dir) {
   return [
-    '── Instructions for Claude ──',
-    `A learno study workspace was just created at ${dir}.`,
-    `When the user replies, start its first session: read ${path.join(dir, 'SKILL.md')} and follow "First run" —`,
-    'interview for the mission, the profile, the sources and the curriculum, then write the first lesson.',
-    `Work only inside that folder: cd ${dir} before every command, and write every file there.`,
-    `Serve lessons with \`make -C ${dir} local\` and give the user the lesson URL to open.`,
-    `Write the lessons in the language the user writes to you in. learno.json says "${lang}" (a guess from the system):`,
-    'if the user writes in the other one, set {"lang": "pt"} or {"lang": "en"} there before building anything.',
-    'The user may not be technical: never ask them to run a command — run it yourself.',
+    '── For Claude ──',
+    `The user just created a learno study at ${dir}. When they reply:`,
+    '- Always answer in the language they write in, and write the lessons in it, whatever it is.',
+    '  learno.json only picks the language of the buttons: {"lang": "pt"} for Portuguese, else {"lang": "en"}.',
+    `- Read ${path.join(dir, 'SKILL.md')} and follow "First run": the interview comes before any lesson.`,
+    `- Work only inside that folder: cd ${dir} before every command.`,
+    '- They may not be technical. Never ask them to run a command; run it yourself.',
     '──',
     '',
-    next,
+    'learno is a tutor that lives in this folder. It asks what you want to learn and why,',
+    'finds the best sources on it, and teaches in short lessons you answer in your own words.',
+    'It remembers what you got wrong and brings each topic back just before you would forget it.',
+    '',
+    'When you are ready, just tell Claude — in your own language. For example: "let\'s start".',
     ''
   ].join('\n');
 }
