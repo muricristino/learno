@@ -229,8 +229,9 @@ One workspace, one language. It lives in `learno.json` at the root:
 { "lang": "en" }
 ```
 
-`pt` (the default) or `en`. It sets every word the engine puts on a page, the
-`<html lang>` the dictation reads, the date format, and — the one that is not
+`en` (the default, and the fallback for any missing string) or `pt`. It sets every
+word the engine puts on a page — lessons, dashboard, library — the `<html lang>`,
+the default dictation language, the date format, and — the one that is not
 cosmetic — **the language the model writes its feedback in**. Without it, an
 answer written in English came back scored in Portuguese.
 
