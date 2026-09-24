@@ -1,6 +1,6 @@
 meta:
   title: "Sandbox — Renderer smoke test"
-  subtitle: "Lição descartável: existe só para provar o pipeline JSON + YAML de ponta a ponta"
+  subtitle: "Lição descartável: existe só para provar o pipeline `.json` + `.yml` de ponta a ponta"
 
 analogy:
   label: "Pense num guarda-volumes de academia"
@@ -122,12 +122,12 @@ code:
 flashcards:
   title: "Revisão rápida"
   cards:
-    - front: "O que o @ faz num valor do JSON?"
+    - front: "O que o `@` faz num valor do JSON?"
       back: "Marca um caminho dentro do .yml. É resolvido antes do componente ver a prop, então componente só lida com valor real."
     - front: "Por que o build recusa SVG com cor?"
       back: "Porque cor vem das classes do design system. Um diagrama que traz a própria cor não acompanha o tema e diverge do resto."
-    - front: "Onde mora o CSS de um componente?"
-      back: "No próprio componente, no campo css. O build concatena tudo em assets/components.css, então um componente local não edita arquivo compartilhado."
+    - front: "O que `[head | tail] = [1, 2, 3]` faz em Elixir?"
+      back: "Desestrutura a lista: `head` vira `1` e `tail` vira `[2, 3]`."
 
 source:
   title: "LESSON-PIPELINE-SPEC.md"
@@ -158,7 +158,7 @@ code3:
     2026-07-26T19:53:34Z ERR dropping batch after 3 retries
 
 p1:
-  title: "Uma seção que destrava a próxima"
+  title: "O `@` que destrava a próxima seção"
   body: >
     A seção 2 está fechada. Responda o bloco abaixo com nota 50 ou mais e ela
     abre. Como o validador do sandbox é determinístico, comece a resposta com
@@ -187,7 +187,7 @@ p2:
     }
     ```
   ok: "Isso. Trocar de modo vira um toggle de classe, e não um fetch que precisa dar certo para mostrar a alternativa."
-  bad: "O contrário: se ele fosse buscado na hora, precisaria do servidor justamente quando o servidor caiu."
+  bad: "O contrário: se ele fosse buscado com `fetch` na hora, precisaria do servidor justamente quando o servidor caiu."
   options:
     - { text: "Para economizar bytes na página", correct: false }
     - { text: "Porque buscá-lo na hora exigiria o servidor exatamente quando o servidor está fora", correct: true }
