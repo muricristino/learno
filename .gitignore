@@ -13,3 +13,6 @@ sandbox/components.html
 # A study workspace created from it should commit learno.db.
 learno.db
 learno.db-journal
+
+# Claude Code creates agent worktrees here
+.claude/worktrees/
