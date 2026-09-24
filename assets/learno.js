@@ -324,8 +324,8 @@
         }
       };
       rec.onerror = function (e) {
-        // Arc fails silently rather than prompting, so the reason goes on screen.
-        hint.textContent = t('mic.failed', 'microfone falhou') + ' (' + e.error + ') — ' + t('mic.tryOther', 'tente Safari ou Chrome');
+        // Recognition can fail without ever prompting, so the failure has to be said on screen.
+        hint.textContent = t('mic.failed', 'Não deu para transcrever agora. Você pode digitar a resposta.');
       };
       rec.onend = function () {
         active = false;
