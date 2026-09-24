@@ -9,11 +9,11 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '
 module.exports = {
   meta: {
     name: 'phase',
-    purpose: 'seção de conteúdo, destravada pela resposta da anterior',
+    purpose: 'a content section, unlocked by answering the one before',
     props: { id: 'string', title: 'string', open: 'bool?' },
     demo: {
       id: '1',
-      title: 'Por que o módulo quebra',
+      title: 'Why the modulo breaks',
       open: true
     }
   },

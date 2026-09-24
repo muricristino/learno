@@ -60,9 +60,9 @@ function settings() {
         <div class="lx-settings-group">
           <p class="lx-settings-label">${t('settings.accent')}</p>
           <div class="lx-settings-row">
-            <button type="button" class="lx-settings-opt" data-accent-set="azul" title="Azul"><span class="lx-settings-dot lx-settings-dot--azul"></span>Azul</button>
-            <button type="button" class="lx-settings-opt" data-accent-set="roxo" title="Roxo"><span class="lx-settings-dot lx-settings-dot--roxo"></span>Roxo</button>
-            <button type="button" class="lx-settings-opt" data-accent-set="rosa" title="Rosa"><span class="lx-settings-dot lx-settings-dot--rosa"></span>Rosa</button>
+            <button type="button" class="lx-settings-opt" data-accent-set="azul" title="${t('settings.blue')}"><span class="lx-settings-dot lx-settings-dot--azul"></span>${t('settings.blue')}</button>
+            <button type="button" class="lx-settings-opt" data-accent-set="roxo" title="${t('settings.purple')}"><span class="lx-settings-dot lx-settings-dot--roxo"></span>${t('settings.purple')}</button>
+            <button type="button" class="lx-settings-opt" data-accent-set="rosa" title="${t('settings.pink')}"><span class="lx-settings-dot lx-settings-dot--rosa"></span>${t('settings.pink')}</button>
           </div>
         </div>
       </div>

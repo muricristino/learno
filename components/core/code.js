@@ -10,11 +10,11 @@ const PLAIN = new Set(['text', 'txt', 'plain', 'none', 'output', 'log']);
 module.exports = {
   meta: {
     name: 'code',
-    purpose: 'bloco de código, com destaque de sintaxe feito no build',
+    purpose: 'a code block, syntax-highlighted at build time',
     props: { source: 'string', lang: 'string?', caption: 'string?' },
     demo: {
       lang: 'sql',
-      caption: 'A consulta que o índice torna barata',
+      caption: 'The query the index makes cheap',
       source: 'SELECT id, email\n  FROM users\n WHERE tenant_id = $1\n   AND created_at > now() - interval \'7 days\';'
     }
   },

@@ -3,16 +3,16 @@ const { esc, inline } = require('../../build/text');
 module.exports = {
   meta: {
     name: 'compare',
-    purpose: 'duas ou três opções lado a lado',
+    purpose: 'two or three options side by side',
     props: {
       columns: 'array<{label: string, body: string}>',
       caption: 'string?'
     },
     demo: {
-      caption: 'Onde cada uma quebra',
+      caption: 'Where each one breaks',
       columns: [
-        { label: 'Long polling', body: 'Simples de operar. Segura uma conexão por cliente esperando.' },
-        { label: 'WebSocket',    body: 'Bidirecional e barato por mensagem. Estado no servidor complica o balanceamento.' }
+        { label: 'Long polling', body: 'Simple to run. Holds one waiting connection per client.' },
+        { label: 'WebSocket',    body: 'Two-way and cheap per message. Server-side state complicates load balancing.' }
       ]
     }
   },

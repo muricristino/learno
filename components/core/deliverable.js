@@ -5,7 +5,7 @@ const { inline, rich } = require('../../build/text');
 module.exports = {
   meta: {
     name: 'deliverable',
-    purpose: 'o que o usuário tem de entregar num projeto — artefato, casos que ele precisa aguentar, e como entregar',
+    purpose: 'what the learner delivers in a project — the artifact, the cases it must survive, and how to hand it in',
     props: {
       artifact: 'string',
       detail:   'string?',
@@ -13,14 +13,14 @@ module.exports = {
       handoff:  'string'
     },
     demo: {
-      artifact: 'Um serviço de entrega de webhooks que roda',
-      detail: 'Qualquer linguagem, sem framework obrigatório. Um receptor de mentira serve como cliente.',
+      artifact: 'A webhook delivery service that runs',
+      detail: 'Any language, no required framework. A fake receiver will do as the client.',
       must: [
-        'O mesmo evento entregue duas vezes, e o receptor conseguindo perceber',
-        'Um cliente fora do ar por horas, e os eventos daquele período',
-        'Um evento que esgota as tentativas e não pode sumir'
+        'The same event delivered twice, and the receiver able to tell',
+        'A client down for hours, and the events from that stretch',
+        'An event that runs out of retries and must not vanish'
       ],
-      handoff: 'Escreva no seu repositório. Quando estiver rodando, aponte o caminho no chat.'
+      handoff: 'Write it in your repository. Once it runs, point to the path in the chat.'
     }
   },
 

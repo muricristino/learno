@@ -16,7 +16,7 @@
   var CONCEPTS = cfg.concepts || [];
   var PHASES   = cfg.phases || [];
 
-  // The Portuguese fallbacks serve pages built before cfg.strings existed.
+  // The fallbacks serve pages built before cfg.strings existed.
   var S = cfg.strings || {};
   function t(key, dflt) { return S[key] || dflt; }
 
@@ -110,10 +110,10 @@
   }
 
   function band(score) {
-    if (score >= 90) return { cls: 'lx-score--top',  word: t('score.top', 'domínio') };
-    if (score >= 75) return { cls: 'lx-score--good', word: t('score.good', 'sólido') };
-    if (score >= 41) return { cls: 'lx-score--mid',  word: t('score.mid', 'parcial') };
-    return { cls: 'lx-score--bad', word: t('score.bad', 'não compreendido') };
+    if (score >= 90) return { cls: 'lx-score--top',  word: t('score.top', 'mastered') };
+    if (score >= 75) return { cls: 'lx-score--good', word: t('score.good', 'solid') };
+    if (score >= 41) return { cls: 'lx-score--mid',  word: t('score.mid', 'partial') };
+    return { cls: 'lx-score--bad', word: t('score.bad', 'not understood') };
   }
 
   function showVerdict(block, data) {
@@ -152,7 +152,7 @@
     var box = $('.lx-verdict', block);
     $('.lx-score', box).className = 'lx-score lx-score--bad';
     $('.lx-score-num', box).textContent  = '—';
-    $('.lx-score-word', box).textContent = t('score.error', 'erro');
+    $('.lx-score-word', box).textContent = t('score.error', 'error');
     $('.lx-bar-fill', box).style.width   = '0';
     $('.lx-feedback', box).textContent   = message;
     $('.lx-misses', box).innerHTML = '';
@@ -163,7 +163,7 @@
   function readVerdict(r) {
     if (r.ok) return r.json();
     return r.json().catch(function () { return {}; }).then(function (body) {
-      throw new Error(body.error || (t('run.serverSaid', 'servidor respondeu') + ' ' + r.status));
+      throw new Error(body.error || (t('run.serverSaid', 'the server replied') + ' ' + r.status));
     });
   }
 
@@ -171,7 +171,7 @@
     btn.disabled = isBusy;
     if (isBusy) {
       btn.dataset.label = btn.textContent;
-      btn.textContent = label || t('run.validating', 'Validando…');
+      btn.textContent = label || t('run.validating', 'Checking…');
     } else if (btn.dataset.label) {
       btn.textContent = btn.dataset.label;
     }
@@ -179,7 +179,7 @@
 
   function validate(block, btn) {
     var answer = $('.lx-answer', block).value.trim();
-    if (!answer) { fail(block, t('run.needAnswer', 'Escreva uma resposta antes de validar.')); return; }
+    if (!answer) { fail(block, t('run.needAnswer', 'Write an answer before checking.')); return; }
 
     busy(btn, true);
     fetch(SERVER + '/api/validate', {
@@ -202,7 +202,7 @@
       })
       .catch(function (err) {
         // Never render an error as a score: 0 would say they were wrong when nothing evaluated it.
-        fail(block, t('run.validateFailed', 'Não deu para validar agora. Sua resposta continua aí.') + ' (' + err.message + ')');
+        fail(block, t('run.validateFailed', 'Could not check that just now. Your answer is still here.') + ' (' + err.message + ')');
       })
       .finally(function () { busy(btn, false); });
   }
@@ -227,17 +227,17 @@
 
   function teachback(block, btn) {
     var answer = $('.lx-answer', block).value.trim();
-    if (!answer) { fail(block, t('run.needExplain', 'Escreva sua explicação antes de encerrar.')); return; }
+    if (!answer) { fail(block, t('run.needExplain', 'Write your explanation before finishing.')); return; }
 
     var concepts = (block.dataset.concepts || '').split(',').filter(Boolean);
 
-    busy(btn, true, t('run.grading', 'Avaliando…'));
+    busy(btn, true, t('run.grading', 'Grading…'));
     fetch(SERVER + '/api/validate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         concept_id:        concepts[0] || '',
-        section_summary:   t('run.teachbackOf', 'Teach-back final da lição') + ' ' + LESSON,
+        section_summary:   t('run.teachbackOf', 'Final teach-back for lesson') + ' ' + LESSON,
         user_answer:       answer,
         valid_concept_ids: CONCEPTS,
         is_teachback:      true,
@@ -261,7 +261,7 @@
           .then(function (saved) { remember('done', 'done', saved || {}); showDone(data, saved); });
       })
       .catch(function (err) {
-        fail(block, t('run.finishFailed', 'Não deu para encerrar agora. Sua explicação continua aí.') + ' (' + err.message + ')');
+        fail(block, t('run.finishFailed', 'Could not finish just now. Your explanation is still here.') + ' (' + err.message + ')');
       })
       .finally(function () { busy(btn, false); });
   }
@@ -274,11 +274,11 @@
 
     if (saved && saved.next_review) {
       date.textContent = saved.next_review;
-      note.textContent = saved.concepts_updated + ' ' + t('run.scheduled', 'conceito(s) agendado(s) pelo SM-2.');
+      note.textContent = saved.concepts_updated + ' ' + t('run.scheduled', 'concept(s) scheduled by SM-2.');
     } else {
       // Scored but not recorded — do not show a date that was never written.
-      date.textContent = t('run.notScheduled', 'não agendada');
-      note.textContent = t('run.notSaved', 'A lição foi avaliada, mas o progresso não pôde ser salvo.');
+      date.textContent = t('run.notScheduled', 'not scheduled');
+      note.textContent = t('run.notSaved', 'The lesson was graded, but the progress could not be saved.');
     }
     PHASES.forEach(markPhaseDone);
     openGate('flashcards');
@@ -311,8 +311,8 @@
       rec.onstart = function () {
         active = true;
         btn.classList.add('is-recording');
-        btn.textContent = '⏹ ' + t('mic.stop', 'Parar');
-        hint.textContent = t('mic.listening', 'ouvindo…');
+        btn.textContent = '⏹ ' + t('mic.stop', 'Stop');
+        hint.textContent = t('mic.listening', 'listening…');
       };
       rec.onresult = function (e) {
         for (var i = e.resultIndex; i < e.results.length; i++) {
@@ -325,13 +325,13 @@
       };
       rec.onerror = function (e) {
         // Recognition can fail without ever prompting, so the failure has to be said on screen.
-        hint.textContent = t('mic.failed', 'Não deu para transcrever agora. Você pode digitar a resposta.');
+        hint.textContent = t('mic.failed', 'Could not transcribe just now. You can type your answer.');
       };
       rec.onend = function () {
         active = false;
         btn.classList.remove('is-recording');
-        btn.textContent = '🎙 ' + t('mic.dictate', 'Ditar');
-        if (hint.textContent === t('mic.listening', 'ouvindo…')) hint.textContent = '';
+        btn.textContent = '🎙 ' + t('mic.dictate', 'Dictate');
+        if (hint.textContent === t('mic.listening', 'listening…')) hint.textContent = '';
       };
       rec.start();
     });
@@ -395,7 +395,7 @@
         input.checked = true;
         var owner = scope.closest('.lx-recall') || scope;
         answerChoice(scope, input, owner.dataset.phase,
-          owner.dataset.ok || t('recall.ok', 'Correto.'), owner.dataset.bad || t('recall.bad', 'Não é essa.'));
+          owner.dataset.ok || t('recall.ok', 'Correct.'), owner.dataset.bad || t('recall.bad', 'Not that one.'));
       });
     });
 
@@ -418,7 +418,7 @@
         input.addEventListener('change', function () {
           var fb = block.querySelector('.lx-fallback');
           answerChoice(fb, input, block.dataset.phase,
-            block.dataset.ok || t('recall.ok', 'Correto.'), block.dataset.bad || t('recall.bad', 'Não é essa.'));
+            block.dataset.ok || t('recall.ok', 'Correct.'), block.dataset.bad || t('recall.bad', 'Not that one.'));
         });
       });
     });

@@ -9,21 +9,21 @@ build, which is what keeps the vocabulary meaningful rather than a suggestion.
 
 | Component | Purpose | Props | Tier |
 |---|---|---|---|
-| `analogy` | analogia da vida real, antes de qualquer termo técnico | `label: string, text: string, bridge: string` | core |
-| `callout` | aparte — nota, atenção ou armadilha (variant: note \| warn \| danger) | `variant: string, text: string, title: string?` | core |
-| `code` | bloco de código, com destaque de sintaxe feito no build | `source: string, lang: string?, caption: string?` | core |
-| `compare` | duas ou três opções lado a lado | `columns: array<{label: string, body: string}>, caption: string?` | core |
-| `deliverable` | o que o usuário tem de entregar num projeto — artefato, casos que ele precisa aguentar, e como entregar | `artifact: string, detail: string?, must: array<string>, handoff: string` | core |
-| `diagram` | diagrama SVG inline, desenhado com as classes do design system | `svg: svg, caption: string?` | core |
-| `flashcards` | cartões de revisão imediata — frente visível, verso escondido | `cards: array<{front: string, back: string}>, title: string?` | core |
-| `phase` | seção de conteúdo, destravada pela resposta da anterior | `id: string, title: string, open: bool?` | core |
-| `prose` | parágrafos de texto corrido | `text: string` | core |
-| `quiz` | múltipla escolha, corrigida na própria página | `question: string, options: array<{text: string, correct: bool}>, ok: string, bad: string, phase: string?` | core |
-| `recall` | resposta livre validada pela IA, com fallback de múltipla escolha offline | `conceptId: string, question: string, summary: string, phase: string?, fallback: {options: array<{text: string, correct: bool}>, ok: string, bad: string}` | core |
-| `rubric` | critérios de avaliação de um projeto — o que é suficiente e o que não é | `criteria: array<{title: string, ok: string, bad: string}>, caption: string?` | core |
-| `source` | fonte primária em que a lição se apoia | `title: string, url: string?, note: string?` | core |
-| `table` | tabela de dados, com cabeçalho e legenda | `headers: array<string>, rows: array<array<string>>, caption: string?` | core |
-| `teachback` | explicação final que fecha a lição e alimenta a revisão espaçada | `question: string, conceptIds: array<string>, hint: string?` | core |
+| `analogy` | a real-life analogy, before any technical term | `label: string, text: string, bridge: string` | core |
+| `callout` | an aside — a note, a caution or a trap (variant: note \| warn \| danger) | `variant: string, text: string, title: string?` | core |
+| `code` | a code block, syntax-highlighted at build time | `source: string, lang: string?, caption: string?` | core |
+| `compare` | two or three options side by side | `columns: array<{label: string, body: string}>, caption: string?` | core |
+| `deliverable` | what the learner delivers in a project — the artifact, the cases it must survive, and how to hand it in | `artifact: string, detail: string?, must: array<string>, handoff: string` | core |
+| `diagram` | an inline SVG diagram, drawn with the design system classes | `svg: svg, caption: string?` | core |
+| `flashcards` | immediate-review cards — front visible, back hidden | `cards: array<{front: string, back: string}>, title: string?` | core |
+| `phase` | a content section, unlocked by answering the one before | `id: string, title: string, open: bool?` | core |
+| `prose` | paragraphs of running text | `text: string` | core |
+| `quiz` | multiple choice, marked on the page itself | `question: string, options: array<{text: string, correct: bool}>, ok: string, bad: string, phase: string?` | core |
+| `recall` | a free-text answer graded by the model, with a multiple-choice fallback offline | `conceptId: string, question: string, summary: string, phase: string?, fallback: {options: array<{text: string, correct: bool}>, ok: string, bad: string}` | core |
+| `rubric` | a project's grading criteria — what is enough and what is not | `criteria: array<{title: string, ok: string, bad: string}>, caption: string?` | core |
+| `source` | the primary source the lesson stands on | `title: string, url: string?, note: string?` | core |
+| `table` | a data table, with a header and a caption | `headers: array<string>, rows: array<array<string>>, caption: string?` | core |
+| `teachback` | the closing explanation that ends the lesson and feeds spaced review | `question: string, conceptIds: array<string>, hint: string?` | core |
 
 **15 components** — 15 core, 0 local.
 
