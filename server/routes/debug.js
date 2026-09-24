@@ -1,10 +1,5 @@
 const router = require('express').Router();
 
-// Standalone mic / Web Speech diagnostics page. Open at http://localhost:9990/debug/mic
-// Separates two independent things:
-//   1. Raw microphone capture (getUserMedia + Web Audio level meter) — proves the OS/browser mic works.
-//   2. SpeechRecognition (Google cloud transcription) — proves the recognition service works.
-// Everything is logged on-screen with timestamps so no DevTools is needed.
 const PAGE = /* html */ `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>

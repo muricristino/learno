@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const { languageName } = require('../workspace');
 
-// Real Mongo, or the in-memory sandbox store — see server/db.js.
 const { getDb, SANDBOX } = require('../db');
 const { stubVerdict }    = require('../sandbox-validator');
 
@@ -60,13 +59,9 @@ Return JSON only (no markdown wrapper, no explanation outside the JSON):
     let parsed;
 
     if (SANDBOX) {
-      // No model call: the sandbox needs verdicts that are free, instant and
-      // repeatable, so a layout regression is never confused for the model
-      // having a different opinion this run.
+      // Deterministic, so a layout regression is never mistaken for the model's mood.
       parsed = stubVerdict({ user_answer, concept_id, valid_concept_ids, is_teachback });
     } else {
-      // Checked before the call, because "502" tells the reader nothing about
-      // the one cause they can actually fix.
       if (!process.env.GEMINI_API_KEY) {
         return res.status(503).json({
           error: 'GEMINI_API_KEY is not set — copy .env.example to .env at the repo root and fill it in',
@@ -87,8 +82,7 @@ Return JSON only (no markdown wrapper, no explanation outside the JSON):
         const detail = await geminiRes.text();
         console.error('Gemini error:', geminiRes.status, detail);
 
-        // A rejected key is a setup problem, not an outage, and saying so is the
-        // difference between a one-line fix and an afternoon of guessing.
+        // A rejected key is a setup problem, not an outage.
         const badKey = geminiRes.status === 400 && /API key not valid/i.test(detail);
         return res.status(badKey ? 503 : 502).json({
           error: badKey
@@ -108,14 +102,14 @@ Return JSON only (no markdown wrapper, no explanation outside the JSON):
       parsed = JSON.parse(raw);
     }
 
-    // Enforce canonical vocabulary — drop any ID Gemini invented
+    // The model sometimes invents IDs outside the canonical vocabulary.
     if (valid_concept_ids.length && Array.isArray(parsed.concepts_demonstrated)) {
       parsed.concepts_demonstrated = parsed.concepts_demonstrated.filter(id =>
         valid_concept_ids.includes(id)
       );
     }
 
-    // Persist section result to MongoDB (fire-and-forget — does not block response)
+    // Fire-and-forget: a slow write must not delay the verdict.
     if (lesson_id) {
       getDb().then(db => db.collection('section_results').insertOne({
         lesson_id,

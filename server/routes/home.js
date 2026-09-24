@@ -1,17 +1,6 @@
 const router = require('express').Router();
 const { listWorkspace, DASHBOARD_PATH, hasDashboard } = require('../workspace');
 
-// `/` is the front door: the mastery dashboard, which already lists every
-// lesson and review via /api/catalog.
-//
-// A redirect rather than serving the file at `/`, because the dashboard links
-// to its siblings relatively (`glossary.html`); served from the root those
-// would resolve to /glossary.html and 404.
-//
-// A workspace that has not been seeded yet has no dashboard, and answering the
-// root with `{"error":"Not found"}` there is a poor first impression — so fall
-// back to a plain index of whatever content does exist.
-
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 function renderGroup(title, items, empty) {
@@ -58,14 +47,16 @@ function renderIndex({ lessons, reviews, projects }) {
   ${renderGroup('Revisões', reviews, 'Nenhuma revisão ainda.')}
   ${renderGroup('Projetos', projects, 'Nenhum projeto ainda.')}
   <p class="note">
-    O dashboard de domínio ainda não existe neste workspace. Copie
-    <code>skill/templates/reference/</code> para <code>reference/</code> para
-    que <code>/</code> passe a abrir <code>${esc(DASHBOARD_PATH)}</code>.
+    O dashboard de domínio ainda não existe neste workspace. Copie a pasta
+    <code>reference/</code> da raiz do repositório do learno para a raiz deste
+    workspace para que <code>/</code> passe a abrir <code>${esc(DASHBOARD_PATH)}</code>.
   </p>
 </body></html>`;
 }
 
 router.get('/', (_req, res) => {
+  // A redirect, not the file served at `/`: the dashboard links to its siblings
+  // relatively (`glossary.html`), which would 404 from the root.
   if (hasDashboard()) return res.redirect(302, '/' + DASHBOARD_PATH);
   res.type('html').send(renderIndex(listWorkspace()));
 });

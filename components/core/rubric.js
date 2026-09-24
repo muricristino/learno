@@ -1,7 +1,4 @@
-// A rubric is not tabular data. Three columns of prose collapse on a phone into
-// a repeated label per row and a ragged left edge — the `table` fallback is
-// built for short cells. Here the criterion is the heading and the two verdicts
-// are bands under it, so the shape survives at any width.
+// Not a `table`: its phone fallback is built for short cells and wrecks long prose.
 
 const { icon } = require('../../build/icons');
 const { t } = require('../../build/strings');

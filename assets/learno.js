@@ -1,7 +1,3 @@
-/* learno — lesson runtime. Linked once by every lesson; nothing is generated per
-   page. Configuration arrives as JSON in #lx-config, so a lesson never contains
-   script of its own and nothing is escaped into a JS context. */
-
 (function () {
   'use strict';
 
@@ -20,19 +16,14 @@
   var CONCEPTS = cfg.concepts || [];
   var PHASES   = cfg.phases || [];
 
-  // Shipped inside #lx-config by the template, so a button never has to wait for
-  // a fetch to know what it says. The Portuguese fallbacks are what a page built
-  // before this existed still renders with.
+  // The Portuguese fallbacks serve pages built before cfg.strings existed.
   var S = cfg.strings || {};
   function t(key, dflt) { return S[key] || dflt; }
 
-  // Below this a section does not open.
   var PASS = 50;
 
   var $  = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
-
-  // ── server ──────────────────────────────────────────────────────────────
 
   var online = false;
 
@@ -50,8 +41,6 @@
       .catch(function () { setOffline(true); });
   }
 
-  // ── progress ────────────────────────────────────────────────────────────
-
   function markPhaseDone(id) {
     var phase = $('.lx-phase[data-phase="' + id + '"]');
     if (phase) phase.classList.add('lx-phase--done');
@@ -61,8 +50,7 @@
     return i;
   }
 
-  // Both halves matter: the class un-blurs it, and removing aria-hidden makes it
-  // exist for a screen reader again.
+  // Both halves matter: the class un-blurs it, removing aria-hidden exposes it to screen readers.
   function openGate(name, scroll) {
     var el = $('.lx-gate[data-gate="' + name + '"]');
     if (!el) return null;
@@ -73,16 +61,14 @@
     return el;
   }
 
-  // Answering opens the next section, whatever the answer was worth. A weak one
-  // only changes whether the page scrolls: it opens quietly and leaves the reader
-  // looking at the feedback instead of being thrown down the page.
+  // Any answer opens the next section; a weak one just skips the scroll so the
+  // reader stays on the feedback.
   function unlockNext(fromId, scroll) {
     markPhaseDone(fromId);
     var i = PHASES.indexOf(String(fromId));
     if (i < 0) return;
 
-    // Only the teach-back. The flash cards carry the answers and stay shut until
-    // it is submitted.
+    // Not the flash cards: they carry the answers and stay shut until the teach-back is submitted.
     if (i + 1 >= PHASES.length) {
       openGate('teachback', scroll !== false);
       return;
@@ -92,8 +78,6 @@
     if (next) next.classList.remove('lx-phase--locked');
     openGate('phase-' + PHASES[i + 1], scroll !== false);
   }
-
-  // ── verdict rendering ───────────────────────────────────────────────────
 
   function band(score) {
     if (score >= 90) return { cls: 'lx-score--top',  word: t('score.top', 'domínio') };
@@ -145,7 +129,7 @@
     box.classList.add('is-shown');
   }
 
-  // Pass the server's own sentence through; a status code is not actionable.
+  // Surface the server's own sentence; a bare status code is not actionable.
   function readVerdict(r) {
     if (r.ok) return r.json();
     return r.json().catch(function () { return {}; }).then(function (body) {
@@ -162,8 +146,6 @@
       btn.textContent = btn.dataset.label;
     }
   }
-
-  // ── recall ──────────────────────────────────────────────────────────────
 
   function validate(block, btn) {
     var answer = $('.lx-answer', block).value.trim();
@@ -184,27 +166,17 @@
       .then(readVerdict)
       .then(function (data) {
         showVerdict(block, data);
-        // Never gated on the score. A gap is for the tutor to act on — it reads
-        // the score and closes the gap with the next lesson or review; a page
-        // that locks someone out of their own material cannot teach them the
-        // thing they just got wrong.
+        // Never gated on the score: locking the reader out cannot teach what they got wrong.
         if (block.dataset.phase) unlockNext(block.dataset.phase, data.score >= PASS);
       })
       .catch(function (err) {
-        // Never render an error as a score: 0 would say they were wrong when
-        // nothing evaluated the answer.
+        // Never render an error as a score: 0 would say they were wrong when nothing evaluated it.
         fail(block, t('run.validateFailed', 'Não deu para validar agora. Sua resposta continua aí.') + ' (' + err.message + ')');
       })
       .finally(function () { busy(btn, false); });
   }
 
-  // ── multiple choice, used by quiz and by recall's offline fallback ───────
-
-  // Answering opens the next section, right or wrong — the same rule recall
-  // follows. What a miss changes is the invitation to try again: the choices stay
-  // live and the correct one stays unmarked until it is chosen, so a retry is
-  // still worth something. Revealing it on the first miss would make the retry a
-  // formality.
+  // A miss keeps the choices live and the correct one unmarked, so a retry is not a formality.
   function answerChoice(scope, input, phaseId, okText, badText) {
     var correct = input.dataset.correct === '1';
     $$('input[type="radio"]', scope).forEach(function (i) {
@@ -220,8 +192,6 @@
     }
     if (phaseId) unlockNext(phaseId, correct);
   }
-
-  // ── teach-back ──────────────────────────────────────────────────────────
 
   function teachback(block, btn) {
     var answer = $('.lx-answer', block).value.trim();
@@ -283,8 +253,6 @@
     done.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
-  // ── dictation ───────────────────────────────────────────────────────────
-
   function setupMic(block) {
     var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     var btn = $('.lx-mic', block);
@@ -334,13 +302,7 @@
     });
   }
 
-
-  // Three states, not two: without "auto" the first click permanently opts the
-  // reader out of following their system.
-
-  // "auto" and "azul" are the absence of an attribute, not a value — the
-  // stylesheet's defaults are already those, so setting them would be a second
-  // place for the same fact to live.
+  // The default is the absence of the attribute; the stylesheet already encodes it.
   function applyPref(kind, choice, dflt) {
     var attr = 'data-' + kind, root = document.documentElement;
     if (choice === dflt) root.removeAttribute(attr);
@@ -366,8 +328,6 @@
       });
     });
   }
-
-  // ── wiring ──────────────────────────────────────────────────────────────
 
   function init() {
     $$('.lx-recall').forEach(function (block) {
@@ -400,8 +360,7 @@
 
     setupPrefs();
 
-    // No phases means nothing to gate behind — otherwise the component gallery
-    // would render permanently locked.
+    // No phases means nothing to gate behind; otherwise the component gallery stays locked.
     if (!PHASES.length) $$('.lx-gate').forEach(function (g) { openGate(g.dataset.gate); });
 
     detectServer();

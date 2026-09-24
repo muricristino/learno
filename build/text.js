@@ -1,16 +1,7 @@
-// Authored text, turned into markup — in one place.
-//
-// It used to live inside prose.js, so prose was the only component that
-// rendered **bold** and `code`. Every other component escaped and stopped
-// there, which shipped literal asterisks and backticks to the reader in any
-// callout, table cell or option an author wrote naturally.
-
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-// Private-use codepoints, which cannot occur in authored prose. They wrap the
-// placeholder index so the restore pass matches a marker rather than any run of
-// digits — the version this was lifted from restored on /(\d+)/, so "90
-// segundos" in any paragraph would have come out as "undefined segundos".
+// Private-use codepoints, which cannot occur in prose: the restore pass must
+// match a marker, not any run of digits ("90 segundos" would lose its 90).
 const OPEN = '';
 const SHUT = '';
 
@@ -27,9 +18,6 @@ function inline(text) {
   return s.replace(new RegExp(`${OPEN}(\\d+)${SHUT}`, 'g'), (_, i) => code[+i]);
 }
 
-// Blocks: blank-line-separated paragraphs, plus `- ` lists. Without the list
-// case a multi-item block collapses into one run-on line, which is how the
-// three cases in a project brief ended up as a single sentence.
 function rich(text) {
   return String(text ?? '')
     .split(/\n\s*\n/)

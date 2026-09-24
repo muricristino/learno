@@ -1,9 +1,4 @@
 #!/usr/bin/env node
-//
-//   node build/compare.js <hand-written.html>... --against <lesson-base>
-//
-// Authored bytes are the number that matters — paid on every generation, in
-// latency and cost. Rendered size is paid once by a reader on a fast link.
 
 const fs   = require('fs');
 const path = require('path');
@@ -16,7 +11,6 @@ function splitHandwritten(html) {
   const svg     = (html.match(/<svg[\s\S]*?<\/svg>/g)             || []).join('');
   const rest    = html.length - styles.length - scripts.length - svg.length;
 
-  // Visible text, so "prose" means prose and not the tags around it.
   const text = html
     .replace(/<style[^>]*>[\s\S]*?<\/style>/g, '')
     .replace(/<script[^>]*>[\s\S]*?<\/script>/g, '')
@@ -84,12 +78,8 @@ function main(argv) {
   console.log(`  authored per lesson ${K(p.authored).padStart(6)}`);
   console.log(`  rendered            ${K(p.rendered).padStart(6)}   linked assets, not inlined`);
 
-  // Raw totals are confounded by how much lesson was written. A longer lesson
-  // authors more bytes in ANY format, so comparing totals across two different
-  // lessons flatters or punishes the format for something it did not cause.
-  //
-  // The honest measure is overhead: bytes of machinery per byte of content,
-  // where content is prose plus diagrams — the part a human actually decided.
+  // Raw totals mostly measure how long each lesson is; machinery per byte of
+  // content is the number that compares formats.
   const handContent   = avg('prose') + avg('svg');
   const handMachinery = avg('authored') - handContent;
   const pipeContent   = p.prose + p.svg;

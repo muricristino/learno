@@ -1,17 +1,4 @@
 #!/usr/bin/env node
-//
-// Generates the component registry and the gallery, both from the component
-// files themselves.
-//
-//   node build/catalog.js
-//     → COMPONENTS.md          the vocabulary, as a table
-//     → sandbox/components.html  every component rendered from its own demo
-//
-// Neither artifact is hand-maintained, and that is the point: a fixture kept by
-// hand falls out of date with the vocabulary, and the moment it does it starts
-// certifying that components look right when nobody has looked at them. Add a
-// component and it appears in both; change its props and the gallery renders
-// the new shape or fails.
 
 const fs   = require('fs');
 const path = require('path');
@@ -22,8 +9,6 @@ const { esc }                  = require('./template');
 
 const ROOT = path.join(__dirname, '..');
 
-// A component without these cannot be documented or demonstrated, so it is
-// rejected rather than listed as a blank row.
 function requireMetadata(component) {
   const { meta, file } = component;
   const missing = [];
@@ -35,9 +20,7 @@ function requireMetadata(component) {
   }
 }
 
-// A pipe inside a cell splits the markdown table. Escaping is not cosmetic
-// here: `callout`'s purpose names its variants as "note | warn | danger", which
-// silently turned one row into four columns.
+// A pipe splits the markdown row — `callout`'s purpose contains "note | warn | danger".
 const cell = s => String(s).replace(/\|/g, '\\|');
 
 function propSignature(props) {
@@ -45,8 +28,6 @@ function propSignature(props) {
     .map(([name, type]) => `${name}: ${type}`)
     .join(', ');
 }
-
-// ── registry ──────────────────────────────────────────────────────────────
 
 function renderRegistry(components) {
   const rows = [...components.values()].map(c =>
@@ -79,8 +60,6 @@ it to see the whole vocabulary on one page.
 `;
 }
 
-// ── gallery ───────────────────────────────────────────────────────────────
-
 function renderGallery(components) {
   const items = [];
   const failures = [];
@@ -88,8 +67,6 @@ function renderGallery(components) {
   for (const c of components.values()) {
     const problems = validateProps(c, c.meta.demo).filter(p => p.level === 'error');
     if (problems.length) {
-      // A demo that does not satisfy the component's own contract means the
-      // contract and the example disagree, and neither can be trusted.
       failures.push(`${c.file}: meta.demo does not satisfy meta.props — ${problems.map(p => p.message).join('; ')}`);
       continue;
     }
@@ -185,8 +162,6 @@ ${items.join('\n')}
 </html>
 `;
 }
-
-// ── cli ───────────────────────────────────────────────────────────────────
 
 function main() {
   const components = loadComponents();

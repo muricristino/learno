@@ -1,8 +1,4 @@
 #!/usr/bin/env node
-//
-//   node build/render.js lessons/0011-consistent-hashing
-//   node build/render.js --all
-//
 // Refuses to write a partial page: a lesson missing a block still looks
 // finished, which makes a silent failure worse than a loud one.
 
@@ -15,9 +11,7 @@ const { page }                 = require('./template');
 
 const ROOT = path.join(__dirname, '..');
 
-// ── errors ────────────────────────────────────────────────────────────────
-// Collected rather than thrown one at a time, so a broken lesson reports
-// everything wrong with it in one run instead of one problem per attempt.
+// Collected rather than thrown, so one run reports everything wrong at once.
 
 class Report {
   constructor(src) { this.src = src; this.errors = []; this.warnings = []; }
@@ -30,10 +24,6 @@ class Report {
     for (const e of this.errors)   console.error(`  error  ${e.where}\n         ${e.msg}`);
   }
 }
-
-// ── @ references ──────────────────────────────────────────────────────────
-// Any string beginning with @ is a path into the YAML. Resolved before a
-// component ever sees its props, so components deal only in real values.
 
 const isRef = v => typeof v === 'string' && v.startsWith('@');
 
@@ -64,9 +54,6 @@ function resolve(value, content, report, where, seen) {
   return value;
 }
 
-// ── prop validation ───────────────────────────────────────────────────────
-// Shared with the component catalog — see build/props.js.
-
 const { validateProps: checkProps } = require('./props');
 
 function validateProps(component, props, report, where) {
@@ -76,10 +63,8 @@ function validateProps(component, props, report, where) {
   }
 }
 
-// Any prop named conceptId or conceptIds is checked against the envelope's
-// vocabulary. The server enforces the same list when scoring, so a concept that
-// is not declared here is silently dropped from the result — the lesson would
-// appear to work and quietly record nothing against that concept.
+// The server silently drops an undeclared concept when scoring, so the lesson
+// would appear to work and record nothing against it.
 function validateConcepts(props, declared, report, where) {
   const cited = []
     .concat(props.conceptId ? [props.conceptId] : [])
@@ -94,8 +79,6 @@ function validateConcepts(props, declared, report, where) {
     }
   }
 }
-
-// ── rendering ─────────────────────────────────────────────────────────────
 
 function renderBlock(block, i, ctx, report, trail) {
   const where = `${trail}[${i}]`;
@@ -130,9 +113,6 @@ function renderBlock(block, i, ctx, report, trail) {
   }
 }
 
-// Every YAML key that could be referenced, so unreferenced ones can be
-// reported. A typo in a reference is already an error; this catches its
-// mirror image — content written but wired to nothing.
 function leafKeys(node, prefix = '', out = []) {
   if (node && typeof node === 'object' && !Array.isArray(node)) {
     for (const [k, v] of Object.entries(node)) {
@@ -143,8 +123,6 @@ function leafKeys(node, prefix = '', out = []) {
   }
   return out;
 }
-
-// ── one lesson ────────────────────────────────────────────────────────────
 
 function build(srcBase) {
   const jsonPath = `${srcBase}.json`;
@@ -181,10 +159,8 @@ function build(srcBase) {
     content, report, 'envelope', ctx.seen
   );
 
-  // A key counts as used if it was referenced itself, if one of its descendants
-  // was (it is the branch leading there), or if one of its ancestors was — a
-  // reference to an object pulls in everything under it, so its children are
-  // not orphans.
+  // Referencing an object pulls in its whole subtree, so a key is used if it,
+  // a descendant or an ancestor was referenced.
   for (const key of leafKeys(content)) {
     const referenced = [...ctx.seen].some(s =>
       s === key || s.startsWith(`${key}.`) || key.startsWith(`${s}.`)
@@ -194,8 +170,7 @@ function build(srcBase) {
 
   if (!report.ok) return { report, outPath };
 
-  // The template can fail too — an unknown icon, for instance — and a stack
-  // trace is not a build error a lesson author can act on.
+  // The template throws on e.g. an unknown icon; a stack trace is not actionable.
   let html;
   try {
     html = page({ ...structure, ...meta, body });
@@ -207,10 +182,6 @@ function build(srcBase) {
   fs.writeFileSync(outPath, html);
   return { report, outPath, bytes: Buffer.byteLength(html) };
 }
-
-// ── component stylesheet ──────────────────────────────────────────────────
-// Generated from whatever components exist, so a local component ships its own
-// styles without editing a shared file.
 
 function buildComponentCss() {
   const components = loadComponents();
@@ -224,8 +195,6 @@ function buildComponentCss() {
     chunks.join('\n\n') + '\n');
   return { out, count: chunks.length };
 }
-
-// ── cli ───────────────────────────────────────────────────────────────────
 
 function sources() {
   const found = [];
