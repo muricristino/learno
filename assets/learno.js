@@ -116,6 +116,22 @@
     return { cls: 'lx-score--bad', word: t('score.bad', 'not understood') };
   }
 
+  // `code` and **bold** in feedback, whether authored or written by the grader.
+  // Built from text nodes, never innerHTML, so model output cannot inject markup.
+  function setRich(el, text) {
+    el.textContent = '';
+    String(text || '').split(/(`[^`]+`|\*\*[^*]+\*\*)/).forEach(function (part) {
+      if (!part) return;
+      var code = part.charAt(0) === '`' && part.length > 2;
+      var bold = part.slice(0, 2) === '**' && part.length > 4;
+      if (!code && !bold) { el.appendChild(document.createTextNode(part)); return; }
+      var node = document.createElement(code ? 'code' : 'strong');
+      if (code) node.className = 'lx-code';
+      node.textContent = code ? part.slice(1, -1) : part.slice(2, -2);
+      el.appendChild(node);
+    });
+  }
+
   function showVerdict(block, data) {
     var box = $('.lx-verdict', block);
     var b   = band(data.score);
@@ -124,13 +140,13 @@
     $('.lx-score-num', box).textContent  = data.score;
     $('.lx-score-word', box).textContent = b.word;
     $('.lx-bar-fill', box).style.width   = Math.max(0, Math.min(100, data.score)) + '%';
-    $('.lx-feedback', box).textContent   = data.feedback || '';
+    setRich($('.lx-feedback', box), data.feedback);
 
     var misses = $('.lx-misses', box);
     misses.innerHTML = '';
     (data.misconceptions || []).forEach(function (m) {
       var li = document.createElement('li');
-      li.textContent = m;
+      setRich(li, m);
       misses.appendChild(li);
     });
 
@@ -218,7 +234,7 @@
     });
     var fb = $('.lx-inline-fb', scope);
     if (fb) {
-      fb.textContent = correct ? okText : badText;
+      setRich(fb, correct ? okText : badText);
       fb.className = 'lx-inline-fb is-shown ' + (correct ? 'is-ok' : 'is-bad');
     }
     remember('choices', blockKey(scope), $$('input[type="radio"]', scope).indexOf(input));
