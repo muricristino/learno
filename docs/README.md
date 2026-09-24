@@ -12,33 +12,19 @@ The rules Claude follows live at the root: [SKILL.md](../SKILL.md) for teaching,
 
 <table>
   <tr>
-    <td width="50%" valign="top">
-      <img width="100%" alt="A lesson: an analogy before the term, then a diagram" src="images/lesson.png" />
-      <sub>A lesson. The analogy comes before the concept has a name, and sections open as you answer.</sub>
-    </td>
-    <td width="50%" valign="top">
-      <img width="100%" alt="The dashboard, opening with the next step from NEXT.md" src="images/dashboard.png" />
-      <sub>The dashboard opens with what to do now, then what needs attention and why.</sub>
-    </td>
+    <td width="50%" valign="top"><img alt="A lesson opening with an everyday analogy" src="images/lesson.png"><br><sub>A lesson opens with an everyday analogy before the concept has a name.</sub></td>
+    <td width="50%" valign="top"><img alt="A graded free-text answer" src="images/answer.png"><br><sub>A recall, graded: score, band and what the answer left out.</sub></td>
   </tr>
   <tr>
-    <td width="50%" valign="top">
-      <img width="100%" alt="A project brief with the deliverable and the rubric" src="images/project.png" />
-      <sub>A project. The rubric is in the brief before you start.</sub>
-    </td>
-    <td width="50%" valign="top">
-      <img width="100%" alt="The library: every lesson, review and project with its score" src="images/library.png" />
-      <sub>The library: everything on disk, with what you scored and when.</sub>
-    </td>
+    <td width="50%" valign="top"><img alt="The teach-back, graded" src="images/teachback.png"><br><sub>The teach-back closes the lesson and decides the next review date.</sub></td>
+    <td width="50%" valign="top"><img alt="The dashboard" src="images/dashboard.png"><br><sub>The dashboard opens with the next step from NEXT.md.</sub></td>
   </tr>
   <tr>
-    <td width="50%" valign="top">
-      <img width="100%" alt="An inline SVG diagram" src="images/diagram.png" />
-      <sub>Diagrams are inline SVG, so they follow the theme and work offline.</sub>
-    </td>
-    <td width="50%" valign="top">
-      <img width="100%" alt="The dashboard on a phone" src="images/phone.png" />
-      <sub>On a phone, through <code>make start</code>.</sub>
-    </td>
+    <td width="50%" valign="top"><img alt="The library" src="images/library.png"><br><sub>The library, with a score or "not started" on each item.</sub></td>
+    <td width="50%" valign="top"><img alt="A project brief" src="images/project.png"><br><sub>A project brief: what to build and the cases it has to survive.</sub></td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top"><img alt="A diagram in dark mode" src="images/diagram.png"><br><sub>Diagrams are inline SVG and follow the theme.</sub></td>
+    <td width="50%" valign="top"><img alt="The dashboard on a phone" src="images/phone.png"><br><sub>On a phone, through <code>make start</code>.</sub></td>
   </tr>
 </table>
