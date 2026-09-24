@@ -27,7 +27,7 @@ If it says no progress is recorded yet, report exactly that.
 - `lessons` — `lesson_id, kind (lesson|project), final_score, completed_at`
 - `concepts` — `concept_id, lesson_id, mastered (0/1), mastery_source, ease_factor, interval_days, next_review, last_reviewed, first_seen`
 - `concept_history` — `concept_id, date, score, source` ← one row per scored attempt
-- `section_results` — `lesson_id, concept_id, is_teachback, score, feedback, misconceptions (JSON array), concepts_demonstrated (JSON array), recorded_at` ← the per-section GRADED answers
+- `section_results` — `lesson_id, concept_id, is_teachback, score, user_answer, feedback, misconceptions (JSON array), concepts_demonstrated (JSON array), recorded_at` ← the per-section GRADED answers
 - `conversations` — `concept_id, source, score, note, recorded_at`
 - Dates are ISO-8601 UTC text. JSON arrays are queryable with `json_each`.
 - Files: `MISSION.md`, `NOTES.md`, `RESOURCES.md`, `NEXT.md`, `learning-records/*.md`, `lessons/*.html`, `review/*.html`, `projects/*.html`
@@ -40,7 +40,7 @@ If it says no progress is recorded yet, report exactly that.
 - Reviews (`*-rN.html`) are remediation passes; compare a concept's score trend across its history to show improvement.
 
 ## Request → recipe
-- **"Validate my answers for lesson X" / "how did I do on X"** → `lesson X`. Report each section's score, what they got right, every misconception verbatim, the teach-back score and whether it cleared 75.
+- **"Validate my answers for lesson X" / "how did I do on X"** → `lesson X`. Report each section's score, quote what they actually wrote (`user_answer`), what they got right, every misconception verbatim, the teach-back score and whether it cleared 75.
 - **"How am I doing / overall progress"** → `status`, then `concepts`. Mastered vs total, score trend, last lessons.
 - **"What's due for review"** → `due`.
 - **"Where am I struggling"** → `misconceptions`, then look for stagnation in `concepts`.

@@ -78,6 +78,7 @@ Return JSON only (no markdown wrapper, no explanation outside the JSON):
           concept_id,
           is_teachback,
           score:                 parsed.score,
+          user_answer,
           feedback:              parsed.feedback,
           concepts_demonstrated: parsed.concepts_demonstrated,
           misconceptions:        parsed.misconceptions
