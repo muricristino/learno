@@ -15,7 +15,10 @@ function inline(text) {
   s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a class="lx-link" href="$2">$1</a>');
   s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   s = s.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
-  return s.replace(new RegExp(`${OPEN}(\\d+)${SHUT}`, 'g'), (_, i) => code[+i]);
+  s = s.replace(new RegExp(`${OPEN}(\\d+)${SHUT}`, 'g'), (_, i) => code[+i]);
+  // One element, not loose text and <code> siblings: inside a flex container each
+  // sibling would become its own column.
+  return `<span class="lx-inline">${s}</span>`;
 }
 
 function blocks(text) {
@@ -74,4 +77,7 @@ function rich(text) {
   return out.filter(Boolean).join('\n    ');
 }
 
-module.exports = { esc, inline, rich };
+// For places that cannot hold markup, such as the <title> of the page.
+const plain = text => esc(String(text ?? '').replace(/[`*]/g, ''));
+
+module.exports = { esc, inline, rich, plain };

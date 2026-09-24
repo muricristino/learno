@@ -1,7 +1,7 @@
 const { icon } = require('./icons');
 const { t, runtimeStrings } = require('./strings');
 
-const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const { esc, inline, plain } = require('./text');
 
 // Relative so the page works over file:// as well as http://.
 function assetPrefix(depth = 1) { return '../'.repeat(depth); }
@@ -95,7 +95,7 @@ ${phases.map(p => `    <span class="lx-progress-seg" data-seg="${esc(p)}"></span
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>${esc(title || id)}</title>
+<title>${plain(title || id)}</title>
 <link rel="stylesheet" href="${a}assets/learno.css" />
 <link rel="stylesheet" href="${a}assets/components.css" />
 ${THEME_BOOT}
@@ -118,9 +118,9 @@ ${topBar(a)}
 
 <div class="lx-wrap">
   <header class="lx-lesson-head">
-    ${tag ? `<span class="lx-badge">${esc(tag)}</span>` : ''}
-    <h1 class="lx-title">${titleIcon}<span>${esc(title || id)}</span></h1>
-    ${subtitle ? `<p class="lx-subtitle">${esc(subtitle)}</p>` : ''}
+    ${tag ? `<span class="lx-badge">${inline(tag)}</span>` : ''}
+    <h1 class="lx-title">${titleIcon}<span>${inline(title || id)}</span></h1>
+    ${subtitle ? `<p class="lx-subtitle">${inline(subtitle)}</p>` : ''}
   </header>
 
   <div class="lx-offline-banner" id="lx-banner" hidden>

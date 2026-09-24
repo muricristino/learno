@@ -36,7 +36,7 @@ module.exports = {
   render({ columns, caption }) {
     const cols = columns.map(c => `
       <div class="lx-card lx-compare-col">
-        <span class="lx-compare-label">${esc(c && c.label)}</span>
+        <span class="lx-compare-label">${inline(c && c.label)}</span>
         <p class="lx-compare-body">${inline(c && c.body)}</p>
       </div>`).join('');
 

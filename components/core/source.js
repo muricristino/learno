@@ -33,7 +33,7 @@ module.exports = {
 
   render({ title, url, note }) {
     const href = url ? safeHref(url) : null;
-    const name = esc(title);
+    const name = inline(title);
     return `  <div class="lx-card lx-source">
     <p class="lx-source-label">${icon('book-open')} ${t('source.label')}</p>
     <p class="lx-source-title">${href ? `<a class="lx-link" href="${esc(href)}" rel="noopener noreferrer" target="_blank">${name}</a>` : name}</p>

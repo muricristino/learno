@@ -4,7 +4,7 @@
 const { gate } = require('../../build/gate');
 const { t } = require('../../build/strings');
 
-const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const { esc, inline } = require('../../build/text');
 
 module.exports = {
   meta: {
@@ -55,7 +55,7 @@ module.exports = {
     return `  <section class="lx-phase${unlocked ? '' : ' lx-phase--locked'}" data-phase="${esc(id)}" id="phase-${esc(id)}">
     <div class="lx-phase-head">
       <span class="lx-phase-badge"><span>${esc(id)}</span></span>
-      <h2 class="lx-phase-title">${esc(title)}</h2>
+      <h2 class="lx-phase-title">${inline(title)}</h2>
     </div>
     ${gate(ctx.children || '', {
       name: `phase-${id}`,

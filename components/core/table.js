@@ -1,4 +1,4 @@
-const { esc, inline } = require('../../build/text');
+const { esc, inline, plain } = require('../../build/text');
 
 module.exports = {
   meta: {
@@ -52,10 +52,10 @@ module.exports = {
 `,
 
   render({ headers, rows, caption }) {
-    const head = headers.map(h => `<th scope="col">${esc(h)}</th>`).join('');
+    const head = headers.map(h => `<th scope="col">${inline(h)}</th>`).join('');
     const body = rows.map(row =>
       `<tr>${row.map((cell, i) =>
-        `<td data-label="${esc(headers[i] ?? '')}">${inline(cell)}</td>`).join('')}</tr>`
+        `<td data-label="${plain(headers[i] ?? '')}">${inline(cell)}</td>`).join('')}</tr>`
     ).join('\n          ');
 
     return `  <figure class="lx-figure">
