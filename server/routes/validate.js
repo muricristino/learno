@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
 
   const LANGUAGE = languageName();
 
-  const prompt = `You are a learning validator for a system design course.
+  const prompt = `You are grading a student's explanation of a concept they are studying.
 The student is learning: ${concept_id}.
 
 Lesson context:
