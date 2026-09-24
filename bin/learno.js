@@ -10,7 +10,7 @@ const USAGE = `usage: learno <command> [--json]
   status              mastered concepts, reviews due, recent lessons
   due                 concepts due for review by the end of today
   misconceptions [N]  misconceptions seen in N or more sections (default 2)
-  lesson <id>         per-section scores, feedback and misconceptions
+  lesson <id>         per-section answers, scores, feedback and misconceptions
   concepts            every concept with its schedule and score history
   sql "<select>"      run a read-only query against ${DB_PATH}
   export              every table as JSON`;
@@ -65,7 +65,11 @@ const commands = {
     const rows = ids.flatMap(({ lesson_id }) => store.sections(lesson_id));
     if (json) return print(rows);
     print(rows.map(s => ({ lesson: s.lesson_id, concept: s.concept_id, teachback: s.is_teachback, score: s.score, misconceptions: s.misconceptions.join(' | '), at: day(s.recorded_at) })));
-    for (const s of rows) console.log(`\n[${s.concept_id}${s.is_teachback ? ' · teach-back' : ''}] ${s.score}\n${s.feedback}`);
+    for (const s of rows) {
+      console.log(`\n[${s.concept_id}${s.is_teachback ? ' · teach-back' : ''}] ${s.score}`);
+      console.log(`answer:   ${s.user_answer ?? '(not recorded — answered before answers were stored)'}`);
+      console.log(`feedback: ${s.feedback}`);
+    }
   },
 
   concepts(store) {

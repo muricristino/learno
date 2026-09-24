@@ -37,6 +37,7 @@ const SCHEMA = `
     concept_id            TEXT,
     is_teachback          INTEGER NOT NULL DEFAULT 0,
     score                 REAL,
+    user_answer           TEXT,
     feedback              TEXT,
     concepts_demonstrated TEXT NOT NULL DEFAULT '[]',
     misconceptions        TEXT NOT NULL DEFAULT '[]',
@@ -68,7 +69,12 @@ const toSection = row => ({
 function openStore(file, { readOnly = false } = {}) {
   const db = new DatabaseSync(file, { readOnly });
   db.exec('PRAGMA busy_timeout = 3000');
-  if (!readOnly) db.exec(SCHEMA);
+  if (!readOnly) {
+    db.exec(SCHEMA);
+    // CREATE TABLE IF NOT EXISTS leaves a table from an older version as it was.
+    const has = db.prepare("SELECT 1 FROM pragma_table_info('section_results') WHERE name = 'user_answer'").get();
+    if (!has) db.exec('ALTER TABLE section_results ADD COLUMN user_answer TEXT');
+  }
 
   const all = (sql, ...args) => db.prepare(sql).all(...args);
   const one = (sql, ...args) => db.prepare(sql).get(...args);
@@ -96,10 +102,10 @@ function openStore(file, { readOnly = false } = {}) {
 
     insertSection(s) {
       run(`INSERT INTO section_results
-             (lesson_id, concept_id, is_teachback, score, feedback, concepts_demonstrated, misconceptions, recorded_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+             (lesson_id, concept_id, is_teachback, score, user_answer, feedback, concepts_demonstrated, misconceptions, recorded_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
           s.lesson_id ?? null, s.concept_id ?? null, s.is_teachback ? 1 : 0, s.score ?? null,
-          s.feedback ?? null, JSON.stringify(s.concepts_demonstrated || []),
+          s.user_answer ?? null, s.feedback ?? null, JSON.stringify(s.concepts_demonstrated || []),
           JSON.stringify(s.misconceptions || []), iso(s.recorded_at ?? new Date()));
     },
 
