@@ -358,7 +358,6 @@ The local server at `localhost:9990` grades answers and persists progress to `le
 - `GET  /api/progress` — read mastery state, including `misconceptions` grouped across every section result (used by dashboard)
 - `GET  /api/next` — parses `NEXT.md` into `{ title, action, body }`, or `{ exists: false }`
 - `GET  /api/catalog` — lists every lesson/review/project HTML file on disk (powers the dashboard's catalog section, independent of recorded progress)
-- `GET  /debug/mic` — standalone mic / Web Speech diagnostics page
 
 **Validate payload:**
 ```json
