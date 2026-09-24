@@ -8,7 +8,7 @@ require('dotenv').config({ path: path.join(WORKSPACE, '.env') });
 const express = require('express');
 const cors    = require('cors');
 
-const { SANDBOX, DB_PATH } = require('./db');
+const { SANDBOX, DB_PATH, getStore } = require('./db');
 const { graderName, describeGrader } = require('./grader');
 
 const app = express();
@@ -50,6 +50,7 @@ app.listen(PORT, () => {
   } else {
     // .env is read once at boot; printing it makes a stale config visible.
     console.log(`  Grader       : ${describeGrader()}`);
+    getStore();
     console.log(`  Store        : ${DB_PATH}`);
   }
   console.log(`  Workspace    : ${WORKSPACE}`);
