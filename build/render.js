@@ -106,11 +106,26 @@ function renderBlock(block, i, ctx, report, trail) {
     : '';
 
   try {
-    return component.render(props, { ...ctx, children });
+    const html = component.render(props, { ...ctx, children });
+    const leftover = unformatted(children ? html.replace(children, '') : html);
+    if (leftover) {
+      report.error(where, `${block.component} printed "${leftover}" as literal text\n` +
+        '         → render that prop with inline() or rich(), not esc()');
+    }
+    return html;
   } catch (err) {
     report.error(where, `component "${block.component}" threw while rendering: ${err.message}`);
     return '';
   }
+}
+
+// Markdown that reached the visible text unformatted: a component escaped a prop it
+// should have formatted. Attributes are skipped, since the runtime formats those.
+function unformatted(html) {
+  const visible = html
+    .replace(/<(code|pre|script|style|svg|textarea)\b[\s\S]*?<\/\1>/g, '')
+    .replace(/<[^>]*>/g, ' ');
+  return visible.match(/`[^`\n]+`|\*\*[^*\n]+\*\*/)?.[0];
 }
 
 function leafKeys(node, prefix = '', out = []) {
