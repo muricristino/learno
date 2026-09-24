@@ -37,7 +37,7 @@ module.exports = {
 
   render({ label, text, bridge }) {
     return `  <div class="lx-card lx-analogy">
-    <span class="lx-analogy-label">${icon('lightbulb')} ${esc(label)}</span>
+    <span class="lx-analogy-label">${icon('lightbulb')} ${inline(label)}</span>
     <p class="lx-analogy-text">${inline(text)}</p>
     <p class="lx-analogy-bridge">${inline(bridge)}</p>
   </div>`;

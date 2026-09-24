@@ -53,7 +53,7 @@ module.exports = {
     return `  <div class="lx-card lx-callout lx-callout--${esc(VARIANTS[variant] ? variant : 'note')}">
     <span class="lx-callout-mark">${icon(v.icon)}</span>
     <div>
-      <p class="lx-callout-title">${esc(title || t(v.label))}</p>
+      <p class="lx-callout-title">${inline(title || t(v.label))}</p>
       <div class="lx-callout-text">${rich(text)}</div>
     </div>
   </div>`;

@@ -43,13 +43,14 @@ module.exports = {
 }
 .lx-flash summary::-webkit-details-marker { display: none; }
 .lx-flash summary::after {
-  content: "revelar";
+  content: attr(data-show);
   color: var(--lx-accent);
   font-size: .7rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: .06em;
   flex-shrink: 0;
 }
-.lx-flash[open] summary::after { content: "esconder"; }
+.lx-flash[open] summary::after { content: attr(data-hide); }
+.lx-flash summary > .lx-inline { min-width: 0; overflow-wrap: anywhere; }
 .lx-flash summary:focus-visible { outline: 2px solid var(--lx-accent); outline-offset: -2px; border-radius: var(--lx-radius); }
 .lx-flash-back {
   padding: 0 1.1rem 1.1rem;
@@ -69,12 +70,12 @@ module.exports = {
   render({ cards, title }) {
     const items = cards.map(c => `
       <details class="lx-card lx-flash">
-        <summary>${inline(c && c.front)}</summary>
+        <summary data-show="${esc(t('flashcards.show'))}" data-hide="${esc(t('flashcards.hide'))}">${inline(c && c.front)}</summary>
         <p class="lx-flash-back">${inline(c && c.back)}</p>
       </details>`).join('');
 
     return gate(`  <section class="lx-flashcards">
-    <p class="lx-flash-title">${icon('layers')} ${esc(title || t('flashcards.title'))}</p>
+    <p class="lx-flash-title">${icon('layers')} ${inline(title || t('flashcards.title'))}</p>
     <div class="lx-flash-grid">${items}
     </div>
   </section>`, {

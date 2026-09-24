@@ -3,7 +3,7 @@
 
 const hljs = require('highlight.js');
 
-const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const { esc, inline } = require('../../build/text');
 
 const PLAIN = new Set(['text', 'txt', 'plain', 'none', 'output', 'log']);
 
@@ -118,7 +118,7 @@ module.exports = {
       ${label ? `<span class="lx-codeblock-lang">${esc(label)}</span>` : ''}
       <pre><code class="hljs">${body}</code></pre>
     </div>
-    ${caption ? `<figcaption class="lx-caption">${esc(caption)}</figcaption>` : ''}
+    ${caption ? `<figcaption class="lx-caption">${inline(caption)}</figcaption>` : ''}
   </figure>`;
   }
 };
