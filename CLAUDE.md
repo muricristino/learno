@@ -6,6 +6,8 @@ This is a **learno** study workspace. The repo root is both the engine and the s
 
 In any interaction touching the user's **progress, answers, mastery, what to review, or what to learn next**, consult the **`learno-analyst`** agent FIRST — never assert a score, mastery state, due review, struggle, or "you got X right/wrong" from memory or assumption. Pull it from the progress store (`learno.db`, read with `node bin/learno.js`) and the workspace files. The agent's full query protocol and schema live in `agents/learno-analyst.md`.
 
+If `learno-analyst` is not among your available agents (a session opened outside the study folder does not load it), run the same read-only queries yourself with `node <study folder>/bin/learno.js status | due | misconceptions | lesson <id> | sql "<select>"`, where the study folder is the one containing `learno.json`. Never query `learno.db` with `sqlite3` directly.
+
 Apply this every time the user says things like:
 - *"valida minhas respostas"* / *"como fui na lição X"* → analyst reads `section_results` (per-section scores + misconceptions).
 - *"como estou / meu progresso"* → analyst summarizes `concepts` + `lessons`.

@@ -119,6 +119,8 @@ function handoff(dir) {
     `- Read ${path.join(dir, 'SKILL.md')} and follow "First run": the interview comes before any lesson.`,
     `- Work only inside that folder: cd ${dir} before every command.`,
     '- They may not be technical. Never ask them to run a command; run it yourself.',
+    `- The learno-analyst agent is not loaded in this session. For progress, run node ${path.join(dir, 'bin', 'learno.js')}`,
+    '  status | due | misconceptions | lesson <id> yourself. From the next session on, Claude opened inside the folder has it.',
     '──',
     '',
     'learno is a tutor that lives in this folder. It asks what you want to learn and why,',
