@@ -38,7 +38,7 @@ help:
 # study
 
 # The tunnel URL is UNAUTHENTICATED: anyone holding it can hit /api and spend your
-# Gemini key. Use `make local` at the desk.
+# Claude plan or Gemini key. Use `make local` at the desk.
 start: deps
 	@command -v cloudflared >/dev/null || { echo "cloudflared not installed: brew install cloudflared (or use: make local)"; exit 1; }
 	@set -m; \

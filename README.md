@@ -81,15 +81,11 @@ the Portuguese subjunctive.
 
 ## Start everything, in one command
 
-Paste your Gemini key, then hand the rest to Claude. It forks the repo, writes `.env`,
-starts the server, installs the progress analyst and opens the first session.
+No keys, no accounts. Hand it to Claude: it forks the repo, starts the server, installs
+the progress analyst and opens the first session.
 
 ```bash
-export GEMINI_API_KEY="AIza…"                                    # aistudio.google.com/apikey
-export PORT=9990
-
-claude "fork murichristopher/learno into ~/projects/chess, write .env from my exported
-GEMINI_API_KEY / PORT, run make local, symlink the
+claude "fork muricristino/learno into ~/projects/chess, run make local, symlink the
 learno-analyst agent into ~/.claude/agents/, then start teaching me chess openings"
 ```
 
@@ -120,7 +116,7 @@ the offline fallback and the voice dictation.
 learno/                       ← your fork
 │
 │  yours ─────────────────────────────────────────
-├── .env                      ← Gemini key   (never committed)
+├── .env                      ← optional overrides   (never committed)
 ├── learno.db                 ← your progress: scores, schedule, misconceptions (SQLite)
 ├── MISSION.md                ← why you are learning this, and the curriculum as patterns
 ├── NOTES.md                  ← preferences, stack, teaching style, what to avoid
@@ -148,7 +144,7 @@ learno/                       ← your fork
 ├── sandbox/                  ← fixtures for working on the engine itself
 ├── agents/learno-analyst.md  ← read-only progress analyst
 ├── bin/learno.js             ← read the progress store from the terminal
-└── server/                   ← Express: Gemini proxy + SQLite store
+└── server/                   ← Express: grader + SQLite store
 ```
 
 Upstream ships `lessons/`, `review/`, `projects/`, `learning-records/` and `reference/`
@@ -198,7 +194,7 @@ always shows which one:
 
 | Source | How |
 |---|---|
-| **AI-validated** | you score ≥ 75 on the lesson's teach-back; Gemini scores the free text |
+| **AI-validated** | you score ≥ 75 on the lesson's teach-back; a model scores the free text |
 | **Conversation** | you use the concept correctly, unprompted, in chat — recorded immediately, no lesson needed |
 | **Project** | you applied it under a constraint it was never taught under, and the delivery met the rubric |
 
@@ -218,8 +214,7 @@ twice is worth more than any score, so the dashboard leads with it.
 | Requirement | Why |
 |---|---|
 | **Node.js ≥ 22.13** | runs the server and the renderer; its built-in `node:sqlite` is the progress store |
-| **Gemini API key** | scores free-text answers |
-| **Claude Code** | the skill is Claude reading `SKILL.md` |
+| **Claude Code**, logged in | the skill is Claude reading `SKILL.md`, and `claude -p` grades the free-text answers |
 | **`cloudflared`** (optional) | `make start` publishes a URL so lessons open on a phone |
 
 ---
@@ -250,8 +245,10 @@ Read from `.env` at the repo root. Start from [`.env.example`](.env.example).
 
 | Var | Required | Default | Used for |
 |---|---|---|---|
-| `GEMINI_API_KEY` | yes | — | scoring free-text answers (`/api/validate`) |
+| `GEMINI_API_KEY` | no | — | grade with Gemini instead of Claude Code — faster (~2–3 s against ~10 s) |
 | `GEMINI_MODEL` | no | `gemini-2.5-flash` | which Gemini model to call |
+| `LEARNO_GRADER` | no | `gemini` if a key is set, else `claude` | force one grader |
+| `LEARNO_CLAUDE_MODEL` | no | `haiku` | which Claude model grades |
 | `LEARNO_DB` | no | `learno.db` at the workspace root | where progress is stored |
 | `PORT` | no | `9990` | any port works; pages derive the API base from their own origin |
 | `LEARNO_WORKSPACE` | no | repo root | which directory to serve. Exists for one caller: the engine's own sandbox |
@@ -261,14 +258,14 @@ Read from `.env` at the repo root. Start from [`.env.example`](.env.example).
 
 ## The server (`server/`)
 
-Local Express app: Gemini proxy plus the SQLite progress store. It also serves the workspace
+Local Express app: the grader plus the SQLite progress store. It also serves the workspace
 statically, so lessons open over `http://localhost` — a secure context, which the microphone
 needs — instead of `file://`.
 
 | Route | Purpose |
 |---|---|
 | `GET  /api/health` | liveness — lessons call it on load to decide online/offline |
-| `POST /api/validate` | score a free-text answer via Gemini (score, feedback, misconceptions) |
+| `POST /api/validate` | score a free-text answer (score, feedback, misconceptions) |
 | `POST /api/progress` | record a completed lesson or project → triggers SM-2 |
 | `GET  /api/progress` | mastery state + grouped misconceptions → the dashboard |
 | `GET  /api/catalog` | every lesson / review / project on disk → the library |
@@ -312,7 +309,7 @@ make check          # syntax-check the server and the build, validate the seed
 make check-errors   # prove the build still refuses every kind of broken lesson
 ```
 
-`LEARNO_MODE=sandbox` swaps the progress file for a seeded in-memory store and Gemini for a
+`LEARNO_MODE=sandbox` swaps the progress file for a seeded in-memory store and the grader for a
 deterministic stub. See [`sandbox/README.md`](sandbox/README.md).
 
 ---
@@ -320,7 +317,7 @@ deterministic stub. See [`sandbox/README.md`](sandbox/README.md).
 ## Keeping up with upstream
 
 ```bash
-git remote add upstream https://github.com/murichristopher/learno.git
+git remote add upstream https://github.com/muricristino/learno.git
 git pull upstream master
 ```
 

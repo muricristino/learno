@@ -163,7 +163,7 @@ A concept is considered learned when it is confirmed by **either**:
 When the user demonstrates understanding in conversation — correct unprompted use of a term, a clear explanation, or an explicit statement of understanding — you record it. Call `POST localhost:9990/api/progress` with `source: "conversation"` and write a learning record. Do not wait for a lesson to be completed.
 
 **Source B — AI-validated:**
-When the user scores ≥ 75 in the teach-back section of a lesson. The Gemini validation server records it with `source: "ai_validation"`.
+When the user scores ≥ 75 in the teach-back section of a lesson. The validation server records it with `source: "ai_validation"`.
 
 **Source C — Project:**
 When the user applies the concept under a constraint it was never taught under, and you judge the delivery against the rubric. You post it with `kind: "project"`; the server records `source: "project"` and schedules it differently. See **Projects**.
@@ -347,9 +347,9 @@ checks are in **Diagrams** in `LESSON-FORMAT.md`.
 
 ---
 
-## AI Validation (Gemini via local server)
+## AI Validation (local server)
 
-The local server at `localhost:9990` proxies Gemini 2.5-flash and persists progress to `learno.db` (SQLite) at the workspace root.
+The local server at `localhost:9990` grades answers and persists progress to `learno.db` (SQLite) at the workspace root. Grading runs through the learner's own Claude Code (`claude -p`, Haiku, ~10 s an answer) unless `GEMINI_API_KEY` is set, in which case Gemini grades instead. `GET /api/health` reports which one is active.
 
 **Server routes used by lessons:**
 - `GET  /api/health` — liveness check (lessons call this on load)
