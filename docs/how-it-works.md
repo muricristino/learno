@@ -60,6 +60,10 @@ strong answer pushes it further out, a weak one brings it back the next day, or 
 pushes the interval 1.5 times further than the same score on a lesson. Failing one only
 demotes the concepts Claude names as the cause, since a project touches several at once.
 
+You do not have to remember the dates. Before every message you send Claude inside the study
+folder, a hook (`bin/due-hook.js`, about 50 ms) checks for reviews that are due. If there are
+none it says nothing. If there are, Claude mentions them once per session and offers to do them.
+
 Mistakes are grouped across every answer you have given. A misconception that shows up in
 two different lessons is treated as more important than any single score, and the dashboard
 lists it first.
