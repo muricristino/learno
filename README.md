@@ -84,12 +84,20 @@ the Portuguese subjunctive.
 Needs **Node 22.13+**, **git** and **Claude Code, logged in**. No keys, no accounts.
 
 ```bash
-npx github:muricristino/learno new chess
+npx muricristino/learno new chess
 ```
 
 It checks those three, asks the lesson language, creates `chess/` with an empty study,
 installs the dependencies and opens Claude with `/learno`. Claude asks what you want to learn
 and why, writes the plan with you, then the first lesson.
+
+Already inside Claude Code? Run it there with `!`, then send any message — *"let's start"*.
+The command's output tells that same session where the study is, and it carries on from
+there without anyone typing `cd`:
+
+```
+! npx muricristino/learno new chess
+```
 
 Already have a workspace? From its root, any of these is enough:
 
