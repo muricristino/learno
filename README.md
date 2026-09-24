@@ -81,13 +81,15 @@ the Portuguese subjunctive.
 
 ## Start everything, in one command
 
-No keys, no accounts. Hand it to Claude: it forks the repo, starts the server, installs
-the progress analyst and opens the first session.
+Needs **Node 22.13+**, **git** and **Claude Code, logged in**. No keys, no accounts.
 
 ```bash
-claude "fork muricristino/learno into ~/projects/chess, run make local, symlink the
-learno-analyst agent into ~/.claude/agents/, then start teaching me chess openings"
+npx github:muricristino/learno new chess
 ```
+
+It checks those three, asks the lesson language, creates `chess/` with an empty study,
+installs the dependencies and opens Claude with `/learno`. Claude asks what you want to learn
+and why, writes the plan with you, then the first lesson.
 
 Already have a workspace? From its root, any of these is enough:
 
