@@ -128,7 +128,6 @@ ${html}
 </head>
 <body class="lx-shell">
 
-<div class="lx-overlay"></div>
 
 <svg class="lx-defs" aria-hidden="true">
   <defs>
@@ -139,7 +138,7 @@ ${html}
   </defs>
 </svg>
 
-<div class="lx-content lx-wrap">
+<div class="lx-wrap">
   <header class="lx-lesson-head">
     <span class="lx-badge">gerado</span>
     <h1 class="lx-title">Componentes</h1>

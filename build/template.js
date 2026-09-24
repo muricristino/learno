@@ -102,7 +102,6 @@ ${THEME_BOOT}
 </head>
 <body class="lx-shell" data-lesson="${esc(id)}">
 
-<div class="lx-overlay"></div>
 
 <!-- Shared arrowhead. Authored diagrams reference #lx-arrow and never carry
      their own marker definition. -->
@@ -117,7 +116,7 @@ ${THEME_BOOT}
 
 ${topBar(a)}
 
-<div class="lx-content lx-wrap">
+<div class="lx-wrap">
   <header class="lx-lesson-head">
     ${tag ? `<span class="lx-badge">${esc(tag)}</span>` : ''}
     <h1 class="lx-title">${titleIcon}<span>${esc(title || id)}</span></h1>

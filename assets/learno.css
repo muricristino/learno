@@ -37,19 +37,17 @@
   --lx-input-border: rgb(191 219 254 / .4);
   --lx-placeholder:  #6b7280;
 
-  /* Shell gradient */
-  --lx-shell-from: rgb(37 99 235 / .09);
+  /* Page background: solid, tinted by the accent only in the corners */
   --lx-shell-via:  #ffffff;
-  --lx-shell-to:   rgb(37 99 235 / .06);
+  --lx-shell-tint: 9%;
+  --lx-shell-hold: 40%;
+  --lx-shell-from: color-mix(in srgb, var(--lx-accent-solid) var(--lx-shell-tint), var(--lx-shell-via));
+  --lx-shell-to:   color-mix(in srgb, var(--lx-accent-solid) 6%, var(--lx-shell-via));
 
   /* Verdict colours */
   --lx-good: #059669;
   --lx-warn: #d97706;
   --lx-bad:  #dc2626;
-
-  /* Overlay wash, on the shell and inside cards */
-  --lx-wash-from: rgb(59 130 246 / .10);
-  --lx-wash-to:   rgb(56 189 248 / .08);
 
   /* Radii */
   --lx-radius:    1.5rem;
@@ -102,11 +100,9 @@
     --lx-panel-border:  rgb(147 197 253 / .10);
     --lx-bar-border:    rgb(147 197 253 / .12);
     --lx-border:        rgb(147 197 253 / .14);
-    --lx-shell-from:    rgb(10 45 110 / .95);
-    --lx-shell-via:     #111827;
-    --lx-shell-to:      rgb(12 58 120 / .95);
-    --lx-wash-from:     rgb(59 130 246 / .06);
-    --lx-wash-to:       rgb(56 189 248 / .05);
+    --lx-shell-via:     #0a1120;
+    --lx-shell-tint:    10%;
+    --lx-shell-hold:    44%;
   }
 }
 
@@ -144,16 +140,15 @@
   --lx-card-shadow:   0 4px 24px -4px rgb(0 0 0 / .4);
 
   --lx-accent-soft: rgb(59 130 246 / .16);
-  --lx-shell-from:  rgb(10 45 110 / .95);
-  --lx-shell-via:   #111827;
-  --lx-shell-to:    rgb(12 58 120 / .95);
-  --lx-wash-from:   rgb(59 130 246 / .06);
-  --lx-wash-to:     rgb(56 189 248 / .05);
+  --lx-shell-via:   #0a1120;
+  --lx-shell-tint:  10%;
+  --lx-shell-hold:  44%;
 }
 
 /* Accents are an attribute, not inline custom properties: an inline style on
    :root outranks [data-theme="dark"], so a light value would win in dark mode.
-   Hand-picked, not derived: a lightened blue drifts to cyan and collides with --lx-good. */
+   Hand-picked, not derived: a lightened blue drifts to cyan and collides with --lx-good.
+   The page background is the exception: it follows --lx-accent-solid on its own. */
 
 :root[data-accent="roxo"] {
   --lx-surface:       #ffffff;
@@ -169,10 +164,6 @@
   --lx-input:         rgb(250 245 255 / .55);
   --lx-input-border:  rgb(233 213 255 / .35);
   --lx-card-shadow:   0 4px 24px -4px rgb(147 51 234 / .08);
-  --lx-shell-from:    rgb(147 51 234 / .09);
-  --lx-shell-to:      rgb(147 51 234 / .06);
-  --lx-wash-from:     rgb(168 85 247 / .10);
-  --lx-wash-to:       rgb(147 197 253 / .08);
 }
 
 :root[data-accent="rosa"] {
@@ -189,10 +180,6 @@
   --lx-input:         rgb(253 242 248 / .6);
   --lx-input-border:  rgb(251 207 232 / .45);
   --lx-card-shadow:   0 4px 24px -4px rgb(190 24 93 / .08);
-  --lx-shell-from:    rgb(190 24 93 / .09);
-  --lx-shell-to:      rgb(190 24 93 / .06);
-  --lx-wash-from:     rgb(219 39 119 / .09);
-  --lx-wash-to:       rgb(168 85 247 / .07);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -210,10 +197,6 @@
     --lx-panel-border:  rgb(216 180 254 / .10);
     --lx-bar-border:    rgb(216 180 254 / .12);
     --lx-border:        rgb(216 180 254 / .14);
-    --lx-shell-from:    rgb(59 7 100 / .95);
-    --lx-shell-to:      rgb(30 27 75 / .95);
-    --lx-wash-from:     rgb(168 85 247 / .06);
-    --lx-wash-to:       rgb(59 130 246 / .05);
   }
   :root:not([data-theme="light"])[data-accent="rosa"] {
     --lx-surface:       #26101c;
@@ -229,10 +212,6 @@
     --lx-panel-border:  rgb(249 168 212 / .10);
     --lx-bar-border:    rgb(249 168 212 / .12);
     --lx-border:        rgb(249 168 212 / .14);
-    --lx-shell-from:    rgb(80 7 36 / .95);
-    --lx-shell-to:      rgb(59 7 60 / .95);
-    --lx-wash-from:     rgb(219 39 119 / .06);
-    --lx-wash-to:       rgb(168 85 247 / .05);
   }
 }
 
@@ -250,10 +229,6 @@
   --lx-bar-border:    rgb(216 180 254 / .12);
   --lx-border:        rgb(216 180 254 / .14);
   --lx-accent-soft: rgb(168 85 247 / .16);
-  --lx-shell-from:  rgb(59 7 100 / .95);
-  --lx-shell-to:    rgb(30 27 75 / .95);
-  --lx-wash-from:   rgb(168 85 247 / .06);
-  --lx-wash-to:     rgb(59 130 246 / .05);
 }
 :root[data-theme="dark"][data-accent="rosa"] {
   --lx-surface:       #26101c;
@@ -269,10 +244,6 @@
   --lx-bar-border:    rgb(249 168 212 / .12);
   --lx-border:        rgb(249 168 212 / .14);
   --lx-accent-soft: rgb(219 39 119 / .18);
-  --lx-shell-from:  rgb(80 7 36 / .95);
-  --lx-shell-to:    rgb(59 7 60 / .95);
-  --lx-wash-from:   rgb(219 39 119 / .06);
-  --lx-wash-to:     rgb(168 85 247 / .05);
 }
 
 /* Reset */
@@ -284,14 +255,17 @@ img, svg { max-width: 100%; }
 button, input, select, textarea { font: inherit; color: inherit; }
 
 /* The gradient must live on `html`: only the root background covers the whole
-   canvas, iOS rubber-band included. On a fixed body or pseudo-element it stops short. */
+   canvas, iOS rubber-band included. On a fixed body or pseudo-element it stops short.
+   `fixed` sizes it to the viewport; without it a long page stretches the corner tint
+   over several screens. iOS ignores it and falls back to that stretch. */
 
 html {
   min-height: 100%;
   background-color: var(--lx-shell-via);
-  background-image: linear-gradient(to bottom right,
-    var(--lx-shell-from), var(--lx-shell-via), var(--lx-shell-to));
+  background-image: linear-gradient(158deg,
+    var(--lx-shell-from) 0%, var(--lx-shell-via) var(--lx-shell-hold), var(--lx-shell-to) 100%);
   background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .lx-shell {
@@ -302,17 +276,6 @@ html {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
-
-.lx-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image: linear-gradient(to bottom right,
-    var(--lx-wash-from), transparent, var(--lx-wash-to));
-}
-
-.lx-content { position: relative; z-index: 1; }
 
 /* Bar */
 
@@ -346,15 +309,6 @@ html {
   backdrop-filter: blur(var(--lx-blur));
   -webkit-backdrop-filter: blur(var(--lx-blur));
   padding: 1.25rem;
-}
-.lx-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: var(--lx-radius);
-  pointer-events: none;
-  background-image: linear-gradient(to bottom right,
-    var(--lx-wash-from), transparent, var(--lx-wash-to));
 }
 
 .lx-modal {
@@ -487,7 +441,6 @@ html {
     -webkit-backdrop-filter: none;
   }
   .lx-card, .lx-modal { background: Canvas; }
-  .lx-overlay, .lx-card::before { display: none; }
   html { background-image: none; background-color: Canvas; }
 }
 
@@ -501,8 +454,6 @@ html {
 }
 :root[data-transparency="reduce"] .lx-card,
 :root[data-transparency="reduce"] .lx-modal { background: Canvas; }
-:root[data-transparency="reduce"] .lx-overlay,
-:root[data-transparency="reduce"] .lx-card::before { display: none; }
 :root[data-transparency="reduce"] { background-image: none; background-color: Canvas; }
 
 /* Motion */
