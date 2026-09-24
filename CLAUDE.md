@@ -4,7 +4,7 @@ This is a **learno** study workspace. The repo root is both the engine and the s
 
 ## Ground every learning answer in REAL data
 
-In any interaction touching the user's **progress, answers, mastery, what to review, or what to learn next**, consult the **`learno-analyst`** agent FIRST — never assert a score, mastery state, due review, struggle, or "you got X right/wrong" from memory or assumption. Pull it from MongoDB (`lessons`, `concepts`, `section_results`, `conversations`) and the workspace files. The agent's full query protocol and schema live in `agents/learno-analyst.md`.
+In any interaction touching the user's **progress, answers, mastery, what to review, or what to learn next**, consult the **`learno-analyst`** agent FIRST — never assert a score, mastery state, due review, struggle, or "you got X right/wrong" from memory or assumption. Pull it from the progress store (`learno.db`, read with `node bin/learno.js`) and the workspace files. The agent's full query protocol and schema live in `agents/learno-analyst.md`.
 
 Apply this every time the user says things like:
 - *"valida minhas respostas"* / *"como fui na lição X"* → analyst reads `section_results` (per-section scores + misconceptions).

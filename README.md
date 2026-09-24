@@ -76,17 +76,15 @@ the Portuguese subjunctive.
 
 ## Start everything, in one command
 
-Paste your credentials, then hand the rest to Claude. It forks the repo, writes `.env`,
+Paste your Gemini key, then hand the rest to Claude. It forks the repo, writes `.env`,
 starts the server, installs the progress analyst and opens the first session.
 
 ```bash
 export GEMINI_API_KEY="AIza…"                                    # aistudio.google.com/apikey
-export MONGODB_URI="mongodb+srv://user:pass@cluster.mongodb.net" # Atlas free tier is enough
-export MONGODB_DB="chess_learn"                                  # one database per subject
 export PORT=9990
 
 claude "fork murichristopher/learno into ~/projects/chess, write .env from my exported
-GEMINI_API_KEY / MONGODB_URI / MONGODB_DB / PORT, run make local, symlink the
+GEMINI_API_KEY / PORT, run make local, symlink the
 learno-analyst agent into ~/.claude/agents/, then start teaching me chess openings"
 ```
 
@@ -117,7 +115,8 @@ the offline fallback and the voice dictation.
 learno/                       ← your fork
 │
 │  yours ─────────────────────────────────────────
-├── .env                      ← Gemini key + MongoDB URI   (never committed)
+├── .env                      ← Gemini key   (never committed)
+├── learno.db                 ← your progress: scores, schedule, misconceptions (SQLite)
 ├── MISSION.md                ← why you are learning this, and the curriculum as patterns
 ├── NOTES.md                  ← preferences, stack, teaching style, what to avoid
 ├── NEXT.md                   ← what to do now; the dashboard opens with it
@@ -143,7 +142,8 @@ learno/                       ← your fork
 ├── assets/                   ← design system + lesson runtime
 ├── sandbox/                  ← fixtures for working on the engine itself
 ├── agents/learno-analyst.md  ← read-only progress analyst
-└── server/                   ← Express: Gemini proxy + MongoDB bridge
+├── bin/learno.js             ← read the progress store from the terminal
+└── server/                   ← Express: Gemini proxy + SQLite store
 ```
 
 Upstream ships `lessons/`, `review/`, `projects/`, `learning-records/` and `reference/`
@@ -212,9 +212,7 @@ twice is worth more than any score, so the dashboard leads with it.
 
 | Requirement | Why |
 |---|---|
-| **Node.js ≥ 18** | runs the server and the renderer |
-| **MongoDB** (Atlas or local) | persists mastery, SM-2 schedule, section results |
-| **`mongosh`** on PATH | the session loop queries Mongo directly |
+| **Node.js ≥ 22.13** | runs the server and the renderer; its built-in `node:sqlite` is the progress store |
 | **Gemini API key** | scores free-text answers |
 | **Claude Code** | the skill is Claude reading `SKILL.md` |
 | **`cloudflared`** (optional) | `make start` publishes a URL so lessons open on a phone |
@@ -249,17 +247,16 @@ Read from `.env` at the repo root. Start from [`.env.example`](.env.example).
 |---|---|---|---|
 | `GEMINI_API_KEY` | yes | — | scoring free-text answers (`/api/validate`) |
 | `GEMINI_MODEL` | no | `gemini-2.5-flash` | which Gemini model to call |
-| `MONGODB_URI` | yes | — | connection string for persistence |
-| `MONGODB_DB` | no | `system_design_learn` | **change per study** — one database per subject |
+| `LEARNO_DB` | no | `learno.db` at the workspace root | where progress is stored |
 | `PORT` | no | `9990` | any port works; pages derive the API base from their own origin |
 | `LEARNO_WORKSPACE` | no | repo root | which directory to serve. Exists for one caller: the engine's own sandbox |
-| `LEARNO_MODE` | no | — | `sandbox` swaps in an in-memory store and a stubbed validator |
+| `LEARNO_MODE` | no | — | `sandbox` swaps in a seeded in-memory store and a stubbed validator |
 
 ---
 
 ## The server (`server/`)
 
-Local Express app: Gemini proxy plus MongoDB bridge. It also serves the workspace
+Local Express app: Gemini proxy plus the SQLite progress store. It also serves the workspace
 statically, so lessons open over `http://localhost` — a secure context, which the microphone
 needs — instead of `file://`.
 
@@ -273,9 +270,11 @@ needs — instead of `file://`.
 | `GET  /api/next` | parses `NEXT.md` into a decision, a button and a reason |
 | `GET  /debug/mic` | standalone mic / Web Speech diagnostics page |
 
-**Collections:** `concepts` (per-concept mastery, `interval_days`, `ease_factor`,
-`next_review`, score history), `lessons` (completions, `final_score`, `kind`),
-`section_results` (per-section scores and misconceptions), `conversations`.
+**Tables** in `learno.db`: `concepts` (per-concept mastery, `interval_days`, `ease_factor`,
+`next_review`), `concept_history` (every score, with its source), `lessons` (completions,
+`final_score`, `kind`), `section_results` (per-section scores and misconceptions),
+`conversations`. Read them with `node bin/learno.js` — `status`, `due`, `misconceptions`,
+`lesson <id>`, or `sql "<select>"`, which opens the file read-only.
 
 **Offline is a supported state.** Lessons detect the server on load; when it is down the
 free-text boxes are replaced by multiple-choice fallbacks and a banner says what is
@@ -286,7 +285,7 @@ unavailable. The lesson still works — it degrades.
 ## Progress analyst (`learno-analyst`)
 
 A read-only Claude Code subagent that grounds every answer about your learning in **real
-data** instead of assumptions. It knows the MongoDB schema and the workspace layout, and it
+data** instead of assumptions. It reads the progress store through `bin/learno.js` and knows the workspace layout, and it
 is subject-agnostic — install it once and it serves every study.
 
 ```bash
@@ -303,12 +302,12 @@ it before answering anything about progress, so the tutor never invents how you 
 ## Developing the engine (`sandbox/`)
 
 ```sh
-make sandbox-local  # fixtures on :9991, no MongoDB, no API key
+make sandbox-local  # fixtures on :9991, no API key
 make check          # syntax-check the server and the build, validate the seed
 make check-errors   # prove the build still refuses every kind of broken lesson
 ```
 
-`LEARNO_MODE=sandbox` swaps MongoDB for an in-memory store and Gemini for a
+`LEARNO_MODE=sandbox` swaps the progress file for a seeded in-memory store and Gemini for a
 deterministic stub. See [`sandbox/README.md`](sandbox/README.md).
 
 ---
