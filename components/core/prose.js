@@ -3,10 +3,10 @@ const { rich } = require('../../build/text');
 module.exports = {
   meta: {
     name: 'prose',
-    purpose: 'parágrafos de texto corrido',
+    purpose: 'paragraphs of running text',
     props: { text: 'string' },
     demo: {
-      text: 'Um parágrafo com **negrito**, *itálico* e `código inline`.\n\nUm segundo parágrafo, separado por linha em branco.'
+      text: 'A paragraph with **bold**, *italic* and `inline code`.\n\nA second paragraph, separated by a blank line.'
     }
   },
 

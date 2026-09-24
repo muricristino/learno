@@ -10,12 +10,12 @@ const safeHref = url => (/^https?:\/\//i.test(String(url)) ? String(url) : null)
 module.exports = {
   meta: {
     name: 'source',
-    purpose: 'fonte primária em que a lição se apoia',
+    purpose: 'the primary source the lesson stands on',
     props: { title: 'string', url: 'string?', note: 'string?' },
     demo: {
-      title: 'Designing Data-Intensive Applications — cap. 5',
+      title: 'Designing Data-Intensive Applications — ch. 5',
       url: 'https://dataintensive.net/',
-      note: 'A discussão de replicação líder-seguidor e os modos de falha de cada uma.'
+      note: 'The discussion of leader-follower replication and how each mode fails.'
     }
   },
 

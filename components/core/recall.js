@@ -9,7 +9,7 @@ const { esc, inline, rich } = require('../../build/text');
 module.exports = {
   meta: {
     name: 'recall',
-    purpose: 'resposta livre validada pela IA, com fallback de múltipla escolha offline',
+    purpose: 'a free-text answer graded by the model, with a multiple-choice fallback offline',
     props: {
       conceptId: 'string',
       question:  'string',
@@ -21,16 +21,16 @@ module.exports = {
     },
     demo: {
       conceptId: 'sandbox_widget_sharding',
-      question: 'Explique, com suas palavras, por que trocar o número de nós invalida quase todo o cache.',
-      summary: 'Seção sobre hashing modular e remapeamento de chaves.',
+      question: 'Explain, in your own words, why changing the number of nodes invalidates almost the whole cache.',
+      summary: 'Section on modular hashing and key remapping.',
       phase: '1',
       fallback: {
         options: [
-          { text: 'Porque o hash da chave muda', correct: false },
-          { text: 'Porque o divisor muda, e o resto de quase toda chave muda com ele', correct: true }
+          { text: 'Because the key\'s hash changes', correct: false },
+          { text: 'Because the divisor changes, and the remainder of almost every key changes with it', correct: true }
         ],
-        ok: 'Isso. O hash é estável; o que se move é o destino.',
-        bad: 'O hash da chave não muda — o que muda é o divisor.'
+        ok: 'Right. The hash is stable; what moves is the destination.',
+        bad: 'The key\'s hash does not change — the divisor does.'
       }
     }
   },
@@ -133,8 +133,8 @@ module.exports = {
         <button type="button" class="lx-btn lx-btn--primary" data-action="validate">${t('recall.validate')}</button>
         <button type="button" class="lx-btn lx-btn--secondary lx-mic" data-action="mic" hidden>🎙 ${t('mic.dictate')}</button>
         <select class="lx-lang" data-role="lang" hidden>
-          <option value="pt-BR">Português</option>
-          <option value="en-US">English</option>
+          <option value="pt-BR"${t('mic.lang') === 'pt-BR' ? ' selected' : ''}>Português</option>
+          <option value="en-US"${t('mic.lang') === 'en-US' ? ' selected' : ''}>English</option>
         </select>
         <span class="lx-mic-hint"></span>
       </div>

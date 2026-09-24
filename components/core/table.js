@@ -3,18 +3,18 @@ const { esc, inline } = require('../../build/text');
 module.exports = {
   meta: {
     name: 'table',
-    purpose: 'tabela de dados, com cabeçalho e legenda',
+    purpose: 'a data table, with a header and a caption',
     props: {
       headers: 'array<string>',
       rows:    'array<array<string>>',
       caption: 'string?'
     },
     demo: {
-      caption: 'Custo de cada estratégia',
-      headers: ['Estratégia', 'Leitura', 'Escrita'],
+      caption: 'The cost of each strategy',
+      headers: ['Strategy', 'Read', 'Write'],
       rows: [
-        ['Cache-aside', 'rápida', 'sem custo'],
-        ['Write-through', 'rápida', 'mais lenta']
+        ['Cache-aside', 'fast', 'no cost'],
+        ['Write-through', 'fast', 'slower']
       ]
     }
   },

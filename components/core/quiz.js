@@ -4,7 +4,7 @@ const { t } = require('../../build/strings');
 module.exports = {
   meta: {
     name: 'quiz',
-    purpose: 'múltipla escolha, corrigida na própria página',
+    purpose: 'multiple choice, marked on the page itself',
     props: {
       question: 'string',
       options:  'array<{text: string, correct: bool}>',
@@ -13,13 +13,13 @@ module.exports = {
       phase:    'string?'
     },
     demo: {
-      question: 'Qual destes NÃO é resolvido por um cache?',
+      question: 'Which of these does a cache NOT solve?',
       options: [
-        { text: 'Leitura repetida do mesmo dado', correct: false },
-        { text: 'Escrita concorrente na mesma linha', correct: true }
+        { text: 'Reading the same data again and again', correct: false },
+        { text: 'Concurrent writes to the same row', correct: true }
       ],
-      ok: 'Isso. Cache alivia leitura; concorrência de escrita continua sendo problema do banco.',
-      bad: 'Leitura repetida é exatamente o que o cache resolve.'
+      ok: 'Right. A cache relieves reads; concurrent writes are still the database\'s problem.',
+      bad: 'Repeated reads are exactly what a cache solves.'
     }
   },
 

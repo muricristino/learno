@@ -10,16 +10,16 @@ const { esc, inline, rich } = require('../../build/text');
 module.exports = {
   meta: {
     name: 'teachback',
-    purpose: 'explicação final que fecha a lição e alimenta a revisão espaçada',
+    purpose: 'the closing explanation that ends the lesson and feeds spaced review',
     props: {
       question:   'string',
       conceptIds: 'array<string>',
       hint:       'string?'
     },
     demo: {
-      question: 'Explique consistent hashing para alguém que só conhece hash módulo N.',
+      question: 'Explain consistent hashing to someone who only knows hash modulo N.',
       conceptIds: ['sandbox_widget_sharding', 'sandbox_widget_replication'],
-      hint: 'Comece pelo problema, depois o anel, depois o que acontece ao adicionar um nó.'
+      hint: 'Start with the problem, then the ring, then what happens when a node is added.'
     }
   },
 
@@ -62,8 +62,8 @@ module.exports = {
         <button type="button" class="lx-btn lx-btn--primary" data-action="teachback">${t('teachback.finish')}</button>
         <button type="button" class="lx-btn lx-btn--secondary lx-mic" data-action="mic" hidden>🎙 ${t('mic.dictate')}</button>
         <select class="lx-lang" data-role="lang" hidden>
-          <option value="pt-BR">Português</option>
-          <option value="en-US">English</option>
+          <option value="pt-BR"${t('mic.lang') === 'pt-BR' ? ' selected' : ''}>Português</option>
+          <option value="en-US"${t('mic.lang') === 'en-US' ? ' selected' : ''}>English</option>
         </select>
         <span class="lx-mic-hint"></span>
       </div>
@@ -88,7 +88,7 @@ module.exports = {
   </div>`;
     return gate(card, {
       name: 'teachback',
-      reason: 'Termine as seções acima para abrir'
+      reason: t('gate.teachback')
     }) + '\n' + done;
   }
 };

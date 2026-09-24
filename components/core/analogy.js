@@ -5,12 +5,12 @@ const { esc, inline } = require('../../build/text');
 module.exports = {
   meta: {
     name: 'analogy',
-    purpose: 'analogia da vida real, antes de qualquer termo técnico',
+    purpose: 'a real-life analogy, before any technical term',
     props: { label: 'string', text: 'string', bridge: 'string' },
     demo: {
-      label: 'Pense numa fila de banco',
-      text: 'Uma fila só, vários caixas. Quem chega entra no fim e o próximo caixa livre chama.',
-      bridge: 'Essa fila é exatamente o que uma work queue faz com as mensagens.'
+      label: 'Think of a queue at the bank',
+      text: 'One line, several tellers. Whoever arrives joins the end, and the next free teller calls them.',
+      bridge: 'That line is exactly what a work queue does with messages.'
     }
   },
 

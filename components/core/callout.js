@@ -14,12 +14,12 @@ const VARIANTS = {
 module.exports = {
   meta: {
     name: 'callout',
-    purpose: 'aparte — nota, atenção ou armadilha (variant: note | warn | danger)',
+    purpose: 'an aside — a note, a caution or a trap (variant: note | warn | danger)',
     props: { variant: 'string', text: 'string', title: 'string?' },
     demo: {
       variant: 'warn',
-      title: 'O cache não é a fonte da verdade',
-      text: 'Se o banco cair e o cache continuar respondendo, você está servindo dado que talvez já não exista.'
+      title: 'The cache is not the source of truth',
+      text: 'If the database goes down and the cache keeps answering, you are serving data that may no longer exist.'
     }
   },
 

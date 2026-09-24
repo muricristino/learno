@@ -10,16 +10,16 @@ const { esc, inline } = require('../../build/text');
 module.exports = {
   meta: {
     name: 'flashcards',
-    purpose: 'cartões de revisão imediata — frente visível, verso escondido',
+    purpose: 'immediate-review cards — front visible, back hidden',
     props: {
       cards: 'array<{front: string, back: string}>',
       title: 'string?'
     },
     demo: {
-      title: 'Revisão rápida',
+      title: 'Quick review',
       cards: [
-        { front: 'Cache-aside', back: 'A aplicação lê o cache; se não achar, busca no banco e grava no cache.' },
-        { front: 'TTL',         back: 'Prazo de validade da entrada. É o que troca consistência por carga.' }
+        { front: 'Cache-aside', back: 'The application reads the cache; on a miss it reads the database and writes the cache.' },
+        { front: 'TTL',         back: 'How long an entry stays valid. It is what trades consistency for load.' }
       ]
     }
   },

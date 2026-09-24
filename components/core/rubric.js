@@ -8,23 +8,23 @@ const { inline } = require('../../build/text');
 module.exports = {
   meta: {
     name: 'rubric',
-    purpose: 'critérios de avaliação de um projeto — o que é suficiente e o que não é',
+    purpose: 'a project\'s grading criteria — what is enough and what is not',
     props: {
       criteria: 'array<{title: string, ok: string, bad: string}>',
       caption:  'string?'
     },
     demo: {
-      caption: 'A rubrica está aqui antes de você começar, de propósito.',
+      caption: 'The rubric is here before you start, on purpose.',
       criteria: [
         {
-          title: 'Identidade do evento',
-          ok:    'Cada evento carrega um id estável que não muda entre tentativas.',
-          bad:   'Um id gerado por tentativa — o cliente não tem como saber que é repetição.'
+          title: 'Event identity',
+          ok:    'Every event carries a stable id that does not change between attempts.',
+          bad:   'An id generated per attempt — the client has no way to tell it is a repeat.'
         },
         {
-          title: 'Política de repetição',
-          ok:    'Backoff exponencial com jitter, teto e número máximo de tentativas declarados.',
-          bad:   'Intervalo fixo, ou "tenta até dar certo" sem limite.'
+          title: 'Retry policy',
+          ok:    'Exponential backoff with jitter, a cap and a declared maximum number of attempts.',
+          bad:   'A fixed interval, or "retry until it works" with no limit.'
         }
       ]
     }
