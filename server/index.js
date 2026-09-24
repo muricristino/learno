@@ -9,13 +9,14 @@ const express = require('express');
 const cors    = require('cors');
 
 const { SANDBOX, DB_PATH } = require('./db');
+const { graderName, describeGrader } = require('./grader');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 app.get('/api/health', (_req, res) =>
-  res.json({ ok: true, mode: SANDBOX ? 'sandbox' : 'live', ts: new Date().toISOString() })
+  res.json({ ok: true, mode: SANDBOX ? 'sandbox' : 'live', grader: SANDBOX ? 'stub' : graderName(), ts: new Date().toISOString() })
 );
 app.use('/api/validate', require('./routes/validate'));
 app.use('/api/progress', require('./routes/progress'));
@@ -48,8 +49,7 @@ app.listen(PORT, () => {
     console.log('  Validator    : stubbed — !0 / !p / !ok / !m force each score band');
   } else {
     // .env is read once at boot; printing it makes a stale config visible.
-    console.log(`  Gemini model : ${process.env.GEMINI_MODEL || 'gemini-2.5-flash'}` +
-                `${process.env.GEMINI_API_KEY ? '' : '   ⚠ GEMINI_API_KEY not set'}`);
+    console.log(`  Grader       : ${describeGrader()}`);
     console.log(`  Store        : ${DB_PATH}`);
   }
   console.log(`  Workspace    : ${WORKSPACE}`);

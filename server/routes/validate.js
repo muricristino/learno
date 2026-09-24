@@ -3,9 +3,7 @@ const { languageName } = require('../workspace');
 
 const { getStore, SANDBOX } = require('../db');
 const { stubVerdict }    = require('../sandbox-validator');
-
-const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
-const GEMINI_URL   = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+const { grade }          = require('../grader');
 
 router.post('/', async (req, res) => {
   const {
@@ -62,44 +60,7 @@ Return JSON only (no markdown wrapper, no explanation outside the JSON):
       // Deterministic, so a layout regression is never mistaken for the model's mood.
       parsed = stubVerdict({ user_answer, concept_id, valid_concept_ids, is_teachback });
     } else {
-      if (!process.env.GEMINI_API_KEY) {
-        return res.status(503).json({
-          error: 'GEMINI_API_KEY is not set — copy .env.example to .env at the repo root and fill it in',
-          setup: true
-        });
-      }
-
-      const geminiRes = await fetch(`${GEMINI_URL}?key=${process.env.GEMINI_API_KEY}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { responseMimeType: 'application/json' }
-        })
-      });
-
-      if (!geminiRes.ok) {
-        const detail = await geminiRes.text();
-        console.error('Gemini error:', geminiRes.status, detail);
-
-        // A rejected key is a setup problem, not an outage.
-        const badKey = geminiRes.status === 400 && /API key not valid/i.test(detail);
-        return res.status(badKey ? 503 : 502).json({
-          error: badKey
-            ? 'Gemini rejected the API key — check GEMINI_API_KEY in .env at the repo root'
-            : `Gemini API error (${geminiRes.status})`,
-          setup: badKey
-        });
-      }
-
-      const data  = await geminiRes.json();
-      const raw   = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-      if (!raw) {
-        return res.status(502).json({ error: 'Empty response from Gemini' });
-      }
-
-      parsed = JSON.parse(raw);
+      parsed = await grade(prompt);
     }
 
     // The model sometimes invents IDs outside the canonical vocabulary.
@@ -130,7 +91,7 @@ Return JSON only (no markdown wrapper, no explanation outside the JSON):
 
   } catch (err) {
     console.error('validate error:', err);
-    res.status(500).json({ error: err.message });
+    res.status(err.status || 500).json({ error: err.message, ...(err.setup ? { setup: true } : {}) });
   }
 });
 
