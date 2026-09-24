@@ -311,25 +311,27 @@
       rec.onstart = function () {
         active = true;
         btn.classList.add('is-recording');
-        btn.textContent = '⏹ Parar';
-        hint.textContent = 'ouvindo…';
+        btn.textContent = '⏹ ' + t('mic.stop', 'Parar');
+        hint.textContent = t('mic.listening', 'ouvindo…');
       };
       rec.onresult = function (e) {
         for (var i = e.resultIndex; i < e.results.length; i++) {
           if (e.results[i].isFinal) {
             area.value = (area.value ? area.value + ' ' : '') + e.results[i][0].transcript.trim();
+            // Setting .value fires no input event, and that event is what saves the draft.
+            area.dispatchEvent(new Event('input', { bubbles: true }));
           }
         }
       };
       rec.onerror = function (e) {
         // Arc fails silently rather than prompting, so the reason goes on screen.
-        hint.textContent = 'microfone falhou (' + e.error + ') — tente Safari ou Chrome';
+        hint.textContent = t('mic.failed', 'microfone falhou') + ' (' + e.error + ') — ' + t('mic.tryOther', 'tente Safari ou Chrome');
       };
       rec.onend = function () {
         active = false;
         btn.classList.remove('is-recording');
         btn.textContent = '🎙 ' + t('mic.dictate', 'Ditar');
-        if (hint.textContent === 'ouvindo…') hint.textContent = '';
+        if (hint.textContent === t('mic.listening', 'ouvindo…')) hint.textContent = '';
       };
       rec.start();
     });
