@@ -2,14 +2,27 @@
 
 A tutor that runs inside Claude Code and keeps track of what you actually understand.
 
-<img alt="A learno lesson" src="docs/images/lesson.png" width="720">
-
 Tell it what you want to learn. It asks why, and what you need to be able to do by when, then
 finds the standard books on the subject and teaches in lessons you can finish in one sitting.
 You answer in your own words and a model grades what you wrote. Each concept comes back for
 review around the time you would forget it, and a mistake you keep making gets named.
 
 Your lessons, answers and scores stay in one folder on your computer.
+
+<table>
+  <tr>
+    <td width="50%" valign="top"><img alt="A lesson opening with an everyday analogy" src="docs/images/lesson.png"><br><sub>Every lesson opens with an everyday analogy before the term.</sub></td>
+    <td width="50%" valign="top"><img alt="A free-text answer with its score and feedback" src="docs/images/answer.png"><br><sub>You answer in your own words; a model scores it and says what is missing.</sub></td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top"><img alt="The teach-back at the end of a lesson" src="docs/images/teachback.png"><br><sub>The teach-back: explain the whole topic. Its score schedules the review.</sub></td>
+    <td width="50%" valign="top"><img alt="The dashboard with the next step and what is due" src="docs/images/dashboard.png"><br><sub>The dashboard opens with what to do next and what is due.</sub></td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top"><img alt="The library of lessons, reviews and projects with scores" src="docs/images/library.png"><br><sub>The library: every lesson, review and project, with your score.</sub></td>
+    <td width="50%" valign="top"><img alt="A diagram in dark mode" src="docs/images/diagram.png"><br><sub>Diagrams are drawn for each lesson and follow light or dark mode.</sub></td>
+  </tr>
+</table>
 
 ## Get started
 
